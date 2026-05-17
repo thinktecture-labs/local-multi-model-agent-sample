@@ -1,0 +1,26 @@
+@startuml C4_Level1_SystemContext
+!include <C4/C4_Context>
+
+LAYOUT_WITH_LEGEND()
+title System Context — Five-Model Local AI Agent
+
+Person(user, "User", "Conference attendee, developer,\nor enterprise operator")
+Person(admin, "Admin / Trainer", "Fine-tunes models, runs evaluations,\nmanages knowledge base")
+
+System(agent, "Five-Model Local AI Agent", "Privacy-preserving agentic AI built on\nfive specialized SLMs (Gemma + Qwen + GLM-OCR)\nserved via llama.cpp.\nAll inference runs locally —\nzero data leaves the machine.")
+
+System_Ext(llama_servers, "SLM Inference Servers (5x)", "llama-server (llama.cpp) processes\nwith OpenAI-compatible APIs.\nPorts 9090-9093 (base)\n/ 9094-9096 (fine-tuned)\n/ 9098 (OCR, optional)")
+System_Ext(whisper_server, "Speech-to-Text Server", "whisper.cpp (Whisper medium model).\nPort 9097. Metal/CUDA.\nOptional, for voice pipeline.")
+System_Ext(piper_tts, "Text-to-Speech Engine", "Piper TTS (ONNX/CPU).\nEN + DE voices.\nOptional, for voice pipeline.")
+System_Ext(cloud_llm, "Cloud LLM (GPT-5.4)", "Optional — only used with explicit\nuser approval via HITL escalation,\n/compare, or /query/compare-all endpoint.")
+System_Ext(ngrok, "Remote Access Gateway", "ngrok Edge with Google OAuth.\nWhitelist-only authentication.\nOptional, for conference demos.")
+
+Rel(user, agent, "Queries via Observatory UI,\nCLI, iOS app, or REST API")
+Rel(admin, agent, "Fine-tuning, eval,\nknowledge base management")
+Rel(agent, llama_servers, "OpenAI-compatible API calls\n(async, per-model)")
+Rel(agent, whisper_server, "Audio transcription\n(optional voice pipeline)")
+Rel(agent, piper_tts, "Speech synthesis\n(optional voice pipeline)")
+Rel(agent, cloud_llm, "HITL escalation only —\nuser-approved, data leaves machine", "HTTPS")
+Rel(agent, ngrok, "Reverse proxy for\nremote access (optional)", "HTTPS")
+
+@enduml

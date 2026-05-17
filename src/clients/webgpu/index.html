@@ -1,0 +1,2141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Nextera — Document Triage</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg:          #f4f4f8;
+      --surface:     #ffffff;
+      --surface-hi:  #ebebf4;
+      --border:      #d8d8e8;
+      --border-hi:   #c0c0d4;
+      --text:        #1a1a2e;
+      --text-dim:    #4a4a6a;
+      --text-muted:  #8888a8;
+
+      /* Thinktecture CI colors */
+      --c-primary:   #015a94;
+      --c-danger:    #cc3d35;
+      --c-success:   #1E7E34;
+      --c-neutral:   #4B4F58;
+      --c-warn:      #f5a623;
+
+      /* Entity type colors */
+      --c-patient:   #5b9bd5;
+      --c-physician: #6fa8dc;
+      --c-date:      #b4a7d6;
+      --c-med:       #93c47d;
+      --c-condition: #e06666;
+      --c-allergy:   #e06666;
+      --c-procedure: #a4c2f4;
+      --c-id:        #f6b26b;
+      --c-address:   #d5a6bd;
+      --c-phone:     #d5a6bd;
+      --c-org:       #76a5af;
+      --c-vital:     #b6d7a8;
+
+      --radius:      8px;
+      --radius-sm:   4px;
+    }
+
+    [data-theme="dark"] {
+      --bg:          #0a0a12;
+      --surface:     #11111c;
+      --surface-hi:  #17172a;
+      --border:      #1e1e30;
+      --border-hi:   #2a2a44;
+      --text:        #ddddf0;
+      --text-dim:    #7878a0;
+      --text-muted:  #44445a;
+
+      --c-primary:   #0170B9;
+      --c-danger:    #ff584f;
+      --c-success:   #34A853;
+      --c-neutral:   #4B4F58;
+    }
+
+    html { transition: background-color 0.2s, color 0.2s; }
+
+    html, body {
+      height: 100%;
+      background: var(--bg);
+      color: var(--text);
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      font-size: 15px;
+      line-height: 1.5;
+    }
+
+    /* ── App shell ─────────────────────────────────────────────────────── */
+    .app {
+      display: grid;
+      grid-template-rows: auto 1fr;
+      height: 100dvh;
+      overflow: hidden;
+    }
+
+    /* ── Header ────────────────────────────────────────────────────────── */
+    header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 16px;
+      height: 44px;
+      border-bottom: 1px solid var(--border);
+      background: var(--surface);
+      gap: 12px;
+    }
+    .brand {
+      font-size: 16px;
+      font-weight: 700;
+      white-space: nowrap;
+      color: var(--text);
+    }
+    .brand span { color: var(--c-primary); }
+    .header-controls {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .chip {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      padding: 2px 10px;
+      border-radius: 12px;
+      font-size: 12px;
+      font-weight: 600;
+      border: 1px solid var(--border);
+      background: var(--surface-hi);
+      color: var(--text-dim);
+      white-space: nowrap;
+    }
+    .chip.ready { border-color: var(--c-success); color: var(--c-success); }
+    .chip.loading { border-color: var(--c-warn); color: var(--c-warn); }
+    .chip.error { border-color: var(--c-danger); color: var(--c-danger); }
+
+
+    .icon-btn {
+      background: none;
+      border: 1px solid var(--border);
+      color: var(--text-dim);
+      width: 30px;
+      height: 30px;
+      border-radius: var(--radius-sm);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 16px;
+      transition: border-color 0.15s, color 0.15s;
+    }
+    .icon-btn:hover { border-color: var(--border-hi); color: var(--text); }
+
+    /* ── Main layout ───────────────────────────────────────────────────── */
+    main {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 0;
+      overflow: hidden;
+    }
+
+    .pane {
+      overflow-y: auto;
+      padding: 16px;
+    }
+    .pane-left {
+      border-right: 1px solid var(--border);
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+    .pane-right {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    /* ── Section cards ─────────────────────────────────────────────────── */
+    .card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      overflow: hidden;
+    }
+    .card-header {
+      padding: 8px 12px;
+      font-size: 11px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--text-dim);
+      border-bottom: 1px solid var(--border);
+      background: var(--surface-hi);
+    }
+    .card-body { padding: 12px; }
+
+    /* ── Document input ────────────────────────────────────────────────── */
+    .doc-input {
+      flex: 1;
+      min-height: 0;
+      display: flex;
+      flex-direction: column;
+    }
+    .doc-input .card-body {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      padding: 0;
+    }
+    #doc-text {
+      flex: 1;
+      width: 100%;
+      min-height: 200px;
+      background: var(--bg);
+      color: var(--text);
+      border: none;
+      padding: 12px;
+      font-family: 'SF Mono', 'Cascadia Code', 'Consolas', monospace;
+      font-size: 13px;
+      line-height: 1.6;
+      resize: none;
+      outline: none;
+    }
+    #doc-text::placeholder { color: var(--text-muted); }
+
+    .doc-toolbar {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 12px;
+      border-top: 1px solid var(--border);
+      background: var(--surface-hi);
+    }
+
+    /* ── Drop zone overlay ─────────────────────────────────────────────── */
+    .drop-zone-active .doc-input {
+      position: relative;
+    }
+    .drop-overlay {
+      display: none;
+      position: absolute;
+      inset: 0;
+      background: rgba(1, 112, 185, 0.15);
+      border: 2px dashed var(--c-primary);
+      border-radius: var(--radius);
+      z-index: 10;
+      align-items: center;
+      justify-content: center;
+      font-size: 16px;
+      font-weight: 600;
+      color: var(--c-primary);
+    }
+    .drop-zone-active .drop-overlay { display: flex; }
+
+    /* ── Buttons ────────────────────────────────────────────────────────── */
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 6px 16px;
+      border-radius: var(--radius-sm);
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+      border: 1px solid var(--border);
+      background: var(--surface);
+      color: var(--text);
+      transition: all 0.15s;
+    }
+    .btn:hover { border-color: var(--border-hi); background: var(--surface-hi); }
+    .btn:disabled { opacity: 0.4; cursor: not-allowed; }
+
+    .btn-primary {
+      background: var(--c-primary);
+      border-color: var(--c-primary);
+      color: #fff;
+    }
+    .btn-primary:hover { filter: brightness(1.1); background: var(--c-primary); }
+    .btn-primary:disabled { filter: none; }
+
+    select.btn {
+      -webkit-appearance: none;
+      appearance: none;
+      padding-right: 28px;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' fill='%237878a0'%3E%3Cpath d='M2 4l4 4 4-4'/%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: right 8px center;
+    }
+
+    /* ── Classification badge ──────────────────────────────────────────── */
+    .classification-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 6px 14px;
+      border-radius: 20px;
+      font-size: 14px;
+      font-weight: 700;
+      background: var(--c-primary);
+      color: #fff;
+    }
+
+    /* ── Entity list ───────────────────────────────────────────────────── */
+    .entity-list { list-style: none; }
+    .entity-item {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 6px 0;
+      border-bottom: 1px solid var(--border);
+      font-size: 13px;
+    }
+    .entity-item:last-child { border-bottom: none; }
+
+    .entity-text {
+      font-family: 'SF Mono', 'Cascadia Code', 'Consolas', monospace;
+      font-weight: 600;
+      flex: 1;
+    }
+    .entity-type {
+      display: inline-flex;
+      padding: 1px 8px;
+      border-radius: 10px;
+      font-size: 11px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: #fff;
+      background: var(--c-neutral); /* fallback for unknown types */
+    }
+    .entity-type[data-type="patient"]     { background: var(--c-patient); }
+    .entity-type[data-type="physician"]   { background: var(--c-physician); }
+    .entity-type[data-type="person"]      { background: var(--c-physician); }
+    .entity-type[data-type="date"]        { background: var(--c-date); }
+    .entity-type[data-type="medication"]  { background: var(--c-med); }
+    .entity-type[data-type="condition"]   { background: var(--c-condition); }
+    .entity-type[data-type="allergy"]     { background: var(--c-allergy); }
+    .entity-type[data-type="procedure"]   { background: var(--c-procedure); }
+    .entity-type[data-type="id"]          { background: var(--c-id); }
+    .entity-type[data-type="address"]     { background: var(--c-address); }
+    .entity-type[data-type="phone"]       { background: var(--c-phone); }
+    .entity-type[data-type="organization"]{ background: var(--c-org); }
+    .entity-type[data-type="vital"]       { background: var(--c-vital); }
+
+    .pii-dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      flex-shrink: 0;
+    }
+    .pii-dot.is-pii { background: var(--c-danger); }
+    .pii-dot.not-pii { background: var(--c-neutral); }
+
+    /* ── Privacy badge ─────────────────────────────────────────────────── */
+    .privacy-badge {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 10px 12px;
+      background: var(--surface);
+      border: 1px solid var(--c-success);
+      border-radius: var(--radius);
+      font-size: 13px;
+      color: var(--c-success);
+      font-weight: 600;
+    }
+    .privacy-badge .shield { font-size: 18px; }
+
+    /* ── Model trace ───────────────────────────────────────────────────── */
+    .trace-output {
+      font-family: 'SF Mono', 'Cascadia Code', 'Consolas', monospace;
+      font-size: 12px;
+      line-height: 1.5;
+      color: var(--text-dim);
+      white-space: pre-wrap;
+      word-break: break-word;
+      max-height: 200px;
+      overflow-y: auto;
+      padding: 8px;
+      background: var(--bg);
+      border-radius: var(--radius-sm);
+    }
+
+    /* ── Stats row ─────────────────────────────────────────────────────── */
+    .stats-row {
+      display: flex;
+      gap: 16px;
+      font-size: 12px;
+      color: var(--text-dim);
+    }
+    .stat-label { color: var(--text-muted); }
+    .stat-value { font-weight: 700; color: var(--text); }
+
+    /* ── Model status card ─────────────────────────────────────────────── */
+    .model-status-grid {
+      display: grid;
+      grid-template-columns: auto 1fr;
+      gap: 4px 12px;
+      font-size: 13px;
+    }
+    .model-status-grid .label { color: var(--text-dim); }
+    .model-status-grid .value { font-weight: 600; }
+
+    /* ── Progress bar ──────────────────────────────────────────────────── */
+    .progress-bar {
+      height: 4px;
+      background: var(--border);
+      border-radius: 2px;
+      overflow: hidden;
+      margin-top: 8px;
+    }
+    .progress-fill {
+      height: 100%;
+      background: var(--c-primary);
+      border-radius: 2px;
+      transition: width 0.3s;
+      width: 0%;
+    }
+
+    /* ── Routing card ──────────────────────────────────────────────────── */
+    .routing-suggestion {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 15px;
+      font-weight: 600;
+    }
+    .routing-arrow {
+      color: var(--c-primary);
+      font-size: 18px;
+    }
+
+    /* ── Empty state ───────────────────────────────────────────────────── */
+    .empty-state {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      padding: 40px 20px;
+      color: var(--text-muted);
+      text-align: center;
+      font-size: 14px;
+    }
+    .empty-state .icon { font-size: 32px; opacity: 0.5; }
+
+    /* ── Pulse animation ───────────────────────────────────────────────── */
+    @keyframes pulse {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.5; }
+    }
+    .processing .card-header { animation: pulse 1.2s ease-in-out infinite; }
+
+    /* ── Summary text ──────────────────────────────────────────────────── */
+    .summary-text {
+      font-size: 14px;
+      line-height: 1.6;
+    }
+
+    /* ── File info ─────────────────────────────────────────────────────── */
+    .file-info {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      padding: 6px 10px;
+      background: var(--surface-hi);
+      border-radius: var(--radius-sm);
+      font-size: 12px;
+      color: var(--text-dim);
+    }
+
+    /* ── Download section ─────────────────────────────────────────────── */
+    .download-section {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      margin-top: 10px;
+      padding-top: 10px;
+      border-top: 1px solid var(--border);
+    }
+    .download-section .row {
+      display: flex;
+      gap: 6px;
+      align-items: center;
+    }
+    .download-hint {
+      font-size: 11px;
+      color: var(--text-muted);
+      line-height: 1.4;
+    }
+    .download-hint a {
+      color: var(--c-primary);
+      text-decoration: none;
+    }
+    .download-hint a:hover { text-decoration: underline; }
+    .download-progress-text {
+      font-size: 12px;
+      color: var(--text-dim);
+      font-family: 'SF Mono', 'Cascadia Code', 'Consolas', monospace;
+    }
+
+    /* ── Hidden ─────────────────────────────────────────────────────────── */
+    .hidden { display: none !important; }
+
+    /* ── Scrollbar ──────────────────────────────────────────────────────── */
+    ::-webkit-scrollbar { width: 6px; }
+    ::-webkit-scrollbar-track { background: transparent; }
+    ::-webkit-scrollbar-thumb { background: var(--border-hi); border-radius: 3px; }
+    ::-webkit-scrollbar-thumb:hover { background: var(--text-muted); }
+
+    /* ── Animations ──────────────────────────────────────────────────── */
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(4px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+  </style>
+</head>
+<body>
+  <div class="app">
+    <!-- ── Header ──────────────────────────────────────────────────── -->
+    <header>
+      <div class="brand"><span>Nextera</span> Document Triage</div>
+      <div class="header-controls">
+        <div id="model-chip" class="chip">Model: not loaded</div>
+        <div id="webgpu-chip" class="chip">WebGPU: checking...</div>
+        <button class="icon-btn" id="theme-toggle" title="Toggle theme">&#9789;</button>
+      </div>
+    </header>
+
+    <!-- ── Main ────────────────────────────────────────────────────── -->
+    <main>
+      <!-- Left pane: Document input -->
+      <div class="pane pane-left" id="left-pane">
+        <div class="card doc-input" id="doc-card">
+          <div class="card-header">Document Input</div>
+          <div class="card-body">
+            <textarea id="doc-text" placeholder="Paste a document here, or drag-drop a .txt / .pdf file..."></textarea>
+            <div class="drop-overlay" id="drop-overlay">Drop document here</div>
+          </div>
+          <div class="doc-toolbar">
+            <button class="btn btn-primary" id="btn-process" disabled>Process</button>
+            <select class="btn" id="sample-select">
+              <option value="">Load sample...</option>
+              <option value="intake">Patient Intake Referral</option>
+              <option value="lab">Lab Report — Metabolic</option>
+              <option value="discharge">Discharge Summary</option>
+            </select>
+            <div id="file-info" class="file-info hidden"></div>
+            <div style="flex:1"></div>
+          </div>
+        </div>
+
+        <!-- Model status -->
+        <div class="card" id="model-card">
+          <div class="card-header">Model Status</div>
+          <div class="card-body">
+            <div class="model-status-grid">
+              <span class="label">Model</span>
+              <span class="value" id="ms-model">—</span>
+              <span class="label">Size</span>
+              <span class="value" id="ms-size">—</span>
+              <span class="label">Backend</span>
+              <span class="value" id="ms-backend">—</span>
+              <span class="label">Status</span>
+              <span class="value" id="ms-status">Not loaded</span>
+            </div>
+            <div class="progress-bar hidden" id="load-progress">
+              <div class="progress-fill" id="load-progress-fill"></div>
+            </div>
+            <div id="download-progress-text" class="download-progress-text hidden"></div>
+            <div class="download-section hidden" id="download-section">
+              <div class="download-hint">
+                Download LFM 2.5 1.2B Instruct (~1.2 GB ONNX Q4) from
+                <a href="https://huggingface.co/LiquidAI/LFM2.5-1.2B-Instruct-ONNX" target="_blank" rel="noopener">HuggingFace</a>.
+                Cached in browser after first download.
+              </div>
+              <div class="row">
+                <button class="btn btn-primary" id="btn-download">Download &amp; Load Model</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Network proof -->
+        <div class="card">
+          <div class="card-header">Network Monitor</div>
+          <div class="card-body">
+            <div class="model-status-grid">
+              <span class="label">Requests during analysis</span>
+              <span class="value" id="net-requests">0</span>
+              <span class="label">Bytes transmitted</span>
+              <span class="value" id="net-bytes">0 B</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Right pane: Analysis results -->
+      <div class="pane pane-right" id="right-pane">
+        <!-- Empty state -->
+        <div id="results-empty" class="empty-state">
+          <div class="icon">&#128196;</div>
+          <div>Paste or drop a document, then click <strong>Process</strong></div>
+          <div style="font-size:12px; color:var(--text-muted)">All analysis runs locally in your browser via WebGPU — zero server calls</div>
+        </div>
+
+        <!-- Results (hidden until processing) -->
+        <div id="results-container" class="hidden">
+          <!-- Classification -->
+          <div class="card" id="card-classification">
+            <div class="card-header">Classification</div>
+            <div class="card-body">
+              <div id="classification-content"></div>
+            </div>
+          </div>
+
+          <!-- Entities -->
+          <div class="card" id="card-entities">
+            <div class="card-header">Entities</div>
+            <div class="card-body">
+              <ul class="entity-list" id="entity-list"></ul>
+            </div>
+          </div>
+
+          <!-- Summary -->
+          <div class="card" id="card-summary">
+            <div class="card-header">Summary</div>
+            <div class="card-body">
+              <div class="summary-text" id="summary-text"></div>
+            </div>
+          </div>
+
+          <!-- Routing -->
+          <div class="card" id="card-routing">
+            <div class="card-header">Suggested Routing</div>
+            <div class="card-body">
+              <div class="routing-suggestion" id="routing-text"></div>
+            </div>
+          </div>
+
+          <!-- Privacy -->
+          <div class="privacy-badge" id="privacy-badge">
+            <span class="shield">&#128737;</span>
+            <span id="privacy-text">Zero bytes transmitted</span>
+          </div>
+
+          <!-- Stats -->
+          <div class="card">
+            <div class="card-header">Performance</div>
+            <div class="card-body">
+              <div class="stats-row" id="perf-stats">
+                <div><span class="stat-label">Time: </span><span class="stat-value" id="stat-time">—</span></div>
+                <div><span class="stat-label">Tokens: </span><span class="stat-value" id="stat-tokens">—</span></div>
+                <div><span class="stat-label">Speed: </span><span class="stat-value" id="stat-speed">—</span></div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Model trace -->
+          <div class="card">
+            <div class="card-header">Model Trace</div>
+            <div class="card-body" style="padding:0">
+              <div class="trace-output" id="trace-output"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
+  </div>
+
+  <!-- ── JavaScript ──────────────────────────────────────────────────── -->
+  <script type="importmap">
+    {
+      "imports": {
+        "@huggingface/transformers": "./node_modules/@huggingface/transformers/dist/transformers.min.js"
+      }
+    }
+  </script>
+  <script type="module">
+    import { pipeline, TextStreamer, env, LogitsProcessor } from '@huggingface/transformers';
+
+    // ─── State ──────────────────────────────────────────────────────
+    const MODEL_ID = 'LiquidAI/LFM2.5-1.2B-Instruct-ONNX';
+    const state = {
+      generator: null,  // text-generation pipeline (includes model + tokenizer)
+      isProcessing: false,
+      networkBaseline: 0,
+      networkBytesBaseline: 0,
+      badWordIds: null,       // token sequences to suppress (markdown fences, preamble)
+      jsonProcessor: null,    // LogitsProcessor for JSON bracket balancing
+    };
+
+    // ─── Generation constraints ──────────────────────────────────────
+    /** Compute token ID sequences to suppress during generation. */
+    function computeTokenSuppressions(tokenizer) {
+      const badPhrases = [
+        '```', '```json', '```JSON',
+        'Here is', 'Here are', 'Sure,', 'Sure!', 'Certainly',
+        'Below is', 'The following',
+      ];
+      const badWordIds = [];
+      for (const phrase of badPhrases) {
+        try {
+          const encoded = tokenizer(phrase, { add_special_tokens: false });
+          const ids = Array.from(encoded.input_ids.data, Number);
+          if (ids.length > 0) badWordIds.push(ids);
+        } catch { /* skip if encoding fails */ }
+      }
+      return badWordIds;
+    }
+
+    /** Prevents premature EOS when JSON brackets/braces are still open. */
+    class JsonStructureProcessor extends LogitsProcessor {
+      constructor(tokenizer) {
+        super();
+        const eosId = tokenizer.model?.config?.eos_token_id ?? tokenizer.eos_token_id;
+        this.eosIds = Array.isArray(eosId) ? eosId.map(Number) : [Number(eosId)];
+        this.tokenizer = tokenizer;
+        this.generatedText = '';
+        this.tokenCount = 0;
+        this.jsonStarted = false;  // seen first {
+        this.jsonComplete = false; // root object closed — never suppress EOS again
+        this.maxTokens = 800;     // safety valve — stop suppressing after this many tokens
+      }
+
+      _call(input_ids, logits) {
+        this.tokenCount++;
+
+        // Safety valve: stop suppressing after maxTokens to prevent runaway generation
+        if (this.jsonComplete || this.tokenCount > this.maxTokens) return logits;
+
+        const ids = input_ids[0];
+        if (ids.length > 0) {
+          this.generatedText += this.tokenizer.decode(
+            [ids[ids.length - 1]], { skip_special_tokens: true });
+        }
+
+        // Count unbalanced brackets (respecting JSON strings)
+        let braces = 0, brackets = 0, inStr = false, esc = false;
+        for (const ch of this.generatedText) {
+          if (esc) { esc = false; continue; }
+          if (ch === '\\') { esc = true; continue; }
+          if (ch === '"') { inStr = !inStr; continue; }
+          if (inStr) continue;
+          if (ch === '{') braces++;
+          if (ch === '}') braces--;
+          if (ch === '[') brackets++;
+          if (ch === ']') brackets--;
+        }
+
+        if (!this.jsonStarted && braces > 0) {
+          this.jsonStarted = true;
+        }
+
+        // Root object closed — JSON is complete, permanently allow EOS
+        if (this.jsonStarted && braces <= 0 && brackets <= 0) {
+          this.jsonComplete = true;
+          return logits;
+        }
+
+        // Suppress EOS while JSON is still open
+        if (this.jsonStarted && (braces > 0 || brackets > 0)) {
+          const data = logits[0].data;
+          for (const id of this.eosIds) {
+            if (id != null) data[id] = -Infinity;
+          }
+        }
+
+        return logits;
+      }
+
+      reset() {
+        this.generatedText = '';
+        this.tokenCount = 0;
+        this.jsonStarted = false;
+        this.jsonComplete = false;
+      }
+    }
+
+    // ─── DOM refs ───────────────────────────────────────────────────
+    const $ = (sel) => document.querySelector(sel);
+    const docText       = $('#doc-text');
+    const btnProcess    = $('#btn-process');
+    const sampleSelect  = $('#sample-select');
+    const modelChip     = $('#model-chip');
+    const webgpuChip    = $('#webgpu-chip');
+    const fileInfo      = $('#file-info');
+    const leftPane      = $('#left-pane');
+    const dropOverlay   = $('#drop-overlay');
+    const loadProgress  = $('#load-progress');
+    const loadFill      = $('#load-progress-fill');
+    const resultsEmpty  = $('#results-empty');
+    const resultsCont   = $('#results-container');
+    const traceOutput   = $('#trace-output');
+    const msModel       = $('#ms-model');
+    const msSize        = $('#ms-size');
+    const msBackend     = $('#ms-backend');
+    const msStatus      = $('#ms-status');
+    const netRequests   = $('#net-requests');
+    const netBytes      = $('#net-bytes');
+
+    // ─── Sample documents (pre-extracted text from PDFs) ────────────
+    const SAMPLES = {
+      intake: {
+        name: 'Patient Intake Referral',
+        text: `NEXTERA MEDICAL CENTER
+Cardiology Department — Referral Intake Form
+
+Patient Information:
+  Name: Maria Gonzalez
+  Date of Birth: 04/22/1965
+  Insurance: BlueCross BlueShield, ID: BC-2847193
+  Address: 742 Evergreen Terrace, Stuttgart, 70174
+  Phone: +49-711-555-0842
+
+Referring Physician: Dr. Thomas Weber, Internal Medicine, Nextera Primary Care
+
+Chief Complaint:
+  Persistent chest pain and shortness of breath for 3 weeks.
+
+Current Medications:
+  - Metoprolol 50mg daily (beta-blocker)
+  - Lisinopril 10mg daily (ACE inhibitor)
+  - Aspirin 81mg daily (antiplatelet)
+
+Allergies:
+  - Sulfa drugs (rash)
+  - Penicillin (anaphylaxis — SEVERE)
+
+Clinical History:
+  Patient reports episodes of substernal chest pain, worse with exertion,
+  radiating to the left arm. Episodes last 5-10 minutes, relieved by rest.
+  Denies syncope, palpitations, or peripheral edema.
+
+Vitals at Referral:
+  Blood Pressure: 142/88 mmHg
+  Resting Heart Rate: 78 bpm
+  SpO2: 97% on room air
+  Temperature: 36.8°C
+  BMI: 28.4
+
+Diagnostics:
+  ECG at referring office showed nonspecific ST-T wave changes in leads V4-V6.
+  Chest X-ray: mild cardiomegaly, no infiltrates.
+
+Family History:
+  Father: Myocardial infarction at age 58 (deceased)
+  Mother: Hypertension, Type 2 Diabetes
+  Sister: No cardiac history
+
+Assessment:
+  61-year-old female with exertional chest pain, hypertension, and family
+  history of premature CAD. ECG changes warrant further evaluation.
+
+Requested Evaluation:
+  Stress echocardiography, cardiology consultation.
+
+Signature: Dr. Thomas Weber, MD
+Date: 2026-02-25
+Nextera Medical Center — Internal Medicine`
+      },
+
+      lab: {
+        name: 'Lab Report — Metabolic Panel',
+        text: `NEXTERA CLINICAL LABORATORY
+Laboratory Report — CONFIDENTIAL
+
+Patient Information:
+  Name: Robert Chen
+  MRN: NEX-20240892
+  Date of Birth: 11/03/1978
+  Sex: Male
+  Collection Date: 2026-02-28 08:15
+  Report Date: 2026-02-28 14:30
+  Fasting: Yes (12 hours)
+
+Ordering Physician: Dr. Sarah Kim, Family Medicine
+
+COMPLETE METABOLIC PANEL
+  Test                  Result      Reference Range     Flag
+  ──────────────────────────────────────────────────────────
+  Glucose               112 mg/dL   70-100 mg/dL        HIGH
+  BUN                    18 mg/dL   7-20 mg/dL
+  Creatinine            1.1 mg/dL   0.7-1.3 mg/dL
+  Sodium                141 mEq/L   136-145 mEq/L
+  Potassium             4.2 mEq/L   3.5-5.0 mEq/L
+  Chloride              102 mEq/L   98-106 mEq/L
+  CO2                    24 mEq/L   23-29 mEq/L
+  Calcium               9.4 mg/dL   8.5-10.5 mg/dL
+  Total Protein         7.1 g/dL    6.0-8.3 g/dL
+  Albumin               4.2 g/dL    3.5-5.5 g/dL
+  Total Bilirubin       0.8 mg/dL   0.1-1.2 mg/dL
+  Alkaline Phosphatase   78 U/L     44-147 U/L
+  AST (SGOT)             28 U/L     10-40 U/L
+  ALT (SGPT)             35 U/L     7-56 U/L
+  eGFR                   88 mL/min  >60 mL/min
+
+HEMOGLOBIN A1C
+  HbA1c                 6.8%        <5.7%               HIGH
+  Estimated Avg Glucose  148 mg/dL
+
+LIPID PANEL
+  Test                  Result      Reference Range     Flag
+  ──────────────────────────────────────────────────────────
+  Total Cholesterol     234 mg/dL   <200 mg/dL          HIGH
+  LDL Cholesterol       156 mg/dL   <100 mg/dL          HIGH
+  HDL Cholesterol        42 mg/dL   >40 mg/dL
+  Triglycerides         180 mg/dL   <150 mg/dL          HIGH
+  VLDL Cholesterol       36 mg/dL   5-40 mg/dL
+  Total/HDL Ratio       5.6         <5.0                HIGH
+
+INTERPRETATION:
+  Elevated HbA1c (6.8%) consistent with diabetes mellitus (ADA threshold
+  ≥6.5%). Fasting glucose also elevated at 112 mg/dL. Recommend diabetology
+  referral for initiation of therapy and dietary counseling.
+
+  Dyslipidemia with significantly elevated LDL (156 mg/dL) and triglycerides
+  (180 mg/dL). Combined with diabetes diagnosis, cardiovascular risk is
+  elevated. Consider statin therapy per ACC/AHA guidelines.
+
+  Renal and hepatic panels within normal limits.
+
+Verified by: Dr. Marcus Reeves, MD, Clinical Pathology
+Laboratory Director: Prof. Elena Vasquez, PhD
+CLIA #: 42D2067890
+
+Nextera Clinical Laboratory — Stuttgart Campus`
+      },
+
+      discharge: {
+        name: 'Discharge Summary',
+        text: `DISCHARGE SUMMARY
+Nextera Medical Center — Department of Pulmonology
+
+PATIENT INFORMATION
+  Name: Ahmed Al-Rashid
+  Date of Birth: 07/14/1952
+  MRN: NEX-20231547
+  SSN: ***-**-4821
+  Insurance: Techniker Krankenkasse, ID: TK-9928441
+
+ADMISSION / DISCHARGE
+  Admission Date: 2026-02-20
+  Discharge Date: 2026-02-26
+  Length of Stay: 6 days
+  Attending Physician: Dr. Lisa Park, Pulmonology
+
+PRIMARY DIAGNOSIS
+  Community-acquired pneumonia, right lower lobe (ICD-10: J18.1)
+
+SECONDARY DIAGNOSES
+  - Type 2 diabetes mellitus (E11.9)
+  - Essential hypertension (I10)
+
+HOSPITAL COURSE
+  73-year-old male admitted via Emergency Department with 3-day history of
+  fever (Tmax 39.2°C), productive cough with yellowish sputum, and progressive
+  dyspnea. On admission: SpO2 88% on room air, requiring 3L supplemental O2.
+
+  CT chest confirmed right lower lobe consolidation with small parapneumonic
+  effusion. Blood cultures drawn (subsequently negative). Sputum culture
+  grew Streptococcus pneumoniae.
+
+  Started on IV Ceftriaxone 2g daily + Azithromycin 500mg daily.
+  Transitioned to oral Augmentin 875mg BID on hospital day 3 following
+  clinical improvement (defervescence, improving oxygenation).
+
+  Diabetes management: Home Metformin held during admission due to acute
+  illness. Glucose managed with sliding-scale insulin (Humalog). Average
+  blood glucose 155 mg/dL during admission. HbA1c checked: 7.2%.
+
+  Oxygen weaned to room air by day 4. Repeat CXR on day 5 showed improving
+  consolidation. Inflammatory markers trending down (CRP 2.1 from 14.8 on
+  admission, WBC 8.2 from 16.4).
+
+DISCHARGE MEDICATIONS
+  1. Augmentin (Amoxicillin/Clavulanate) 875mg BID — 5 days remaining
+  2. Metformin 1000mg BID — resume home dose
+  3. Lisinopril 20mg daily — continue
+  4. Albuterol inhaler 2 puffs PRN shortness of breath
+  5. Acetaminophen 500mg Q6H PRN fever/pain
+
+FOLLOW-UP
+  - Pulmonology clinic: 2 weeks (Dr. Park)
+  - PCP: Dr. Thomas Weber, 1 week
+  - Repeat chest X-ray in 6 weeks
+  - Diabetology referral pending (outpatient)
+
+DISCHARGE CONDITION: Stable, afebrile, SpO2 96% on room air.
+
+EMERGENCY CONTACT
+  Fatima Al-Rashid (spouse)
+  Phone: +49-172-555-3847
+
+Electronically signed: Dr. Lisa Park, MD
+Nextera Medical Center — Pulmonology Department
+Date: 2026-02-26`
+      }
+    };
+
+    // ─── Theme toggle ───────────────────────────────────────────────
+    const themeToggle = $('#theme-toggle');
+    themeToggle.addEventListener('click', () => {
+      const html = document.documentElement;
+      const isDark = html.getAttribute('data-theme') === 'dark';
+      html.setAttribute('data-theme', isDark ? '' : 'dark');
+      themeToggle.textContent = isDark ? '\u2600' : '\u263D';
+    });
+
+    // ─── WebGPU check ───────────────────────────────────────────────
+    async function checkWebGPU() {
+      if (!navigator.gpu) {
+        webgpuChip.textContent = 'WebGPU: not available';
+        webgpuChip.classList.add('error');
+        return false;
+      }
+      try {
+        const adapter = await navigator.gpu.requestAdapter();
+        if (!adapter) {
+          webgpuChip.textContent = 'WebGPU: no adapter';
+          webgpuChip.classList.add('error');
+          return false;
+        }
+        webgpuChip.textContent = 'WebGPU: available';
+        webgpuChip.classList.add('ready');
+        return true;
+      } catch {
+        webgpuChip.textContent = 'WebGPU: error';
+        webgpuChip.classList.add('error');
+        return false;
+      }
+    }
+
+    // ─── Model loading (Transformers.js + LFM 2.5 ONNX) ─────────────
+    const btnDownload  = $('#btn-download');
+    const downloadSection = $('#download-section');
+    const dlProgressText  = $('#download-progress-text');
+
+    btnDownload.addEventListener('click', () => loadModel());
+
+    async function loadModel() {
+      modelChip.textContent = 'Model: loading...';
+      modelChip.className = 'chip loading';
+      msModel.textContent = 'LFM 2.5 1.2B Instruct';
+      msSize.textContent = '~1.2 GB';
+      msBackend.textContent = 'WebGPU (Transformers.js)';
+      msStatus.textContent = 'Downloading model...';
+      loadProgress.classList.remove('hidden');
+      dlProgressText.classList.remove('hidden');
+      loadFill.style.width = '0%';
+      btnDownload.disabled = true;
+      btnDownload.textContent = 'Loading...';
+
+      try {
+        // Use pipeline API (matches Liquid AI's official demo pattern)
+        state.generator = await pipeline('text-generation', MODEL_ID, {
+          dtype: 'q4',
+          device: 'webgpu',
+          progress_callback: (p) => {
+            if (p.status === 'progress' && p.file?.endsWith('.onnx_data')) {
+              const pct = p.progress || 0;
+              loadFill.style.width = `${Math.min(pct, 95)}%`;
+              dlProgressText.textContent = `Downloading model... ${Math.round(pct)}%`;
+              msStatus.textContent = `Downloading... ${Math.round(pct)}%`;
+            } else if (p.status === 'done' && p.file?.endsWith('.onnx_data')) {
+              loadFill.style.width = '96%';
+              dlProgressText.textContent = 'Compiling model for WebGPU...';
+              msStatus.textContent = 'Compiling for WebGPU...';
+            }
+          },
+        });
+
+        // Initialize generation constraints
+        state.badWordIds = computeTokenSuppressions(state.generator.tokenizer);
+        state.jsonProcessor = new JsonStructureProcessor(state.generator.tokenizer);
+        console.log('[Triage] Generation constraints: %d bad_words sequences, JSON bracket balancer active',
+          state.badWordIds.length);
+
+        loadFill.style.width = '100%';
+        modelChip.textContent = 'Model: ready';
+        modelChip.className = 'chip ready';
+        msStatus.textContent = 'Ready';
+        btnProcess.disabled = false;
+        downloadSection.classList.add('hidden');
+        dlProgressText.classList.add('hidden');
+
+        setTimeout(() => loadProgress.classList.add('hidden'), 1000);
+      } catch (err) {
+        const errMsg = err?.message || String(err);
+        console.error('Model load failed:', err);
+        modelChip.textContent = 'Model: failed';
+        modelChip.className = 'chip error';
+        msStatus.textContent = `Error: ${errMsg}`;
+        dlProgressText.textContent = `Error: ${errMsg}`;
+        btnDownload.disabled = false;
+        btnDownload.textContent = 'Download & Load Model';
+      }
+    }
+
+    // ─── Sample loading ─────────────────────────────────────────────
+    sampleSelect.addEventListener('change', () => {
+      const key = sampleSelect.value;
+      if (!key || !SAMPLES[key]) return;
+      docText.value = SAMPLES[key].text;
+      fileInfo.textContent = `Sample: ${SAMPLES[key].name}`;
+      fileInfo.classList.remove('hidden');
+      sampleSelect.value = '';
+    });
+
+    // ─── Drag & drop ────────────────────────────────────────────────
+    let dragCounter = 0;
+    leftPane.addEventListener('dragenter', (e) => {
+      e.preventDefault();
+      dragCounter++;
+      leftPane.classList.add('drop-zone-active');
+    });
+    leftPane.addEventListener('dragleave', (e) => {
+      e.preventDefault();
+      dragCounter--;
+      if (dragCounter <= 0) {
+        dragCounter = 0;
+        leftPane.classList.remove('drop-zone-active');
+      }
+    });
+    leftPane.addEventListener('dragover', (e) => e.preventDefault());
+    leftPane.addEventListener('drop', async (e) => {
+      e.preventDefault();
+      dragCounter = 0;
+      leftPane.classList.remove('drop-zone-active');
+
+      const file = e.dataTransfer.files[0];
+      if (!file) return;
+
+      const name = file.name.toLowerCase();
+      if (name.endsWith('.pdf')) {
+        await extractPdfText(file);
+      } else {
+        const text = await file.text();
+        docText.value = text;
+        fileInfo.textContent = `File: ${file.name} (${formatBytes(file.size)})`;
+        fileInfo.classList.remove('hidden');
+      }
+    });
+
+    async function extractPdfText(file) {
+      fileInfo.textContent = `Loading PDF: ${file.name}...`;
+      fileInfo.classList.remove('hidden');
+
+      try {
+        // Dynamically load pdf.js if not already loaded
+        if (!window.pdfjsLib) {
+          const script = document.createElement('script');
+          script.src = 'https://cdn.jsdelivr.net/npm/pdfjs-dist@4.9.155/build/pdf.min.mjs';
+          script.type = 'module';
+
+          // Use dynamic import for ES module
+          const pdfjsMod = await import('https://cdn.jsdelivr.net/npm/pdfjs-dist@4.9.155/build/pdf.min.mjs');
+          window.pdfjsLib = pdfjsMod;
+          pdfjsMod.GlobalWorkerOptions.workerSrc = 'https://cdn.jsdelivr.net/npm/pdfjs-dist@4.9.155/build/pdf.worker.min.mjs';
+        }
+
+        const arrayBuffer = await file.arrayBuffer();
+        const pdf = await window.pdfjsLib.getDocument({ data: arrayBuffer }).promise;
+        let fullText = '';
+
+        for (let i = 1; i <= pdf.numPages; i++) {
+          const page = await pdf.getPage(i);
+          const content = await page.getTextContent();
+
+          // Reconstruct text with line breaks using Y-position changes
+          let lastY = null;
+          let pageText = '';
+          for (const item of content.items) {
+            if (item.str === '') continue;
+            const y = item.transform ? item.transform[5] : null;
+            if (lastY !== null && y !== null && Math.abs(y - lastY) > 2) {
+              // Y position changed — new line
+              pageText += '\n';
+            } else if (pageText && !pageText.endsWith('\n')) {
+              pageText += '  ';
+            }
+            pageText += item.str;
+            lastY = y;
+          }
+          fullText += pageText.trim() + '\n\n';
+        }
+
+        docText.value = fullText.trim();
+        fileInfo.textContent = `PDF: ${file.name} (${pdf.numPages} page${pdf.numPages > 1 ? 's' : ''}, ${formatBytes(file.size)})`;
+      } catch (err) {
+        console.error('PDF extraction failed:', err);
+        fileInfo.textContent = `PDF error: ${err.message}. Try pasting text directly.`;
+        fileInfo.classList.remove('hidden');
+      }
+    }
+
+    // ─── Network monitoring ─────────────────────────────────────────
+    function resetNetworkBaseline() {
+      const entries = performance.getEntriesByType('resource');
+      state.networkBaseline = entries.length;
+      state.networkBytesBaseline = entries.reduce((sum, e) => sum + (e.transferSize || 0), 0);
+      netRequests.textContent = '0';
+      netBytes.textContent = '0 B';
+    }
+
+    function updateNetworkStats() {
+      const entries = performance.getEntriesByType('resource');
+      const newEntries = entries.length - state.networkBaseline;
+      const newBytes = entries.reduce((sum, e) => sum + (e.transferSize || 0), 0) - state.networkBytesBaseline;
+      netRequests.textContent = Math.max(0, newEntries).toString();
+      netBytes.textContent = formatBytes(Math.max(0, newBytes));
+    }
+
+    // ─── Prompt engineering ─────────────────────────────────────────
+    const SYSTEM_PROMPT = `You are a medical document entity extractor. Output ONLY valid JSON, no markdown, no explanation. Start with { and end with }.`;
+
+    function buildMessages(documentText) {
+      return [
+        { role: 'system', content: SYSTEM_PROMPT },
+        { role: 'user', content: `Extract entities from this medical document:
+
+${documentText}
+
+Return a JSON object with this EXACT structure:
+{"document_type":"...","summary":"...","entities":[...],"routing":"..."}
+
+Entity types (use EXACTLY these type values):
+PII types (is_pii=true): patient, date (DOB only), id (MRN/SSN/insurance), address, phone
+Non-PII types (is_pii=false): physician, date (non-DOB), medication, condition, allergy, procedure, vital, organization
+
+Every entity MUST be: {"text":"...","type":"...","is_pii":true/false}
+
+Rules:
+- ONE entity per item. Never combine multiple items in one entity.
+- Patient names = type "patient", is_pii=true
+- MRN, SSN, insurance IDs = type "id", is_pii=true
+- Each vital sign with its value as ONE entity: {"text":"Blood Pressure 142/88 mmHg","type":"vital"}
+- Each lab result with its value: {"text":"Glucose 112 mg/dL","type":"vital"}
+- Each medication as ONE entity: {"text":"Metoprolol 50mg daily","type":"medication"}
+- Each diagnosis/condition as ONE entity
+- Extract ALL vitals, ALL lab results, ALL medications — do not skip any
+- Skip: emergency contacts, negated findings, column headers, page numbers
+
+Extract ALL entities now:` },
+      ];
+    }
+
+    // ─── Entity type normalization ───────────────────────────────────
+    const KNOWN_TYPES = new Set([
+      'patient','physician','date','id','address','phone',
+      'medication','condition','allergy','procedure','vital','organization'
+    ]);
+    // Entity types that should be silently dropped (not rendered)
+    const DROP_TYPES = new Set([
+      'emergency_contact', 'family_member', 'contact_person',
+      'spouse', 'relative', 'next_of_kin', 'entity', 'contact',
+    ]);
+
+    const TYPE_MAP = {
+      // People — patients
+      name: 'patient', patient_name: 'patient', patient_info: 'patient',
+      // People — medical staff
+      person: 'physician', doctor: 'physician', provider: 'physician',
+      pharmacist: 'physician', nurse: 'physician',
+      laboratory_director: 'physician', lab_director: 'physician',
+      technician: 'physician', pathologist: 'physician',
+      attending: 'physician', referring: 'physician',
+      // Conditions / symptoms
+      symptom: 'condition', diagnosis: 'condition', disease: 'condition',
+      finding: 'condition', family_history: 'condition',
+      chief_complaint: 'condition', clinical_note: 'condition',
+      clinical_finding: 'condition', history: 'condition',
+      // Medications
+      drug: 'medication', med: 'medication', treatment: 'medication',
+      // Procedures / tests / follow-up
+      test: 'procedure', exam: 'procedure', lab: 'procedure',
+      lab_test: 'procedure', surgery: 'procedure', imaging: 'procedure',
+      diagnostic: 'procedure', lab_report_vital: 'procedure',
+      referral: 'procedure', follow_up: 'procedure', followup: 'procedure',
+      // IDs — model sometimes outputs "PII" as type for MRN/SSN
+      pii: 'id', insurance: 'id', mrn: 'id', ssn: 'id', identifier: 'id',
+      policy: 'id', account: 'id', clia: 'id',
+      insurance_id: 'id', policy_number: 'id',
+      // Locations / contact
+      hospital: 'organization', clinic: 'organization',
+      facility: 'organization', department: 'organization',
+      location: 'address', fax: 'phone',
+      // Vitals / lab values
+      vital_sign: 'vital', vitals: 'vital', measurement: 'vital',
+      lab_value: 'vital', lab_result: 'vital', result: 'vital',
+      fasting: 'procedure', lab_finding: 'vital', blood_test: 'vital',
+    };
+
+    function normalizeEntityType(type) {
+      if (!type) return 'condition';
+      const t = type.toLowerCase().trim().replace(/\s+/g, '_');
+      if (DROP_TYPES.has(t)) return null; // signal to drop this entity
+      if (KNOWN_TYPES.has(t)) return t;
+      if (TYPE_MAP[t]) return TYPE_MAP[t];
+      // Try partial match — if the type contains a known type, use that
+      for (const known of KNOWN_TYPES) {
+        if (t.includes(known)) return known;
+      }
+      // Check if it should be dropped via partial match
+      for (const drop of DROP_TYPES) {
+        if (t.includes(drop)) return null;
+      }
+      return TYPE_MAP[t] || 'condition'; // default to condition for truly unknown types
+    }
+
+    // ─── Post-processing document scan ─────────────────────────────
+    // The 1.2B model often skips vitals, dates, and IDs entirely.
+    // After inference, regex-scan the original document for patterns
+    // the model missed, and inject them as entities.
+    function scanForMissedEntities(documentText, existingEntities) {
+      const existingLower = existingEntities.map(e =>
+        e.text.toLowerCase().replace(/\s+/g, ' ').trim()
+      );
+      const alreadyCovered = (candidate) => {
+        const c = candidate.toLowerCase().replace(/\s+/g, ' ').trim();
+        for (const t of existingLower) {
+          if (t === c || t.includes(c) || c.includes(t)) return true;
+        }
+        return false;
+      };
+
+      const injected = [];
+
+      // ── Vitals: "Label: value unit" or "Label  value unit" ──
+      const vitalPatterns = [
+        { re: /blood\s+pressure[:\s]+(\d{2,3}\/\d{2,3}\s*mmHg)/i,        label: 'Blood Pressure' },
+        { re: /(?:resting\s+)?heart\s+rate[:\s]+(\d{2,3}\s*bpm)/i,        label: 'Heart Rate' },
+        { re: /SpO2[:\s]+(\d{2,3}%(?:\s+on\s+room\s+air)?)/i,             label: 'SpO2' },
+        { re: /temperature[:\s]+(\d{2,3}(?:\.\d)?\s*(?:°C|C|°F|F))/i,     label: 'Temperature' },
+        { re: /\bBMI[:\s]+(\d{2,3}(?:\.\d)?)\b/i,                         label: 'BMI' },
+        { re: /\bglucose\s+(\d{2,4}\s*mg\/dL)/i,                          label: 'Glucose' },
+        { re: /\bHbA1c[:\s]+(\d\.\d%)/i,                                  label: 'HbA1c' },
+        { re: /total\s+cholesterol\s+(\d{2,3}\s*mg\/dL)/i,                label: 'Total Cholesterol' },
+        { re: /LDL\s+cholesterol\s+(\d{2,3}\s*mg\/dL)/i,                  label: 'LDL Cholesterol' },
+        { re: /HDL\s+cholesterol\s+(\d{2,3}\s*mg\/dL)/i,                  label: 'HDL Cholesterol' },
+        { re: /triglycerides\s+(\d{2,3}\s*mg\/dL)/i,                      label: 'Triglycerides' },
+        { re: /\bBUN\s+(\d{1,3}\s*mg\/dL)/i,                              label: 'BUN' },
+        { re: /\bcreatinine\s+(\d\.\d\s*mg\/dL)/i,                        label: 'Creatinine' },
+        { re: /\beGFR\s+(\d{2,3}\s*mL\/min)/i,                            label: 'eGFR' },
+        { re: /\bsodium\s+(\d{2,3}\s*mEq\/L)/i,                           label: 'Sodium' },
+        { re: /\bpotassium\s+(\d\.\d\s*mEq\/L)/i,                         label: 'Potassium' },
+        { re: /\bchloride\s+(\d{2,3}\s*mEq\/L)/i,                         label: 'Chloride' },
+        { re: /\bCO2\s+(\d{2,3}\s*mEq\/L)/i,                              label: 'CO2' },
+        { re: /\bcalcium\s+(\d\.\d\s*mg\/dL)/i,                           label: 'Calcium' },
+        { re: /total\s+protein\s+(\d\.\d\s*g\/dL)/i,                      label: 'Total Protein' },
+        { re: /\balbumin\s+(\d\.\d\s*g\/dL)/i,                            label: 'Albumin' },
+        { re: /total\s+bilirubin\s+(\d\.\d\s*mg\/dL)/i,                   label: 'Total Bilirubin' },
+        { re: /\bWBC\s+(\d+\.?\d*)/i,                                     label: 'WBC' },
+        { re: /\bCRP\s+(\d+\.?\d*)/i,                                     label: 'CRP' },
+      ];
+      for (const { re, label } of vitalPatterns) {
+        const m = documentText.match(re);
+        if (m) {
+          const text = `${label} ${m[1].trim()}`;
+          if (!alreadyCovered(text) && !alreadyCovered(`${label.toLowerCase()} ${m[1].trim()}`)) {
+            injected.push({ text, type: 'vital', is_pii: false });
+          }
+        }
+      }
+
+      // ── Dates with context ──
+      const datePatterns = [
+        { re: /(?:date\s+of\s+birth|DOB)[:\s]+(\d{2}\/\d{2}\/\d{4})/i,              pii: true },
+        { re: /(?:date\s+of\s+birth|DOB)[:\s]+(\d{4}-\d{2}-\d{2})/i,                pii: true },
+        { re: /(?:date\s+of\s+referral|referral\s+date)[:\s]+(\d{4}-\d{2}-\d{2})/i,  pii: false },
+        { re: /(?:admission\s+date)[:\s]+(\d{4}-\d{2}-\d{2})/i,                      pii: false },
+        { re: /(?:discharge\s+date)[:\s]+(\d{4}-\d{2}-\d{2})/i,                      pii: false },
+        { re: /(?:collection\s+date)[:\s]+(\d{4}-\d{2}-\d{2}[\s\d:]*)/i,             pii: false },
+        { re: /(?:report\s+date)[:\s]+(\d{4}-\d{2}-\d{2}[\s\d:]*)/i,                 pii: false },
+      ];
+      for (const { re, pii } of datePatterns) {
+        const m = documentText.match(re);
+        if (m) {
+          const text = m[1].trim();
+          if (!alreadyCovered(text)) {
+            injected.push({ text, type: 'date', is_pii: pii });
+          }
+        }
+      }
+
+      // ── IDs: MRN, insurance, CLIA, SSN ──
+      const idPatterns = [
+        { re: /\b(BC-\d{5,})\b/ },
+        { re: /\b(TK-\d{5,})\b/ },
+        { re: /\b(NEX-\d{5,})\b/ },
+        { re: /MRN[:\s]+([A-Z]{2,4}-\d{5,})/i },
+        { re: /CLIA\s*#?[:\s]+(\w+)/i },
+        { re: /SSN[:\s]*([\d\*]{3}-[\d\*]{2}-[\d\*]{4})/i },
+      ];
+      for (const { re } of idPatterns) {
+        const m = documentText.match(re);
+        if (m) {
+          const text = m[1].trim();
+          if (!alreadyCovered(text)) {
+            injected.push({ text, type: 'id', is_pii: true });
+          }
+        }
+      }
+
+      // ── Phone numbers ──
+      const phoneRe = /(?:phone|tel|fax)[:\s]*((?:\+?\d[\d\-\s]{8,}\d))/gi;
+      let pm;
+      while ((pm = phoneRe.exec(documentText)) !== null) {
+        const text = pm[1].trim();
+        if (!alreadyCovered(text)) {
+          injected.push({ text, type: 'phone', is_pii: true });
+        }
+      }
+
+      // ── Addresses ──
+      const addrRe = /(\d+\s+\w+\s+(?:Street|St|Terrace|Avenue|Ave|Road|Rd|Blvd|Drive|Dr|Lane|Ln)[^,\n]*(?:,\s*[A-Za-zÀ-ÿ\s]+,?\s*\d{4,5})?)/gi;
+      let am;
+      while ((am = addrRe.exec(documentText)) !== null) {
+        const text = am[1].trim();
+        if (!alreadyCovered(text)) {
+          injected.push({ text, type: 'address', is_pii: true });
+        }
+      }
+
+      return injected;
+    }
+
+    /** Infer entity type from text content when the model omits the type field. */
+    function inferEntityType(text) {
+      if (!text) return 'condition';
+      const t = text.toLowerCase();
+      // Lab values / vitals — numeric value with unit
+      if (/\d+(\.\d+)?\s*(mg\/d[lL]|mEq\/[lL]|mmHg|bpm|%|mL\/min|U\/[lL]|g\/d[lL]|mmol|IU|ng)/.test(text)) return 'vital';
+      if (/\b(SpO2|BMI|eGFR|HbA1c|HDL|LDL|VLDL|BUN|AST|ALT|CO2)\b/i.test(text)) return 'vital';
+      if (/\b(blood pressure|heart rate|temperature|pulse|respiration)\b/i.test(t)) return 'vital';
+      // Known lab test names (standalone or with values)
+      if (/\b(glucose|creatinine|sodium|potassium|chloride|calcium|albumin|bilirubin|hemoglobin|hematocrit|platelet|WBC|RBC|triglycerides|cholesterol|phosphatase|protein)\b/i.test(text)) return 'vital';
+      // Medications — dosage patterns
+      if (/\d+\s*(mg|mcg|ml|units?|tablets?|caps?)\b/i.test(text)) return 'medication';
+      if (/\b(inhaler|injection|cream|ointment|patch|BID|TID|QID|PRN|daily|twice)\b/i.test(text)) return 'medication';
+      // Physicians
+      if (/\bDr\.?\s/i.test(text) || /\b(MD|DO|PhD|NP|PA|RN)\b/.test(text)) return 'physician';
+      // IDs — MRN, SSN, CLIA, insurance IDs
+      if (/\b(MRN|CLIA|SSN)\b/i.test(text) || /\b(NEX-|BC-|TK-)\d/i.test(text)) return 'id';
+      if (/\b\d{3}[\-\*]+[\-\*]*\d{4}\b/.test(text)) return 'id'; // SSN pattern (masked or not)
+      if (/\b[A-Z]{2,4}[\-:]\s*\d{5,}/i.test(text)) return 'id'; // ID codes like NEX-20231547
+      // Organizations
+      if (/\b(Medical Center|Hospital|Laboratory|Clinic|University|Institute|Insurance|BlueCross|BlueShield|Krankenkasse)\b/i.test(text)) return 'organization';
+      // Dates
+      if (/\b\d{4}-\d{2}-\d{2}\b/.test(text) || /\b\d{2}\/\d{2}\/\d{4}\b/.test(text)) return 'date';
+      // Allergies
+      if (/\b(allerg|anaphylaxis|rash|hives|reaction to)\b/i.test(t)) return 'allergy';
+      // Procedures
+      if (/\b(ECG|EKG|X-ray|MRI|CT scan|ultrasound|echocardiograph|stress test|biopsy|CT chest)\b/i.test(text)) return 'procedure';
+      // Addresses
+      if (/\b\d+\s+\w+\s+(street|st|terrace|avenue|ave|road|rd|blvd|drive|dr|lane|ln)\b/i.test(text)) return 'address';
+      // Phones
+      if (/(\+?\d[\d\-\s]{8,}\d)/.test(text)) return 'phone';
+      return 'condition'; // safe default
+    }
+
+    /** Infer is_pii from entity type and text content. */
+    function inferIsPii(type, text) {
+      if (['patient', 'address', 'phone', 'id'].includes(type)) return true;
+      // DOB-specific date detection
+      if (type === 'date' && text && /\b(DOB|date of birth|birth\s*date)\b/i.test(text)) return true;
+      return false;
+    }
+
+    /** Repair a potentially malformed entity from model output. */
+    function repairEntity(e) {
+      // String → wrap in object
+      if (typeof e === 'string') {
+        const text = e.trim();
+        if (!text) return null;
+        const type = inferEntityType(text);
+        return { text, type, is_pii: inferIsPii(type, text) };
+      }
+      // Not an object → skip
+      if (!e || typeof e !== 'object') return null;
+      // Has text but no type → infer type
+      if (e.text && !e.type) {
+        e.type = inferEntityType(e.text);
+      }
+      // Has type but no text → skip
+      if (!e.text) return null;
+      // Ensure is_pii field
+      if (typeof e.is_pii !== 'boolean') {
+        e.is_pii = inferIsPii(normalizeEntityType(e.type) || e.type, e.text);
+      }
+      return e;
+    }
+
+    /** Create an entity list item DOM element. Returns null if entity type should be dropped. */
+    function createEntityLi(entity, animate = false) {
+      const ntype = normalizeEntityType(entity.type);
+      if (ntype === null) return null; // drop this entity
+      const li = document.createElement('li');
+      li.className = 'entity-item';
+      if (animate) li.style.animation = 'fadeIn 0.3s ease-out';
+      li.innerHTML = `
+        <span class="pii-dot ${entity.is_pii ? 'is-pii' : 'not-pii'}" title="${entity.is_pii ? 'PII' : 'Non-PII'}"></span>
+        <span class="entity-text">${esc(entity.text)}</span>
+        <span class="entity-type" data-type="${esc(ntype)}">${esc(ntype)}</span>
+      `;
+      return { li, ntype };
+    }
+
+    // ─── JSON extraction ────────────────────────────────────────────
+    function tryParse(str) {
+      try {
+        const p = JSON.parse(str);
+        if (p && typeof p === 'object' && p.document_type) return p;
+      } catch {}
+      return null;
+    }
+
+    function repairAndParse(jsonStr) {
+      // Try as-is first
+      let result = tryParse(jsonStr);
+      if (result) return result;
+
+      // Truncated JSON: try closing open arrays/objects
+      // Remove trailing comma, then close brackets
+      let repaired = jsonStr.replace(/,\s*$/, '');
+
+      // Count unmatched brackets
+      let openBraces = 0, openBrackets = 0;
+      let inString = false, escape = false;
+      for (const ch of repaired) {
+        if (escape) { escape = false; continue; }
+        if (ch === '\\') { escape = true; continue; }
+        if (ch === '"') { inString = !inString; continue; }
+        if (inString) continue;
+        if (ch === '{') openBraces++;
+        if (ch === '}') openBraces--;
+        if (ch === '[') openBrackets++;
+        if (ch === ']') openBrackets--;
+      }
+
+      // If we're inside a string, close it
+      if (inString) repaired += '"';
+
+      // Close open brackets/braces
+      for (let i = 0; i < openBrackets; i++) repaired += ']';
+      for (let i = 0; i < openBraces; i++) repaired += '}';
+
+      result = tryParse(repaired);
+      if (result) return result;
+
+      // Last resort: truncate to last complete entity in array, then close
+      const lastCompleteObj = repaired.lastIndexOf('},');
+      if (lastCompleteObj !== -1) {
+        const truncated = repaired.slice(0, lastCompleteObj + 1) + ']}';
+        // May need more closing braces
+        let needBraces = 0;
+        let s = false, e = false;
+        for (const ch of truncated) {
+          if (e) { e = false; continue; }
+          if (ch === '\\') { e = true; continue; }
+          if (ch === '"') { s = !s; continue; }
+          if (s) continue;
+          if (ch === '{') needBraces++;
+          if (ch === '}') needBraces--;
+        }
+        let fixed = truncated;
+        for (let i = 0; i < needBraces; i++) fixed += '}';
+        result = tryParse(fixed);
+        if (result) return result;
+      }
+
+      return null;
+    }
+
+    /** Scan forward from a '{' to find where the root object closes (braces balance to 0). */
+    function findJsonEnd(text, start) {
+      let braces = 0, inStr = false, esc = false;
+      for (let i = start; i < text.length; i++) {
+        const ch = text[i];
+        if (esc) { esc = false; continue; }
+        if (ch === '\\' && inStr) { esc = true; continue; }
+        if (ch === '"') { inStr = !inStr; continue; }
+        if (inStr) continue;
+        if (ch === '{') braces++;
+        if (ch === '}') { braces--; if (braces === 0) return i; }
+      }
+      return -1; // never balanced
+    }
+
+    function extractJSON(rawText) {
+      // Try direct parse
+      let result = tryParse(rawText.trim());
+      if (result) return result;
+
+      // Try extracting from markdown code fence
+      const fenceMatch = rawText.match(/```(?:json)?\s*([\s\S]*?)```/);
+      if (fenceMatch) {
+        result = repairAndParse(fenceMatch[1].trim());
+        if (result) return result;
+      }
+
+      // Try extracting from open code fence (no closing ```)
+      const openFenceMatch = rawText.match(/```(?:json)?\s*([\s\S]*)/);
+      if (openFenceMatch) {
+        result = repairAndParse(openFenceMatch[1].trim());
+        if (result) return result;
+      }
+
+      // Find first { and scan for balanced close — handles trailing garbage
+      const braceStart = rawText.indexOf('{');
+      if (braceStart !== -1) {
+        const balancedEnd = findJsonEnd(rawText, braceStart);
+        if (balancedEnd !== -1) {
+          result = tryParse(rawText.slice(braceStart, balancedEnd + 1));
+          if (result) return result;
+        }
+
+        // Fallback: first { to last } (may include garbage)
+        const braceEnd = rawText.lastIndexOf('}');
+        if (braceEnd > braceStart) {
+          result = repairAndParse(rawText.slice(braceStart, braceEnd + 1));
+          if (result) return result;
+        }
+        // No closing brace — try to repair from first {
+        result = repairAndParse(rawText.slice(braceStart));
+        if (result) return result;
+      }
+
+      // Last resort: extract fields individually from partial/broken JSON
+      return extractFieldsFromBroken(rawText);
+    }
+
+    /** Extract structured result from broken JSON by finding individual fields and complete entity objects. */
+    function extractFieldsFromBroken(text) {
+      const docTypeMatch = text.match(/"document_type"\s*:\s*"([^"]+)"/);
+      if (!docTypeMatch) return null; // not even a document_type — give up
+
+      const summaryMatch = text.match(/"summary"\s*:\s*"((?:[^"\\]|\\.)*)"/);
+      const routingMatch = text.match(/"routing"\s*:\s*"((?:[^"\\]|\\.)*)"/);
+
+      // Extract all complete entity objects from the entities array
+      const entities = [];
+      const entIdx = text.indexOf('"entities"');
+      if (entIdx !== -1) {
+        const arrStart = text.indexOf('[', entIdx);
+        if (arrStart !== -1) {
+          let pos = arrStart + 1;
+          while (true) {
+            const objStart = text.indexOf('{', pos);
+            if (objStart === -1) break;
+            const objEnd = text.indexOf('}', objStart);
+            if (objEnd === -1) break;
+            try {
+              const entity = JSON.parse(text.slice(objStart, objEnd + 1));
+              if (entity.text) entities.push(entity);
+            } catch { /* incomplete entity, skip */ }
+            pos = objEnd + 1;
+          }
+        }
+      }
+
+      console.log('[Triage] Fallback extraction: %d entities from broken JSON', entities.length);
+      return {
+        document_type: docTypeMatch[1],
+        summary: summaryMatch ? summaryMatch[1].replace(/\\"/g, '"').replace(/\\n/g, '\n') : '',
+        entities,
+        routing: routingMatch ? routingMatch[1].replace(/\\"/g, '"') : '',
+      };
+    }
+
+    // ─── Progressive rendering ─────────────────────────────────────
+    // Extract fields incrementally from partial JSON as tokens stream in
+    function progressiveRender(rawOutput, rendered) {
+      // Strip code fence prefix if present
+      let json = rawOutput;
+      const fenceIdx = json.indexOf('```');
+      if (fenceIdx !== -1) {
+        json = json.slice(json.indexOf('\n', fenceIdx) + 1);
+      }
+
+      // Find first { to start JSON
+      const braceIdx = json.indexOf('{');
+      if (braceIdx === -1) return rendered;
+      json = json.slice(braceIdx);
+
+      // Extract document_type
+      if (!rendered.docType) {
+        const m = json.match(/"document_type"\s*:\s*"([^"]+)"/);
+        if (m) {
+          rendered.docType = m[1];
+          $('#classification-content').innerHTML =
+            `<span class="classification-badge" style="animation:fadeIn 0.3s ease-out">${esc(m[1])}</span>`;
+          $('#card-classification').classList.remove('processing');
+        }
+      }
+
+      // Extract entities progressively — find each complete {...} in the entities array
+      const entitiesStart = json.indexOf('"entities"');
+      if (entitiesStart !== -1) {
+        const arrStart = json.indexOf('[', entitiesStart);
+        if (arrStart !== -1) {
+          // Find all complete entity objects after what we've already rendered
+          let searchFrom = arrStart + 1;
+          // Skip past already-rendered entities
+          for (let i = 0; i < rendered.entityCount; i++) {
+            const nextObj = json.indexOf('{', searchFrom);
+            if (nextObj === -1) break;
+            const endObj = json.indexOf('}', nextObj);
+            if (endObj === -1) break;
+            searchFrom = endObj + 1;
+          }
+
+          // Find new complete entities
+          let pos = searchFrom;
+          while (true) {
+            const objStart = json.indexOf('{', pos);
+            if (objStart === -1) break;
+            const objEnd = json.indexOf('}', objStart);
+            if (objEnd === -1) break; // incomplete entity, wait for more tokens
+
+            try {
+              const entityStr = json.slice(objStart, objEnd + 1);
+              let entity = JSON.parse(entityStr);
+              // Repair: infer missing type/is_pii from text content
+              entity = repairEntity(entity);
+              if (!entity) { pos = objEnd + 1; continue; }
+              if (entity.text && entity.type) {
+                const result = createEntityLi(entity, true);
+                if (!result) { pos = objEnd + 1; continue; } // dropped type
+                const { li, ntype } = result;
+                const dedupKey = `${entity.text.toLowerCase().trim()}|${ntype}`;
+                if (rendered.seenKeys.has(dedupKey)) { pos = objEnd + 1; continue; }
+                rendered.seenKeys.add(dedupKey);
+                $('#entity-list').appendChild(li);
+                rendered.entityCount++;
+                if (rendered.entityCount === 1) {
+                  $('#card-entities').classList.remove('processing');
+                }
+              }
+            } catch {}
+            pos = objEnd + 1;
+          }
+        }
+      }
+
+      // Extract summary
+      if (!rendered.summary) {
+        const sumMatch = json.match(/"summary"\s*:\s*"((?:[^"\\]|\\.)*)"/);
+        if (sumMatch) {
+          rendered.summary = sumMatch[1].replace(/\\"/g, '"').replace(/\\n/g, '\n');
+          $('#summary-text').textContent = rendered.summary;
+          $('#card-summary').classList.remove('processing');
+        }
+      }
+
+      // Extract routing
+      if (!rendered.routing) {
+        const routeMatch = json.match(/"routing"\s*:\s*"((?:[^"\\]|\\.)*)"/);
+        if (routeMatch) {
+          rendered.routing = routeMatch[1].replace(/\\"/g, '"');
+          $('#routing-text').innerHTML =
+            `<span class="routing-arrow">&rarr;</span> ${esc(rendered.routing)}`;
+          $('#card-routing').classList.remove('processing');
+        }
+      }
+
+      return rendered;
+    }
+
+    // ─── Processing ─────────────────────────────────────────────────
+    btnProcess.addEventListener('click', () => processDocument());
+
+    async function processDocument() {
+      const text = docText.value.trim();
+      if (!text) return;
+      if (state.isProcessing) return;
+      if (!state.generator) return;
+
+      state.isProcessing = true;
+      btnProcess.disabled = true;
+      btnProcess.textContent = 'Processing...';
+      resultsEmpty.classList.add('hidden');
+      resultsCont.classList.remove('hidden');
+      traceOutput.textContent = '';
+
+      // Reset network monitoring
+      resetNetworkBaseline();
+
+      // Mark cards as processing
+      document.querySelectorAll('#results-container .card').forEach(c => c.classList.add('processing'));
+
+      // Clear previous results
+      $('#classification-content').innerHTML = '<span style="color:var(--text-muted)">Analyzing...</span>';
+      $('#entity-list').innerHTML = '';
+      $('#summary-text').textContent = '';
+      $('#routing-text').innerHTML = '';
+      $('#stat-time').textContent = '—';
+      $('#stat-tokens').textContent = '—';
+      $('#stat-speed').textContent = '—';
+      $('#privacy-text').textContent = 'Processing...';
+
+      const messages = buildMessages(text);
+      console.log('[Triage] Message content length: %d chars', messages[0].content.length);
+      const t0 = performance.now();
+      let rawOutput = '';
+      let tokenCount = 0;
+      let firstTokenTime = 0;
+      let rendered = { docType: null, entityCount: 0, summary: null, routing: null, seenKeys: new Set() };
+
+      const onToken = (partial, done) => {
+        rawOutput += partial;
+        tokenCount++;
+        if (tokenCount === 1) {
+          firstTokenTime = performance.now() - t0;
+          console.log('[Triage] Time to first token: %sms', firstTokenTime.toFixed(0));
+        }
+        traceOutput.textContent = rawOutput;
+        traceOutput.scrollTop = traceOutput.scrollHeight;
+
+        // Progressive rendering — update UI cards as fields become available
+        rendered = progressiveRender(rawOutput, rendered);
+
+        if (done) {
+          const elapsed = performance.now() - t0;
+          const genTime = elapsed - firstTokenTime;
+          console.log('[Triage] Generation complete: %d tokens in %ss (TTFT: %sms, gen: %ss, %s tok/s)',
+            tokenCount,
+            (elapsed / 1000).toFixed(1),
+            firstTokenTime.toFixed(0),
+            (genTime / 1000).toFixed(1),
+            (tokenCount / (genTime / 1000)).toFixed(1)
+          );
+          finishProcessing(rawOutput, elapsed, tokenCount, firstTokenTime, rendered);
+        }
+      };
+
+      try {
+        console.log('[Triage] Starting inference...');
+        // Stream via pipeline — handles tokenization + chat template internally
+        state.jsonProcessor.reset();
+        const streamer = new TextStreamer(state.generator.tokenizer, {
+          skip_prompt: true,
+          skip_special_tokens: true,
+          callback_function: (chunk) => { onToken(chunk, false); },
+        });
+        await state.generator(messages, {
+          max_new_tokens: 1024,
+          do_sample: false,
+          repetition_penalty: 1.05,
+          bad_words_ids: state.badWordIds,
+          logits_processor: [state.jsonProcessor],
+          streamer,
+        });
+        onToken('', true);
+      } catch (err) {
+        console.error('[Triage] Inference error:', err);
+        traceOutput.textContent += `\n\n[ERROR] ${err.message}`;
+        finishProcessing(rawOutput, performance.now() - t0, tokenCount, firstTokenTime, rendered);
+      }
+    }
+
+    function finishProcessing(rawOutput, elapsedMs, tokenCount, firstTokenTimeMs, rendered) {
+      state.isProcessing = false;
+      btnProcess.disabled = false;
+      btnProcess.textContent = 'Process';
+      document.querySelectorAll('#results-container .card').forEach(c => c.classList.remove('processing'));
+
+      // Update performance stats — speed = generation speed (excluding TTFT)
+      const seconds = elapsedMs / 1000;
+      const genSeconds = (elapsedMs - (firstTokenTimeMs || 0)) / 1000;
+      const tokPerSec = tokenCount > 0 && genSeconds > 0 ? (tokenCount / genSeconds).toFixed(1) : '—';
+      $('#stat-time').textContent = `${seconds.toFixed(1)}s`;
+      $('#stat-tokens').textContent = tokenCount.toString();
+      $('#stat-speed').textContent = `${tokPerSec} tok/s`;
+
+      // Update network stats
+      updateNetworkStats();
+
+      // Final parse for anything progressive rendering missed
+      const parseT0 = performance.now();
+      const result = extractJSON(rawOutput);
+      console.log('[Triage] JSON parse: %sms, success: %s, raw length: %d chars',
+        (performance.now() - parseT0).toFixed(1), !!result, rawOutput.length);
+      if (result) {
+        // Clean up entities — repair malformed, deduplicate, drop bad types, filter quality
+        if (result.entities) {
+          // First pass: repair malformed entities (strings, missing type/is_pii)
+          result.entities = result.entities.map(repairEntity).filter(Boolean);
+
+          // Split blob entities that cram multiple items into one text field
+          // e.g. "Augmentin 875mg BID, Metformin 1000mg BID, Lisinopril 20mg" → 3 entities
+          const expanded = [];
+          for (const e of result.entities) {
+            const txt = (e.text || '').trim();
+            // Only split if text has commas and is long enough to be a blob
+            // Don't split addresses, conditions with commas (e.g. "pneumonia, right lower lobe")
+            if (txt.length > 40 && txt.includes(',') && (e.type === 'medication' || /\bmedication\b/i.test(e.type))) {
+              const parts = txt.split(/,\s*/);
+              for (const part of parts) {
+                const p = part.trim();
+                if (p.length > 2) {
+                  const type = inferEntityType(p);
+                  expanded.push({ text: p, type, is_pii: inferIsPii(type, p) });
+                }
+              }
+            } else if (txt.length > 60 && txt.includes(',') && /\b(vital|condition)\b/i.test(e.type)) {
+              // Split long vital/condition blobs
+              const parts = txt.split(/,\s*/);
+              if (parts.length >= 3) {
+                for (const part of parts) {
+                  const p = part.trim();
+                  if (p.length > 2) {
+                    const type = inferEntityType(p);
+                    expanded.push({ text: p, type, is_pii: inferIsPii(type, p) });
+                  }
+                }
+              } else {
+                expanded.push(e);
+              }
+            } else {
+              expanded.push(e);
+            }
+          }
+          result.entities = expanded;
+
+          // Normalize all types before dedup
+          for (const e of result.entities) {
+            e.type = normalizeEntityType(e.type) || e.type;
+          }
+
+          // Re-type misclassified entities
+          const NAME_RE = /^[A-Z][a-z]+(?:[\s\-][A-Z][a-z]+){1,3}$/;
+          const MEDICAL_WORDS = /\b(disease|syndrome|disorder|deficiency|type|stage|acute|chronic|bilateral|mellitus|hypertension|pneumonia|diabetes|infarction|enterocolitis|cardiomegaly|streptococcus|staphylococcus|aspergillus|candida)\b/i;
+          const LAB_TEST_RE = /\b(glucose|creatinine|sodium|potassium|chloride|calcium|albumin|bilirubin|hemoglobin|hematocrit|platelet|WBC|RBC|CRP|triglycerides|cholesterol|phosphatase|protein|AST|ALT|eGFR|HbA1c|BUN|CO2|SGOT|SGPT)\b/i;
+          for (const e of result.entities) {
+            const txt = e.text.trim();
+
+            // Lab tests mistyped as medication → vital (Alk Phosphatase, AST, ALT, etc.)
+            if (e.type === 'medication' && LAB_TEST_RE.test(txt)) {
+              e.type = 'vital';
+              continue;
+            }
+
+            if (e.type !== 'condition') continue;
+            // Patient names: "Maria Gonzalez", "Ahmed Al-Rashid", "Robert Chen"
+            if (NAME_RE.test(txt) && !MEDICAL_WORDS.test(txt)) {
+              e.type = 'patient';
+              e.is_pii = true;
+              continue;
+            }
+            // IDs: MRN, SSN, insurance IDs mistyped as condition
+            if (/\b(MRN|SSN|CLIA)\b/i.test(txt) || /\b(NEX-|BC-|TK-)\d/i.test(txt)) {
+              e.type = 'id';
+              e.is_pii = true;
+              continue;
+            }
+            if (/\b\d{3}[\-\*]+[\-\*]*\d{4}\b/.test(txt)) {
+              e.type = 'id';
+              e.is_pii = true;
+              continue;
+            }
+            // Dates mistyped as condition
+            if (/^(date of birth|admission date|discharge date|collection date|report date)/i.test(txt)) {
+              e.type = 'date';
+              if (/birth/i.test(txt)) e.is_pii = true;
+              continue;
+            }
+            // Lab test names mistyped as condition — re-type to vital
+            if (LAB_TEST_RE.test(txt)) {
+              e.type = 'vital';
+            }
+          }
+
+          // Cross-type dedup: if same text appears as both medication and vital, keep vital
+          const textToTypes = new Map();
+          for (const e of result.entities) {
+            const key = e.text.toLowerCase().trim();
+            if (!textToTypes.has(key)) textToTypes.set(key, new Set());
+            textToTypes.get(key).add(e.type);
+          }
+
+          const seen = new Set();
+          const before = result.entities.length;
+          result.entities = result.entities.filter(e => {
+            if (!e.text || !e.type) return false;
+            const ntype = normalizeEntityType(e.type);
+            if (ntype === null) return false; // dropped type (emergency contacts etc.)
+            e.type = ntype; // apply normalized type
+
+            const text = e.text.toLowerCase().trim();
+
+            // Drop negated findings
+            if (/^(no |denies |negative |none |absent )/.test(text)) return false;
+            if (/\bno (cardiac|significant|known)\b/.test(text)) return false;
+            if (/\b(negative|negativ)\)?\s*$/.test(text)) return false;
+            if (/\bnegative\b/.test(text) && ntype === 'condition') return false;
+
+            // Drop blob entities (model crammed multiple items into one)
+            if (e.text.length > 150) return false;
+
+            // Drop noise: column headers, page references, standalone labels
+            if (/^(test result|reference range|flag|page \d|clinic page|section|ordering physician name|ordering specialty|ordering physician|clinical laboratory report|completing metabolic panel|confidential|laboratory report|ordered by|high|low|normal)$/i.test(text)) return false;
+            if (/^\w+\s+page\s+\d+$/i.test(text)) return false; // "Clinic Page 1", "Stuttgart Campus § Page 1"
+            if (/^(sex|male|female|fasting|follow-up notes|mrn|date|date of birth|length of stay)$/i.test(text)) return false; // standalone labels without values
+            if (/§\s*page/i.test(text)) return false; // "Stuttgart Campus § Page 1"
+            // Drop entities that are just a single common word (not medical)
+            if (/^[a-z]{2,10}$/i.test(text) && /^(yes|no|none|other|pending|stable|normal|high|low|positive|negative|complete|report|summary|discharge|admission)$/i.test(text)) return false;
+
+            // Drop emergency contact entries (text content, regardless of type)
+            if (/^emergency contact/i.test(text)) return false;
+
+            // Drop narrative/status text the model extracted as entities
+            if (/\b(completed|scheduled|management plan|education|weaned|started on .+ and )\b/i.test(text) && ntype === 'condition') return false;
+            if (/^(interpretation note|hemoglobin a1c reference range|statin therapy consideration|renal and hepatic panels normal|attending physician)$/i.test(text)) return false;
+            if (/^\d{1,3}-year-old\s+(male|female)/i.test(text)) return false; // "73-year-old male"
+
+            // Cross-type dedup: if this text also appears as vital, drop the medication version
+            const types = textToTypes.get(text);
+            if (ntype === 'medication' && types && types.has('vital')) return false;
+
+            // Standard dedup by text+type
+            const key = `${text}|${ntype}`;
+            if (seen.has(key)) return false;
+            seen.add(key);
+            return true;
+          });
+          if (result.entities.length < before) {
+            console.log('[Triage] Cleaned: %d → %d entities', before, result.entities.length);
+          }
+        }
+
+        // Post-processing: scan original document for entities the model missed
+        const originalText = docText.value.trim();
+        const missed = scanForMissedEntities(originalText, result.entities || []);
+        if (missed.length > 0) {
+          if (!result.entities) result.entities = [];
+          result.entities.push(...missed);
+          console.log('[Triage] Post-processing scan injected %d missed entities', missed.length);
+        }
+
+        console.log('[Triage] Parsed result:', result.document_type, '|', (result.entities || []).length, 'entities');
+      } else {
+        console.warn('[Triage] Raw output (first 500 chars):', rawOutput.slice(0, 500));
+      }
+
+      if (!result) {
+        if (!rendered.docType) {
+          $('#classification-content').innerHTML = '<span class="chip error">Failed to parse structured output</span>';
+        }
+        if (!rendered.summary) {
+          $('#summary-text').textContent = rawOutput;
+        }
+        $('#privacy-text').textContent = `Zero bytes transmitted — ${netRequests.textContent} network requests`;
+        return;
+      }
+
+      // Infer routing from document content if model didn't generate it
+      if (!result.routing || result.routing === '—') {
+        const docType = (result.document_type || '').toLowerCase();
+        const text = rawOutput.toLowerCase();
+        if (/cardiol/i.test(text)) result.routing = 'Cardiology';
+        else if (/pulmonol/i.test(text)) result.routing = 'Pulmonology';
+        else if (/laborator|lab report|metabolic panel|lipid panel/i.test(text)) result.routing = 'Clinical Laboratory';
+        else if (/neurol/i.test(text)) result.routing = 'Neurology';
+        else if (/oncol/i.test(text)) result.routing = 'Oncology';
+        else if (/orthop/i.test(text)) result.routing = 'Orthopedics';
+        else if (docType.includes('lab')) result.routing = 'Clinical Laboratory';
+        else result.routing = 'General Medicine';
+      }
+
+      // Always do a full re-render with deduped entities — replaces progressive rendering
+      renderResults(result, {});
+    }
+
+    // ─── Results rendering ──────────────────────────────────────────
+    function renderResults(result, rendered = {}) {
+      // Classification — skip if progressive rendering already showed it
+      if (!rendered.docType) {
+        $('#classification-content').innerHTML =
+          `<span class="classification-badge">${esc(result.document_type)}</span>`;
+      }
+
+      // Entities — only append entities that progressive rendering missed
+      const entities = result.entities || [];
+      const piiCount = entities.filter(e => e.is_pii).length;
+      const alreadyRendered = rendered.entityCount || 0;
+
+      if (alreadyRendered === 0) {
+        // Nothing was progressively rendered — do a full render
+        const entityList = $('#entity-list');
+        entityList.innerHTML = '';
+        for (const entity of entities) {
+          const result = createEntityLi(entity);
+          if (result) entityList.appendChild(result.li);
+        }
+      } else if (alreadyRendered < entities.length) {
+        // Append only the entities that were missed by progressive rendering
+        for (let i = alreadyRendered; i < entities.length; i++) {
+          const result = createEntityLi(entities[i], true);
+          if (result) $('#entity-list').appendChild(result.li);
+        }
+      }
+
+      // Summary — skip if progressive rendering already showed it
+      if (!rendered.summary) {
+        $('#summary-text').textContent = result.summary || '—';
+      }
+
+      // Routing — skip if progressive rendering already showed it
+      if (!rendered.routing) {
+        $('#routing-text').innerHTML =
+          `<span class="routing-arrow">&rarr;</span> ${esc(result.routing || '—')}`;
+      }
+
+      // Privacy — always update with final PII count
+      const reqCount = netRequests.textContent;
+      $('#privacy-text').textContent = `Zero bytes transmitted during analysis | ${piiCount} PII entities detected | ${reqCount} network requests`;
+    }
+
+    // ─── Utilities ──────────────────────────────────────────────────
+    function esc(str) {
+      const div = document.createElement('div');
+      div.textContent = str;
+      return div.innerHTML;
+    }
+
+    function formatBytes(bytes) {
+      if (bytes === 0) return '0 B';
+      const k = 1024;
+      const sizes = ['B', 'KB', 'MB', 'GB'];
+      const i = Math.floor(Math.log(bytes) / Math.log(k));
+      return parseFloat((bytes / Math.pow(k, i)).toFixed(1)) + ' ' + sizes[i];
+    }
+
+    // ─── Init ───────────────────────────────────────────────────────
+    async function init() {
+      const hasWebGPU = await checkWebGPU();
+
+      if (!hasWebGPU) {
+        msStatus.textContent = 'WebGPU not available — use Chrome 113+';
+        modelChip.textContent = 'Model: no WebGPU';
+        modelChip.className = 'chip error';
+        return;
+      }
+
+      // Auto-load model (downloads from HF Hub on first visit, cached after that)
+      await loadModel();
+    }
+
+    // ─── Service Worker registration ────────────────────────────────
+    if ('serviceWorker' in navigator) {
+      navigator.serviceWorker.register('sw.js').catch(() => {});
+    }
+
+    init();
+  </script>
+</body>
+</html>

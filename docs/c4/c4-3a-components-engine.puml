@@ -1,0 +1,72 @@
+@startuml C4_Level3_AgentEngine
+!include <C4/C4_Component>
+
+LAYOUT_WITH_LEGEND()
+title Component Diagram — Agent Engine (src/engine/)
+
+Container_Boundary(agent_layer, "Agent Layer (src/engine/agent/)") {
+    Component(orchestrator, "SmallLanguageModelAgentOrchestrator", "orchestrator.py (~354 lines)", "Thin router: validate -> classify ->\ndispatch to handler -> log.\nDelegates to DirectAnswerHandler,\nRAGHandler, ToolUseHandler, VisionHandler.\nStreaming via process_stream().")
+
+    Component(intent_classifier, "IntentClassifier", "intent_classifier.py", "LogReg primary (99.4%, <5ms) +\ngemma3-ft fallback (96.7%).\n5-layer adversarial defense:\n30 regex + gibberish + non-ASCII +\nLogReg confidence (≥0.60) + canned refusal.\n93.3% adversarial robustness.")
+
+    Component(query_decomposer, "QueryDecomposer", "query_decomposer.py", "Detects multi-step queries\n(11 regex patterns).\nDecomposes via gemma3 + fallback split.")
+
+    Component(tool_arg_resolver, "ToolArgumentResolver", "tool_argument_resolver.py", "Protocol-based DI for expression/SQL\nresolvers. Static helpers: normalize,\nrephrase, patch.")
+
+    Component(interaction_logger, "InteractionLogger", "interaction_logger.py", "Thread-safe JSONL logging.\nCaptures query, intent, response,\nsteps, tokens for fine-tuning export.")
+
+    Component(types, "Types & Constants", "types.py", "Intent enum (4-way), ExecutionStep,\nAgentResponse, CLASSIFY_PROMPT.\nSingle source of truth.")
+}
+
+Container_Boundary(inference_layer, "Inference Layer (src/engine/inference/)") {
+    Component(gemma_client, "SmallLanguageModelClient", "client.py", "Unified async client for all 4 models.\nPer-model circuit breakers,\nsemaphore concurrency limits,\ndual-port swap, FT auto-detection.")
+
+    Component(config, "Config", "config.py", "Centralized constants: timeouts,\ntemperatures, max_tokens, tool limits,\nvoice settings, cloud pricing.\nEnv-overridable via .env / .env.local.")
+}
+
+Container_Boundary(scaffolding_layer, "Scaffolding Layer (src/engine/scaffolding/)") {
+    Component(confidence_router, "ConfidenceRouter", "confidence_router.py", "8-factor heuristic confidence scoring.\nDecides cloud escalation in\nhybrid routing mode.\nThreshold: 0.6.")
+}
+' Earlier ExpressionBuilder / SQLBuilder deterministic pre-routers were
+' retired in commit 68d52a5 once Qwen3.5-4B FT v8 took over native
+' tool-argument generation. Production uses NullExpressionResolver /
+' NullSQLResolver in src/engine/agent/tool_argument_resolver.py.
+
+Container_Boundary(knowledge_layer, "Knowledge Layer (src/engine/knowledge/)") {
+    Component(vector_store, "VectorStore", "vector_store.py", "ChromaDB wrapper.\nExternal embeddings via embeddinggemma.\nCosine similarity.\nAsync add/search/count.")
+
+    Component(doc_processor, "DocumentProcessor", "document_processor.py", "PDF/TXT/MD parsing,\nsmart hybrid OCR (pypdf + GLM-OCR),\nsemantic chunking (chonkie + embeddinggemma),\nfixed-size fallback,\nSSE progress events,\nclean-replace on re-upload.")
+
+    Component(ocr_client, "OCRClient", "ocr_client.py", "Async GLM-OCR client.\nText + table extraction modes.\nDPI fallback (150 → 100).\nUpload-time only, port 9098.")
+}
+
+Container_Boundary(tools_layer, "Tools Layer (src/engine/tools/)") {
+    Component(tool_registry, "ToolRegistry", "tool_registry.py", "Central store. Registration order\nmatters (positional bias).\nSafe execution with logging.\nOpenAI-compatible schema generation.")
+
+    Component(calculator, "CalculatorTool", "calculator.py", "Sandboxed math eval via simpleeval.\nExpression normalization (%, ^, =).\nWhitelisted functions only.")
+
+    Component(sql_query, "SQLQueryTool", "sql_query.py", "Read-only SELECT against SQLite.\nOuter-paren stripping,\nLIMIT enforcement, row_factory.")
+
+    Component(vector_search, "VectorSearchTool", "vector_search.py", "Semantic document retrieval.\nWraps VectorStore.search().")
+}
+
+Rel(orchestrator, intent_classifier, "Classifies intent")
+Rel(orchestrator, query_decomposer, "Detects / decomposes\nmulti-step")
+Rel(orchestrator, tool_arg_resolver, "Normalizes, resolves\nexpressions / SQL")
+Rel(orchestrator, interaction_logger, "Logs every interaction")
+Rel(orchestrator, gemma_client, "All LLM calls")
+Rel(orchestrator, tool_registry, "Executes tools")
+Rel(intent_classifier, gemma_client, "LogReg primary path\n(embeddinggemma embed) +\ngemma3-ft fallback")
+Rel(query_decomposer, gemma_client, "gemma3-ft decomposition;\nconcretization via Qwen FT (FUNCTION role,\nsee 3db64e4) — gemma3-1B was unreliable\nat substituting SQL values into arithmetic")
+' tool_arg_resolver previously dispatched to ExpressionBuilder / SQLBuilder
+' for deterministic overrides; in production it uses Null*Resolver no-ops
+' (Qwen3.5-4B FT v8 generates tool arguments natively).
+Rel(tool_registry, calculator, "Delegates")
+Rel(tool_registry, sql_query, "Delegates")
+Rel(tool_registry, vector_search, "Delegates")
+Rel(vector_search, vector_store, "Semantic search")
+Rel(doc_processor, vector_store, "Indexes chunks")
+Rel(doc_processor, ocr_client, "OCR extraction\n(PDF pages, optional)")
+Rel(gemma_client, config, "Reads all parameters")
+
+@enduml

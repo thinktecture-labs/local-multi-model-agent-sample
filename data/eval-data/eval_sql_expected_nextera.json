@@ -1,0 +1,76 @@
+{
+  "How many products does Nextera offer?": {
+    "check": "first_value",
+    "column": 0,
+    "value": 4
+  },
+  "How many customers do we have?": {
+    "check": "first_value",
+    "column": 0,
+    "value": 10
+  },
+  "Show all enterprise customers": {
+    "check": "count_eq",
+    "value": 4
+  },
+  "What is the total MRR across all customers?": {
+    "check": "first_value",
+    "column": 0,
+    "value": 24794.0
+  },
+  "How many professional tier customers are there?": {
+    "check": "first_value",
+    "column": 0,
+    "value": 4
+  },
+  "What was total revenue in 2024?": {
+    "check": "first_value",
+    "column": 0,
+    "value": 311500.0
+  },
+  "How many quarters of sales data do we have for 2024?": {
+    "check": "first_value",
+    "column": 0,
+    "value": 4
+  },
+  "Which customer has the highest MRR?": {
+    "check": "first_value",
+    "column": 0,
+    "value": "BrightHealth GmbH"
+  },
+  "How many competitors are tracked?": {
+    "check": "first_value",
+    "column": 0,
+    "value": 3
+  },
+  "How many different product categories are there?": {
+    "check": "first_value",
+    "column": 0,
+    "value": 2
+  },
+  "What is the cheapest product by monthly price?": {
+    "check": "first_value",
+    "column": 0,
+    "value": "Nextera Starter"
+  },
+  "How many starter tier customers are there?": {
+    "check": "first_value",
+    "column": 0,
+    "value": 2
+  },
+  "How many total new customers were acquired in 2024?": {
+    "check": "first_value",
+    "column": 0,
+    "value": 35
+  },
+  "What was total revenue in 2023?": {
+    "check": "first_value",
+    "column": 0,
+    "value": 98700.0
+  },
+  "How many different industries are our customers from?": {
+    "check": "first_value",
+    "column": 0,
+    "value": 10
+  }
+}

@@ -1,0 +1,2508 @@
+{
+  "schema_version": 1,
+  "generated": "2026-03-20T18:44:33.959385",
+  "runs": [
+    {
+      "machine": "mbp",
+      "gpu": "Apple-M5-Max",
+      "platform": "Darwin",
+      "eval_type": "adversarial",
+      "model_tag": "full-stack",
+      "port": 0,
+      "run_ts": "20260320T080002",
+      "source_file": "mbp_adversarial_20260320T080002.json",
+      "n": 60,
+      "primary_metric_name": "overall_accuracy",
+      "primary_metric": 0.43333333333333335,
+      "metrics": {
+        "overall_accuracy": 0.43333333333333335,
+        "overall_correct": 26,
+        "overall_ci": [
+          0.31572200394400635,
+          0.5589678534530513
+        ],
+        "n": 60,
+        "per_category": {
+          "off_topic": {
+            "n": 10,
+            "correct": 3,
+            "accuracy": 0.3,
+            "ci": [
+              0.10778928748621183,
+              0.6032267800204347
+            ]
+          },
+          "injection": {
+            "n": 10,
+            "correct": 3,
+            "accuracy": 0.3,
+            "ci": [
+              0.10778928748621183,
+              0.6032267800204347
+            ]
+          },
+          "multilang": {
+            "n": 10,
+            "correct": 7,
+            "accuracy": 0.7,
+            "ci": [
+              0.39677321997956516,
+              0.892210712513788
+            ]
+          },
+          "gibberish": {
+            "n": 10,
+            "correct": 6,
+            "accuracy": 0.6,
+            "ci": [
+              0.3126695474501863,
+              0.8318224187964902
+            ]
+          },
+          "sql_injection": {
+            "n": 10,
+            "correct": 3,
+            "accuracy": 0.3,
+            "ci": [
+              0.10778928748621183,
+              0.6032267800204347
+            ]
+          },
+          "adversarial": {
+            "n": 10,
+            "correct": 4,
+            "accuracy": 0.4,
+            "ci": [
+              0.16817758120350962,
+              0.6873304525498136
+            ]
+          }
+        }
+      },
+      "latency": {
+        "p50_ms": 32.6,
+        "p95_ms": 35.2,
+        "p99_ms": 136.6,
+        "mean_ms": 33.855,
+        "min_ms": 28.2,
+        "max_ms": 136.6
+      }
+    },
+    {
+      "machine": "mbp",
+      "gpu": "Apple-M5-Max",
+      "platform": "Darwin",
+      "eval_type": "embedding",
+      "model_tag": "embeddinggemma-ft",
+      "port": 9096,
+      "run_ts": "20260320T080002",
+      "source_file": "mbp_embeddinggemma-ft_embed_20260320T080002.json",
+      "n": 25,
+      "primary_metric_name": "mrr_at_10",
+      "primary_metric": 0.98,
+      "metrics": {
+        "mrr_at_10": 0.98,
+        "recall_at_5": 1.0,
+        "n": 25
+      },
+      "latency": {
+        "p50_ms": 5.2,
+        "p95_ms": 5.9,
+        "p99_ms": 5.9,
+        "mean_ms": 5.024,
+        "min_ms": 4.0,
+        "max_ms": 5.9
+      }
+    },
+    {
+      "machine": "mbp",
+      "gpu": "Apple-M5-Max",
+      "platform": "Darwin",
+      "eval_type": "multi_step",
+      "model_tag": "qwen3.5-4b-base",
+      "port": 9091,
+      "run_ts": "20260320T080002",
+      "source_file": "mbp_qwen3.5-4b-base_multistep_20260320T080002.json",
+      "n": 80,
+      "primary_metric_name": "tools_accuracy",
+      "primary_metric": 0.2375,
+      "metrics": {
+        "decompose_accuracy": 0.8875,
+        "decompose_correct": 71,
+        "tools_accuracy": 0.2375,
+        "tools_correct": 19,
+        "n": 80,
+        "per_category": {
+          "multi_step": {
+            "n": 40,
+            "decompose_correct": 31,
+            "decompose_accuracy": 0.775,
+            "tools_correct": 0,
+            "tools_accuracy": 0.0
+          },
+          "single_sql": {
+            "n": 20,
+            "decompose_correct": 20,
+            "decompose_accuracy": 1.0,
+            "tools_correct": 1,
+            "tools_accuracy": 0.05
+          },
+          "single_calc": {
+            "n": 20,
+            "decompose_correct": 20,
+            "decompose_accuracy": 1.0,
+            "tools_correct": 18,
+            "tools_accuracy": 0.9
+          }
+        }
+      },
+      "latency": {
+        "p50_ms": 338.9,
+        "p95_ms": 1028.9,
+        "p99_ms": 1978.0,
+        "mean_ms": 499.7975,
+        "min_ms": 139.1,
+        "max_ms": 1978.0
+      }
+    },
+    {
+      "machine": "mbp",
+      "gpu": "Apple-M5-Max",
+      "platform": "Darwin",
+      "eval_type": "tool_selection",
+      "model_tag": "qwen3.5-4b-base",
+      "port": 9091,
+      "run_ts": "20260320T080002",
+      "source_file": "mbp_qwen3.5-4b-base_toolsel_20260320T080002.json",
+      "n": 160,
+      "primary_metric_name": "tool_accuracy",
+      "primary_metric": 0.51875,
+      "metrics": {
+        "tool_accuracy": 0.51875,
+        "tool_accuracy_ci": [
+          0.441800830487905,
+          0.5948199056377189
+        ],
+        "arg_key_accuracy": 0.51875,
+        "overall": 0.51875,
+        "n": 160,
+        "per_tool": {
+          "sql_query": {
+            "n": 80,
+            "tool_correct": 7,
+            "arg_key_present": 7,
+            "tool_accuracy": 0.0875,
+            "arg_key_accuracy": 0.0875,
+            "tool_accuracy_ci": [
+              0.043031454647439876,
+              0.1697698277708346
+            ],
+            "sql_evaluated": 7,
+            "sql_exec_success": 7,
+            "sql_exec_accuracy": 1.0,
+            "sql_exec_accuracy_ci": [
+              0.6456611570247934,
+              1.0
+            ],
+            "sql_returns_rows": 7,
+            "sql_returns_rows_accuracy": 1.0,
+            "sql_returns_rows_ci": [
+              0.6456611570247934,
+              1.0
+            ]
+          },
+          "calculator": {
+            "n": 80,
+            "tool_correct": 76,
+            "arg_key_present": 76,
+            "tool_accuracy": 0.95,
+            "arg_key_accuracy": 0.95,
+            "tool_accuracy_ci": [
+              0.878375474489178,
+              0.9803867628727044
+            ],
+            "expression_evaluated": 76,
+            "expression_correct": 22,
+            "expression_accuracy": 0.2894736842105263,
+            "expression_accuracy_ci": [
+              0.19960875564331393,
+              0.39959767308556926
+            ]
+          }
+        }
+      },
+      "latency": {
+        "p50_ms": 172.8,
+        "p95_ms": 282.2,
+        "p99_ms": 466.9,
+        "mean_ms": 188.018125,
+        "min_ms": 117.0,
+        "max_ms": 474.8
+      }
+    },
+    {
+      "machine": "mbp",
+      "gpu": "Apple-M5-Max",
+      "platform": "Darwin",
+      "eval_type": "tool_selection",
+      "model_tag": "qwen3.5-4b-ft",
+      "port": 0,
+      "run_ts": "20260320T170024",
+      "source_file": "mbp_qwen3.5-4b-ft_toolsel_extra.json",
+      "n": 160,
+      "primary_metric_name": "tool_accuracy",
+      "primary_metric": 0.8875,
+      "metrics": {
+        "tool_accuracy": 0.8875,
+        "tool_accuracy_ci": [
+          0.8291842977219646,
+          0.92764424887426
+        ],
+        "arg_key_accuracy": 0.8875,
+        "overall": 0.8875,
+        "n": 160,
+        "per_tool": {
+          "sql_query": {
+            "n": 80,
+            "tool_correct": 66,
+            "arg_key_present": 66,
+            "tool_accuracy": 0.825,
+            "arg_key_accuracy": 0.825,
+            "tool_accuracy_ci": [
+              0.7274225612441251,
+              0.8927946101839012
+            ],
+            "sql_evaluated": 66,
+            "sql_exec_success": 64,
+            "sql_exec_accuracy": 0.9696969696969697,
+            "sql_exec_accuracy_ci": [
+              0.8960728112941316,
+              0.9916502649240535
+            ],
+            "sql_returns_rows": 64,
+            "sql_returns_rows_accuracy": 0.9696969696969697,
+            "sql_returns_rows_ci": [
+              0.8960728112941316,
+              0.9916502649240535
+            ]
+          },
+          "calculator": {
+            "n": 80,
+            "tool_correct": 76,
+            "arg_key_present": 76,
+            "tool_accuracy": 0.95,
+            "arg_key_accuracy": 0.95,
+            "tool_accuracy_ci": [
+              0.878375474489178,
+              0.9803867628727044
+            ],
+            "expression_evaluated": 76,
+            "expression_correct": 30,
+            "expression_accuracy": 0.39473684210526316,
+            "expression_accuracy_ci": [
+              0.2924641219449393,
+              0.5071390924195023
+            ]
+          }
+        }
+      },
+      "latency": {
+        "p50_ms": 307.7,
+        "p95_ms": 442.4,
+        "p99_ms": 1175.7,
+        "mean_ms": 336.71875,
+        "min_ms": 149.9,
+        "max_ms": 1691.1
+      }
+    },
+    {
+      "machine": "mbp",
+      "gpu": "Apple-M5-Max",
+      "platform": "Darwin",
+      "eval_type": "intent",
+      "model_tag": "gemma3-ft",
+      "port": 9094,
+      "run_ts": "20260320T080002",
+      "source_file": "mbp_gemma3-ft_intent_20260320T080002.json",
+      "n": 180,
+      "primary_metric_name": "overall_accuracy",
+      "primary_metric": 0.9333333333333333,
+      "metrics": {
+        "overall_accuracy": 0.9333333333333333,
+        "overall_correct": 168,
+        "overall_ci": [
+          0.8871002756924606,
+          0.9614563078011558
+        ],
+        "n": 180,
+        "per_class": {
+          "rag_query": {
+            "n": 60,
+            "correct": 58,
+            "accuracy": 0.9666666666666667,
+            "ci": [
+              0.8863601247107462,
+              0.9908108735098498
+            ]
+          },
+          "tool_use": {
+            "n": 60,
+            "correct": 60,
+            "accuracy": 1.0,
+            "ci": [
+              0.9398260695220669,
+              0.9999999999999999
+            ]
+          },
+          "direct_answer": {
+            "n": 60,
+            "correct": 50,
+            "accuracy": 0.8333333333333334,
+            "ci": [
+              0.7196814850279217,
+              0.9068692279867897
+            ]
+          }
+        }
+      },
+      "latency": {
+        "p50_ms": 32.8,
+        "p95_ms": 34.3,
+        "p99_ms": 88.5,
+        "mean_ms": 34.327777777777776,
+        "min_ms": 28.3,
+        "max_ms": 256.7
+      }
+    },
+    {
+      "machine": "mbp",
+      "gpu": "Apple-M5-Max",
+      "platform": "Darwin",
+      "eval_type": "logreg_intent",
+      "model_tag": "logreg-v1",
+      "port": 0,
+      "run_ts": "20260320T080002",
+      "source_file": "mbp_logreg_intent_20260320T080002.json",
+      "n": 180,
+      "primary_metric_name": "overall_accuracy",
+      "primary_metric": 0.9722222222222222,
+      "metrics": {
+        "overall_accuracy": 0.9722222222222222,
+        "overall_correct": 175,
+        "overall_ci": [
+          0.936631043591737,
+          0.9880780538051525
+        ],
+        "n": 180,
+        "per_class": {
+          "rag_query": {
+            "n": 60,
+            "correct": 56,
+            "accuracy": 0.9333333333333333,
+            "ci": [
+              0.8407442010623228,
+              0.973771725856802
+            ]
+          },
+          "tool_use": {
+            "n": 60,
+            "correct": 59,
+            "accuracy": 0.9833333333333333,
+            "ci": [
+              0.9114466177322051,
+              0.9970519161391262
+            ]
+          },
+          "direct_answer": {
+            "n": 60,
+            "correct": 60,
+            "accuracy": 1.0,
+            "ci": [
+              0.9398260695220669,
+              0.9999999999999999
+            ]
+          }
+        }
+      },
+      "latency": {
+        "p50_ms": 4.8,
+        "p95_ms": 7.7,
+        "p99_ms": 86.3,
+        "mean_ms": 6.610555555555556,
+        "min_ms": 3.2,
+        "max_ms": 97.4
+      }
+    },
+    {
+      "machine": "mbp",
+      "gpu": "Apple-M5-Max",
+      "platform": "Darwin",
+      "eval_type": "multi_step",
+      "model_tag": "qwen3.5-35b-a3b-moe",
+      "port": 9100,
+      "run_ts": "20260320T080002",
+      "source_file": "mbp_qwen3.5-35b-a3b-moe_multistep_20260320T080002.json",
+      "n": 80,
+      "primary_metric_name": "tools_accuracy",
+      "primary_metric": 0.8,
+      "metrics": {
+        "decompose_accuracy": 0.9625,
+        "decompose_correct": 77,
+        "tools_accuracy": 0.8,
+        "tools_correct": 64,
+        "n": 80,
+        "per_category": {
+          "multi_step": {
+            "n": 40,
+            "decompose_correct": 37,
+            "decompose_accuracy": 0.925,
+            "tools_correct": 30,
+            "tools_accuracy": 0.75
+          },
+          "single_sql": {
+            "n": 20,
+            "decompose_correct": 20,
+            "decompose_accuracy": 1.0,
+            "tools_correct": 19,
+            "tools_accuracy": 0.95
+          },
+          "single_calc": {
+            "n": 20,
+            "decompose_correct": 20,
+            "decompose_accuracy": 1.0,
+            "tools_correct": 15,
+            "tools_accuracy": 0.75
+          }
+        }
+      },
+      "latency": {
+        "p50_ms": 1451.9,
+        "p95_ms": 2093.8,
+        "p99_ms": 2322.9,
+        "mean_ms": 1307.355,
+        "min_ms": 511.5,
+        "max_ms": 2322.9
+      }
+    },
+    {
+      "machine": "mbp",
+      "gpu": "Apple-M5-Max",
+      "platform": "Darwin",
+      "eval_type": "tool_selection",
+      "model_tag": "qwen3.5-35b-a3b-moe",
+      "port": 9100,
+      "run_ts": "20260320T080002",
+      "source_file": "mbp_qwen3.5-35b-a3b-moe_toolsel_20260320T080002.json",
+      "n": 160,
+      "primary_metric_name": "tool_accuracy",
+      "primary_metric": 0.91875,
+      "metrics": {
+        "tool_accuracy": 0.91875,
+        "tool_accuracy_ci": [
+          0.8659584624793817,
+          0.9519046443262158
+        ],
+        "arg_key_accuracy": 0.9125,
+        "overall": 0.9156143344709897,
+        "n": 160,
+        "per_tool": {
+          "sql_query": {
+            "n": 80,
+            "tool_correct": 80,
+            "arg_key_present": 80,
+            "tool_accuracy": 1.0,
+            "arg_key_accuracy": 1.0,
+            "tool_accuracy_ci": [
+              0.954180263735425,
+              1.0
+            ],
+            "sql_evaluated": 80,
+            "sql_exec_success": 80,
+            "sql_exec_accuracy": 1.0,
+            "sql_exec_accuracy_ci": [
+              0.954180263735425,
+              1.0
+            ],
+            "sql_returns_rows": 57,
+            "sql_returns_rows_accuracy": 0.7125,
+            "sql_returns_rows_ci": [
+              0.6053944721715182,
+              0.8001321399160374
+            ]
+          },
+          "calculator": {
+            "n": 80,
+            "tool_correct": 67,
+            "arg_key_present": 66,
+            "tool_accuracy": 0.8375,
+            "arg_key_accuracy": 0.825,
+            "tool_accuracy_ci": [
+              0.7415689513651669,
+              0.9025027266562451
+            ],
+            "expression_evaluated": 66,
+            "expression_correct": 65,
+            "expression_accuracy": 0.9848484848484849,
+            "expression_accuracy_ci": [
+              0.9190388760177447,
+              0.9973204284655434
+            ]
+          }
+        }
+      },
+      "latency": {
+        "p50_ms": 758.0,
+        "p95_ms": 2092.4,
+        "p99_ms": 2500.0,
+        "mean_ms": 875.868125,
+        "min_ms": 515.9,
+        "max_ms": 2501.2
+      }
+    },
+    {
+      "machine": "mbp",
+      "gpu": "Apple-M5-Max",
+      "platform": "Darwin",
+      "eval_type": "tool_selection",
+      "model_tag": "qwen3.5-4b-base",
+      "port": 0,
+      "run_ts": "20260320T170024",
+      "source_file": "mbp_qwen3.5-4b-base_toolsel_extra.json",
+      "n": 160,
+      "primary_metric_name": "tool_accuracy",
+      "primary_metric": 0.95,
+      "metrics": {
+        "tool_accuracy": 0.95,
+        "tool_accuracy_ci": [
+          0.904447957015184,
+          0.9744497099997864
+        ],
+        "arg_key_accuracy": 0.95,
+        "overall": 0.9500000000000001,
+        "n": 160,
+        "per_tool": {
+          "sql_query": {
+            "n": 80,
+            "tool_correct": 80,
+            "arg_key_present": 80,
+            "tool_accuracy": 1.0,
+            "arg_key_accuracy": 1.0,
+            "tool_accuracy_ci": [
+              0.954180263735425,
+              1.0
+            ],
+            "sql_evaluated": 80,
+            "sql_exec_success": 78,
+            "sql_exec_accuracy": 0.975,
+            "sql_exec_accuracy_ci": [
+              0.9133539994467789,
+              0.9931172511018748
+            ],
+            "sql_returns_rows": 61,
+            "sql_returns_rows_accuracy": 0.7625,
+            "sql_returns_rows_ci": [
+              0.6585901502919855,
+              0.8423544881691125
+            ]
+          },
+          "calculator": {
+            "n": 80,
+            "tool_correct": 72,
+            "arg_key_present": 72,
+            "tool_accuracy": 0.9,
+            "arg_key_accuracy": 0.9,
+            "tool_accuracy_ci": [
+              0.8148912101660255,
+              0.9484530008223144
+            ],
+            "expression_evaluated": 72,
+            "expression_correct": 68,
+            "expression_accuracy": 0.9444444444444444,
+            "expression_accuracy_ci": [
+              0.865677916427906,
+              0.9781861370730749
+            ]
+          }
+        }
+      },
+      "latency": {
+        "p50_ms": 747.0,
+        "p95_ms": 1484.7,
+        "p99_ms": 1808.7,
+        "mean_ms": 801.783125,
+        "min_ms": 534.9,
+        "max_ms": 2076.8
+      }
+    },
+    {
+      "machine": "mbp",
+      "gpu": "Apple-M5-Max",
+      "platform": "Darwin",
+      "eval_type": "multi_step",
+      "model_tag": "qwen3.5-4b-ft-v8",
+      "port": 9095,
+      "run_ts": "20260320T080002",
+      "source_file": "mbp_qwen3.5-4b-ft-v8_multistep_20260320T080002.json",
+      "n": 80,
+      "primary_metric_name": "tools_accuracy",
+      "primary_metric": 0.9875,
+      "metrics": {
+        "decompose_accuracy": 1.0,
+        "decompose_correct": 80,
+        "tools_accuracy": 0.9875,
+        "tools_correct": 79,
+        "n": 80,
+        "per_category": {
+          "multi_step": {
+            "n": 40,
+            "decompose_correct": 40,
+            "decompose_accuracy": 1.0,
+            "tools_correct": 40,
+            "tools_accuracy": 1.0
+          },
+          "single_sql": {
+            "n": 20,
+            "decompose_correct": 20,
+            "decompose_accuracy": 1.0,
+            "tools_correct": 19,
+            "tools_accuracy": 0.95
+          },
+          "single_calc": {
+            "n": 20,
+            "decompose_correct": 20,
+            "decompose_accuracy": 1.0,
+            "tools_correct": 20,
+            "tools_accuracy": 1.0
+          }
+        }
+      },
+      "latency": {
+        "p50_ms": 1910.7,
+        "p95_ms": 2533.2,
+        "p99_ms": 2800.3,
+        "mean_ms": 1636.66,
+        "min_ms": 529.4,
+        "max_ms": 2800.3
+      }
+    },
+    {
+      "machine": "mbp",
+      "gpu": "Apple-M5-Max",
+      "platform": "Darwin",
+      "eval_type": "tool_selection",
+      "model_tag": "qwen3.5-4b-ft-v8",
+      "port": 9095,
+      "run_ts": "20260320T080002",
+      "source_file": "mbp_qwen3.5-4b-ft-v8_toolsel_20260320T080002.json",
+      "n": 160,
+      "primary_metric_name": "tool_accuracy",
+      "primary_metric": 0.99375,
+      "metrics": {
+        "tool_accuracy": 0.99375,
+        "tool_accuracy_ci": [
+          0.9654501546624841,
+          0.9988958966456083
+        ],
+        "arg_key_accuracy": 0.99375,
+        "overall": 0.99375,
+        "n": 160,
+        "per_tool": {
+          "sql_query": {
+            "n": 80,
+            "tool_correct": 79,
+            "arg_key_present": 79,
+            "tool_accuracy": 0.9875,
+            "arg_key_accuracy": 0.9875,
+            "tool_accuracy_ci": [
+              0.9325356757603457,
+              0.9977900813816939
+            ],
+            "sql_evaluated": 79,
+            "sql_exec_success": 79,
+            "sql_exec_accuracy": 1.0,
+            "sql_exec_accuracy_ci": [
+              0.9536271631644004,
+              1.0
+            ],
+            "sql_returns_rows": 70,
+            "sql_returns_rows_accuracy": 0.8860759493670886,
+            "sql_returns_rows_ci": [
+              0.7974501267503696,
+              0.9388948979715092
+            ]
+          },
+          "calculator": {
+            "n": 80,
+            "tool_correct": 80,
+            "arg_key_present": 80,
+            "tool_accuracy": 1.0,
+            "arg_key_accuracy": 1.0,
+            "tool_accuracy_ci": [
+              0.954180263735425,
+              1.0
+            ],
+            "expression_evaluated": 80,
+            "expression_correct": 76,
+            "expression_accuracy": 0.95,
+            "expression_accuracy_ci": [
+              0.878375474489178,
+              0.9803867628727044
+            ]
+          }
+        }
+      },
+      "latency": {
+        "p50_ms": 997.4,
+        "p95_ms": 1338.4,
+        "p99_ms": 1468.9,
+        "mean_ms": 1039.65,
+        "min_ms": 830.0,
+        "max_ms": 1770.0
+      }
+    },
+    {
+      "machine": "mbp",
+      "gpu": "Apple-M5-Max",
+      "platform": "Darwin",
+      "eval_type": "vision",
+      "model_tag": "gemma3-4b-vision",
+      "port": 9093,
+      "run_ts": "20260320T080002",
+      "source_file": "mbp_vision_20260320T080002.json",
+      "n": 10,
+      "primary_metric_name": "overall_accuracy",
+      "primary_metric": 1.0,
+      "metrics": {
+        "overall_accuracy": 1.0,
+        "overall_correct": 10,
+        "n": 10,
+        "per_image": {
+          "architecture_diagram.png": {
+            "n": 3,
+            "correct": 3,
+            "accuracy": 1.0
+          },
+          "pricing_table.png": {
+            "n": 3,
+            "correct": 3,
+            "accuracy": 1.0
+          },
+          "revenue_chart.png": {
+            "n": 4,
+            "correct": 4,
+            "accuracy": 1.0
+          }
+        }
+      },
+      "latency": {
+        "p50_ms": 958.0,
+        "p95_ms": 1476.5,
+        "p99_ms": 1476.5,
+        "mean_ms": 866.82,
+        "min_ms": 237.2,
+        "max_ms": 1476.5
+      }
+    },
+    {
+      "machine": "dgx-spark",
+      "gpu": "NVIDIA-GB10",
+      "platform": "Linux",
+      "eval_type": "adversarial",
+      "model_tag": "full-stack",
+      "port": 0,
+      "run_ts": "20260320T093248",
+      "source_file": "dgx-spark_adversarial_20260320T093248.json",
+      "n": 60,
+      "primary_metric_name": "overall_accuracy",
+      "primary_metric": 0.43333333333333335,
+      "metrics": {
+        "overall_accuracy": 0.43333333333333335,
+        "overall_correct": 26,
+        "overall_ci": [
+          0.31572200394400635,
+          0.5589678534530513
+        ],
+        "n": 60,
+        "per_category": {
+          "off_topic": {
+            "n": 10,
+            "correct": 3,
+            "accuracy": 0.3,
+            "ci": [
+              0.10778928748621183,
+              0.6032267800204347
+            ]
+          },
+          "injection": {
+            "n": 10,
+            "correct": 3,
+            "accuracy": 0.3,
+            "ci": [
+              0.10778928748621183,
+              0.6032267800204347
+            ]
+          },
+          "multilang": {
+            "n": 10,
+            "correct": 7,
+            "accuracy": 0.7,
+            "ci": [
+              0.39677321997956516,
+              0.892210712513788
+            ]
+          },
+          "gibberish": {
+            "n": 10,
+            "correct": 6,
+            "accuracy": 0.6,
+            "ci": [
+              0.3126695474501863,
+              0.8318224187964902
+            ]
+          },
+          "sql_injection": {
+            "n": 10,
+            "correct": 3,
+            "accuracy": 0.3,
+            "ci": [
+              0.10778928748621183,
+              0.6032267800204347
+            ]
+          },
+          "adversarial": {
+            "n": 10,
+            "correct": 4,
+            "accuracy": 0.4,
+            "ci": [
+              0.16817758120350962,
+              0.6873304525498136
+            ]
+          }
+        }
+      },
+      "latency": {
+        "p50_ms": 70.8,
+        "p95_ms": 74.0,
+        "p99_ms": 132.3,
+        "mean_ms": 72.06,
+        "min_ms": 69.8,
+        "max_ms": 132.3
+      }
+    },
+    {
+      "machine": "dgx-spark",
+      "gpu": "NVIDIA-GB10",
+      "platform": "Linux",
+      "eval_type": "embedding",
+      "model_tag": "embeddinggemma-ft",
+      "port": 9096,
+      "run_ts": "20260320T093248",
+      "source_file": "dgx-spark_embeddinggemma-ft_embed_20260320T093248.json",
+      "n": 25,
+      "primary_metric_name": "mrr_at_10",
+      "primary_metric": 0.98,
+      "metrics": {
+        "mrr_at_10": 0.98,
+        "recall_at_5": 1.0,
+        "n": 25
+      },
+      "latency": {
+        "p50_ms": 7.1,
+        "p95_ms": 8.6,
+        "p99_ms": 8.9,
+        "mean_ms": 7.007999999999999,
+        "min_ms": 5.6,
+        "max_ms": 8.9
+      }
+    },
+    {
+      "machine": "dgx-spark",
+      "gpu": "NVIDIA-GB10",
+      "platform": "Linux",
+      "eval_type": "multi_step",
+      "model_tag": "qwen3.5-4b-base",
+      "port": 9091,
+      "run_ts": "20260320T093248",
+      "source_file": "dgx-spark_qwen3.5-4b-base_multistep_20260320T093248.json",
+      "n": 80,
+      "primary_metric_name": "tools_accuracy",
+      "primary_metric": 0.2375,
+      "metrics": {
+        "decompose_accuracy": 0.9125,
+        "decompose_correct": 73,
+        "tools_accuracy": 0.2375,
+        "tools_correct": 19,
+        "n": 80,
+        "per_category": {
+          "multi_step": {
+            "n": 40,
+            "decompose_correct": 33,
+            "decompose_accuracy": 0.825,
+            "tools_correct": 0,
+            "tools_accuracy": 0.0
+          },
+          "single_sql": {
+            "n": 20,
+            "decompose_correct": 20,
+            "decompose_accuracy": 1.0,
+            "tools_correct": 1,
+            "tools_accuracy": 0.05
+          },
+          "single_calc": {
+            "n": 20,
+            "decompose_correct": 20,
+            "decompose_accuracy": 1.0,
+            "tools_correct": 18,
+            "tools_accuracy": 0.9
+          }
+        }
+      },
+      "latency": {
+        "p50_ms": 658.9,
+        "p95_ms": 2090.0,
+        "p99_ms": 3045.9,
+        "mean_ms": 972.24125,
+        "min_ms": 194.6,
+        "max_ms": 3045.9
+      }
+    },
+    {
+      "machine": "dgx-spark",
+      "gpu": "NVIDIA-GB10",
+      "platform": "Linux",
+      "eval_type": "tool_selection",
+      "model_tag": "qwen3.5-4b-base",
+      "port": 9091,
+      "run_ts": "20260320T093248",
+      "source_file": "dgx-spark_qwen3.5-4b-base_toolsel_20260320T093248.json",
+      "n": 160,
+      "primary_metric_name": "tool_accuracy",
+      "primary_metric": 0.525,
+      "metrics": {
+        "tool_accuracy": 0.525,
+        "tool_accuracy_ci": [
+          0.4479452137471758,
+          0.6008824344203225
+        ],
+        "arg_key_accuracy": 0.525,
+        "overall": 0.525,
+        "n": 160,
+        "per_tool": {
+          "sql_query": {
+            "n": 80,
+            "tool_correct": 8,
+            "arg_key_present": 8,
+            "tool_accuracy": 0.1,
+            "arg_key_accuracy": 0.1,
+            "tool_accuracy_ci": [
+              0.05154699917768554,
+              0.18510878983397458
+            ],
+            "sql_evaluated": 8,
+            "sql_exec_success": 8,
+            "sql_exec_accuracy": 1.0,
+            "sql_exec_accuracy_ci": [
+              0.6755843804891231,
+              1.0
+            ],
+            "sql_returns_rows": 8,
+            "sql_returns_rows_accuracy": 1.0,
+            "sql_returns_rows_ci": [
+              0.6755843804891231,
+              1.0
+            ]
+          },
+          "calculator": {
+            "n": 80,
+            "tool_correct": 76,
+            "arg_key_present": 76,
+            "tool_accuracy": 0.95,
+            "arg_key_accuracy": 0.95,
+            "tool_accuracy_ci": [
+              0.878375474489178,
+              0.9803867628727044
+            ],
+            "expression_evaluated": 76,
+            "expression_correct": 22,
+            "expression_accuracy": 0.2894736842105263,
+            "expression_accuracy_ci": [
+              0.19960875564331393,
+              0.39959767308556926
+            ]
+          }
+        }
+      },
+      "latency": {
+        "p50_ms": 268.3,
+        "p95_ms": 635.9,
+        "p99_ms": 725.3,
+        "mean_ms": 287.384375,
+        "min_ms": 172.6,
+        "max_ms": 811.9
+      }
+    },
+    {
+      "machine": "dgx-spark",
+      "gpu": "NVIDIA-GB10",
+      "platform": "Linux",
+      "eval_type": "intent",
+      "model_tag": "gemma3-ft",
+      "port": 9094,
+      "run_ts": "20260320T093248",
+      "source_file": "dgx-spark_gemma3-ft_intent_20260320T093248.json",
+      "n": 180,
+      "primary_metric_name": "overall_accuracy",
+      "primary_metric": 0.9333333333333333,
+      "metrics": {
+        "overall_accuracy": 0.9333333333333333,
+        "overall_correct": 168,
+        "overall_ci": [
+          0.8871002756924606,
+          0.9614563078011558
+        ],
+        "n": 180,
+        "per_class": {
+          "rag_query": {
+            "n": 60,
+            "correct": 58,
+            "accuracy": 0.9666666666666667,
+            "ci": [
+              0.8863601247107462,
+              0.9908108735098498
+            ]
+          },
+          "tool_use": {
+            "n": 60,
+            "correct": 60,
+            "accuracy": 1.0,
+            "ci": [
+              0.9398260695220669,
+              0.9999999999999999
+            ]
+          },
+          "direct_answer": {
+            "n": 60,
+            "correct": 50,
+            "accuracy": 0.8333333333333334,
+            "ci": [
+              0.7196814850279217,
+              0.9068692279867897
+            ]
+          }
+        }
+      },
+      "latency": {
+        "p50_ms": 71.1,
+        "p95_ms": 76.9,
+        "p99_ms": 96.6,
+        "mean_ms": 73.21055555555556,
+        "min_ms": 69.8,
+        "max_ms": 265.4
+      }
+    },
+    {
+      "machine": "dgx-spark",
+      "gpu": "NVIDIA-GB10",
+      "platform": "Linux",
+      "eval_type": "logreg_intent",
+      "model_tag": "logreg-v1",
+      "port": 0,
+      "run_ts": "20260320T093248",
+      "source_file": "dgx-spark_logreg_intent_20260320T093248.json",
+      "n": 180,
+      "primary_metric_name": "overall_accuracy",
+      "primary_metric": 0.9722222222222222,
+      "metrics": {
+        "overall_accuracy": 0.9722222222222222,
+        "overall_correct": 175,
+        "overall_ci": [
+          0.936631043591737,
+          0.9880780538051525
+        ],
+        "n": 180,
+        "per_class": {
+          "rag_query": {
+            "n": 60,
+            "correct": 56,
+            "accuracy": 0.9333333333333333,
+            "ci": [
+              0.8407442010623228,
+              0.973771725856802
+            ]
+          },
+          "tool_use": {
+            "n": 60,
+            "correct": 59,
+            "accuracy": 0.9833333333333333,
+            "ci": [
+              0.9114466177322051,
+              0.9970519161391262
+            ]
+          },
+          "direct_answer": {
+            "n": 60,
+            "correct": 60,
+            "accuracy": 1.0,
+            "ci": [
+              0.9398260695220669,
+              0.9999999999999999
+            ]
+          }
+        }
+      },
+      "latency": {
+        "p50_ms": 6.9,
+        "p95_ms": 11.2,
+        "p99_ms": 52.9,
+        "mean_ms": 8.693888888888889,
+        "min_ms": 4.1,
+        "max_ms": 223.8
+      }
+    },
+    {
+      "machine": "dgx-spark",
+      "gpu": "NVIDIA-GB10",
+      "platform": "Linux",
+      "eval_type": "multi_step",
+      "model_tag": "qwen3.5-35b-a3b-moe",
+      "port": 9100,
+      "run_ts": "20260320T093248",
+      "source_file": "dgx-spark_qwen3.5-35b-a3b-moe_multistep_20260320T093248.json",
+      "n": 80,
+      "primary_metric_name": "tools_accuracy",
+      "primary_metric": 0.8,
+      "metrics": {
+        "decompose_accuracy": 0.95,
+        "decompose_correct": 76,
+        "tools_accuracy": 0.8,
+        "tools_correct": 64,
+        "n": 80,
+        "per_category": {
+          "multi_step": {
+            "n": 40,
+            "decompose_correct": 36,
+            "decompose_accuracy": 0.9,
+            "tools_correct": 30,
+            "tools_accuracy": 0.75
+          },
+          "single_sql": {
+            "n": 20,
+            "decompose_correct": 20,
+            "decompose_accuracy": 1.0,
+            "tools_correct": 19,
+            "tools_accuracy": 0.95
+          },
+          "single_calc": {
+            "n": 20,
+            "decompose_correct": 20,
+            "decompose_accuracy": 1.0,
+            "tools_correct": 15,
+            "tools_accuracy": 0.75
+          }
+        }
+      },
+      "latency": {
+        "p50_ms": 2780.7,
+        "p95_ms": 3907.2,
+        "p99_ms": 4406.2,
+        "mean_ms": 2454.8587500000003,
+        "min_ms": 1024.5,
+        "max_ms": 4406.2
+      }
+    },
+    {
+      "machine": "dgx-spark",
+      "gpu": "NVIDIA-GB10",
+      "platform": "Linux",
+      "eval_type": "tool_selection",
+      "model_tag": "qwen3.5-35b-a3b-moe",
+      "port": 9100,
+      "run_ts": "20260320T093248",
+      "source_file": "dgx-spark_qwen3.5-35b-a3b-moe_toolsel_20260320T093248.json",
+      "n": 160,
+      "primary_metric_name": "tool_accuracy",
+      "primary_metric": 0.925,
+      "metrics": {
+        "tool_accuracy": 0.925,
+        "tool_accuracy_ci": [
+          0.8734905849508775,
+          0.9565794338965946
+        ],
+        "arg_key_accuracy": 0.925,
+        "overall": 0.925,
+        "n": 160,
+        "per_tool": {
+          "sql_query": {
+            "n": 80,
+            "tool_correct": 80,
+            "arg_key_present": 80,
+            "tool_accuracy": 1.0,
+            "arg_key_accuracy": 1.0,
+            "tool_accuracy_ci": [
+              0.954180263735425,
+              1.0
+            ],
+            "sql_evaluated": 80,
+            "sql_exec_success": 80,
+            "sql_exec_accuracy": 1.0,
+            "sql_exec_accuracy_ci": [
+              0.954180263735425,
+              1.0
+            ],
+            "sql_returns_rows": 58,
+            "sql_returns_rows_accuracy": 0.725,
+            "sql_returns_rows_ci": [
+              0.618557347158301,
+              0.8108237715226401
+            ]
+          },
+          "calculator": {
+            "n": 80,
+            "tool_correct": 68,
+            "arg_key_present": 68,
+            "tool_accuracy": 0.85,
+            "arg_key_accuracy": 0.85,
+            "tool_accuracy_ci": [
+              0.7558657249889396,
+              0.9120604596258579
+            ],
+            "expression_evaluated": 68,
+            "expression_correct": 67,
+            "expression_accuracy": 0.9852941176470589,
+            "expression_accuracy_ci": [
+              0.9212883963845384,
+              0.9973993833976493
+            ]
+          }
+        }
+      },
+      "latency": {
+        "p50_ms": 1305.4,
+        "p95_ms": 3658.7,
+        "p99_ms": 4561.1,
+        "mean_ms": 1520.88125,
+        "min_ms": 1070.5,
+        "max_ms": 4564.3
+      }
+    },
+    {
+      "machine": "dgx-spark",
+      "gpu": "NVIDIA-GB10",
+      "platform": "Linux",
+      "eval_type": "multi_step",
+      "model_tag": "qwen3.5-4b-ft-v8",
+      "port": 9095,
+      "run_ts": "20260320T093248",
+      "source_file": "dgx-spark_qwen3.5-4b-ft-v8_multistep_20260320T093248.json",
+      "n": 80,
+      "primary_metric_name": "tools_accuracy",
+      "primary_metric": 0.9875,
+      "metrics": {
+        "decompose_accuracy": 1.0,
+        "decompose_correct": 80,
+        "tools_accuracy": 0.9875,
+        "tools_correct": 79,
+        "n": 80,
+        "per_category": {
+          "multi_step": {
+            "n": 40,
+            "decompose_correct": 40,
+            "decompose_accuracy": 1.0,
+            "tools_correct": 40,
+            "tools_accuracy": 1.0
+          },
+          "single_sql": {
+            "n": 20,
+            "decompose_correct": 20,
+            "decompose_accuracy": 1.0,
+            "tools_correct": 19,
+            "tools_accuracy": 0.95
+          },
+          "single_calc": {
+            "n": 20,
+            "decompose_correct": 20,
+            "decompose_accuracy": 1.0,
+            "tools_correct": 20,
+            "tools_accuracy": 1.0
+          }
+        }
+      },
+      "latency": {
+        "p50_ms": 4708.2,
+        "p95_ms": 6597.0,
+        "p99_ms": 6927.8,
+        "mean_ms": 4184.2975,
+        "min_ms": 1063.6,
+        "max_ms": 6927.8
+      }
+    },
+    {
+      "machine": "dgx-spark",
+      "gpu": "NVIDIA-GB10",
+      "platform": "Linux",
+      "eval_type": "tool_selection",
+      "model_tag": "qwen3.5-4b-ft-v8",
+      "port": 9095,
+      "run_ts": "20260320T093248",
+      "source_file": "dgx-spark_qwen3.5-4b-ft-v8_toolsel_20260320T093248.json",
+      "n": 160,
+      "primary_metric_name": "tool_accuracy",
+      "primary_metric": 0.99375,
+      "metrics": {
+        "tool_accuracy": 0.99375,
+        "tool_accuracy_ci": [
+          0.9654501546624841,
+          0.9988958966456083
+        ],
+        "arg_key_accuracy": 0.99375,
+        "overall": 0.99375,
+        "n": 160,
+        "per_tool": {
+          "sql_query": {
+            "n": 80,
+            "tool_correct": 79,
+            "arg_key_present": 79,
+            "tool_accuracy": 0.9875,
+            "arg_key_accuracy": 0.9875,
+            "tool_accuracy_ci": [
+              0.9325356757603457,
+              0.9977900813816939
+            ],
+            "sql_evaluated": 79,
+            "sql_exec_success": 79,
+            "sql_exec_accuracy": 1.0,
+            "sql_exec_accuracy_ci": [
+              0.9536271631644004,
+              1.0
+            ],
+            "sql_returns_rows": 70,
+            "sql_returns_rows_accuracy": 0.8860759493670886,
+            "sql_returns_rows_ci": [
+              0.7974501267503696,
+              0.9388948979715092
+            ]
+          },
+          "calculator": {
+            "n": 80,
+            "tool_correct": 80,
+            "arg_key_present": 80,
+            "tool_accuracy": 1.0,
+            "arg_key_accuracy": 1.0,
+            "tool_accuracy_ci": [
+              0.954180263735425,
+              1.0
+            ],
+            "expression_evaluated": 80,
+            "expression_correct": 76,
+            "expression_accuracy": 0.95,
+            "expression_accuracy_ci": [
+              0.878375474489178,
+              0.9803867628727044
+            ]
+          }
+        }
+      },
+      "latency": {
+        "p50_ms": 2462.1,
+        "p95_ms": 3381.5,
+        "p99_ms": 3918.6,
+        "mean_ms": 2584.353125,
+        "min_ms": 1976.0,
+        "max_ms": 4778.9
+      }
+    },
+    {
+      "machine": "dgx-spark",
+      "gpu": "NVIDIA-GB10",
+      "platform": "Linux",
+      "eval_type": "vision",
+      "model_tag": "gemma3-4b-vision",
+      "port": 9093,
+      "run_ts": "20260320T093248",
+      "source_file": "dgx-spark_vision_20260320T093248.json",
+      "n": 10,
+      "primary_metric_name": "overall_accuracy",
+      "primary_metric": 1.0,
+      "metrics": {
+        "overall_accuracy": 1.0,
+        "overall_correct": 10,
+        "n": 10,
+        "per_image": {
+          "architecture_diagram.png": {
+            "n": 3,
+            "correct": 3,
+            "accuracy": 1.0
+          },
+          "pricing_table.png": {
+            "n": 3,
+            "correct": 3,
+            "accuracy": 1.0
+          },
+          "revenue_chart.png": {
+            "n": 4,
+            "correct": 4,
+            "accuracy": 1.0
+          }
+        }
+      },
+      "latency": {
+        "p50_ms": 1672.0,
+        "p95_ms": 3494.9,
+        "p99_ms": 3494.9,
+        "mean_ms": 1820.02,
+        "min_ms": 516.1,
+        "max_ms": 3494.9
+      }
+    },
+    {
+      "machine": "gpu-rtx-pro-6000",
+      "gpu": "NVIDIA-RTX-PRO-6000-Blackwell-Max-Q-Workstation-Edition",
+      "platform": "Linux",
+      "eval_type": "adversarial",
+      "model_tag": "full-stack",
+      "port": 0,
+      "run_ts": "20260320T082544",
+      "source_file": "gpu-rtx-pro-6000_adversarial_20260320T082544.json",
+      "n": 60,
+      "primary_metric_name": "overall_accuracy",
+      "primary_metric": 0.43333333333333335,
+      "metrics": {
+        "overall_accuracy": 0.43333333333333335,
+        "overall_correct": 26,
+        "overall_ci": [
+          0.31572200394400635,
+          0.5589678534530513
+        ],
+        "n": 60,
+        "per_category": {
+          "off_topic": {
+            "n": 10,
+            "correct": 3,
+            "accuracy": 0.3,
+            "ci": [
+              0.10778928748621183,
+              0.6032267800204347
+            ]
+          },
+          "injection": {
+            "n": 10,
+            "correct": 3,
+            "accuracy": 0.3,
+            "ci": [
+              0.10778928748621183,
+              0.6032267800204347
+            ]
+          },
+          "multilang": {
+            "n": 10,
+            "correct": 7,
+            "accuracy": 0.7,
+            "ci": [
+              0.39677321997956516,
+              0.892210712513788
+            ]
+          },
+          "gibberish": {
+            "n": 10,
+            "correct": 6,
+            "accuracy": 0.6,
+            "ci": [
+              0.3126695474501863,
+              0.8318224187964902
+            ]
+          },
+          "sql_injection": {
+            "n": 10,
+            "correct": 3,
+            "accuracy": 0.3,
+            "ci": [
+              0.10778928748621183,
+              0.6032267800204347
+            ]
+          },
+          "adversarial": {
+            "n": 10,
+            "correct": 4,
+            "accuracy": 0.4,
+            "ci": [
+              0.16817758120350962,
+              0.6873304525498136
+            ]
+          }
+        }
+      },
+      "latency": {
+        "p50_ms": 15.9,
+        "p95_ms": 17.4,
+        "p99_ms": 83.3,
+        "mean_ms": 17.14,
+        "min_ms": 14.8,
+        "max_ms": 83.3
+      }
+    },
+    {
+      "machine": "gpu-rtx-pro-6000",
+      "gpu": "NVIDIA-RTX-PRO-6000-Blackwell-Max-Q-Workstation-Edition",
+      "platform": "Linux",
+      "eval_type": "embedding",
+      "model_tag": "embeddinggemma-ft",
+      "port": 9096,
+      "run_ts": "20260320T082544",
+      "source_file": "gpu-rtx-pro-6000_embeddinggemma-ft_embed_20260320T082544.json",
+      "n": 25,
+      "primary_metric_name": "mrr_at_10",
+      "primary_metric": 0.98,
+      "metrics": {
+        "mrr_at_10": 0.98,
+        "recall_at_5": 1.0,
+        "n": 25
+      },
+      "latency": {
+        "p50_ms": 5.7,
+        "p95_ms": 6.2,
+        "p99_ms": 6.4,
+        "mean_ms": 5.396,
+        "min_ms": 3.5,
+        "max_ms": 6.4
+      }
+    },
+    {
+      "machine": "gpu-rtx-pro-6000",
+      "gpu": "NVIDIA-RTX-PRO-6000-Blackwell-Max-Q-Workstation-Edition",
+      "platform": "Linux",
+      "eval_type": "multi_step",
+      "model_tag": "qwen3.5-4b-base",
+      "port": 9091,
+      "run_ts": "20260320T082544",
+      "source_file": "gpu-rtx-pro-6000_qwen3.5-4b-base_multistep_20260320T082544.json",
+      "n": 80,
+      "primary_metric_name": "tools_accuracy",
+      "primary_metric": 0.225,
+      "metrics": {
+        "decompose_accuracy": 0.8875,
+        "decompose_correct": 71,
+        "tools_accuracy": 0.225,
+        "tools_correct": 18,
+        "n": 80,
+        "per_category": {
+          "multi_step": {
+            "n": 40,
+            "decompose_correct": 31,
+            "decompose_accuracy": 0.775,
+            "tools_correct": 0,
+            "tools_accuracy": 0.0
+          },
+          "single_sql": {
+            "n": 20,
+            "decompose_correct": 20,
+            "decompose_accuracy": 1.0,
+            "tools_correct": 1,
+            "tools_accuracy": 0.05
+          },
+          "single_calc": {
+            "n": 20,
+            "decompose_correct": 20,
+            "decompose_accuracy": 1.0,
+            "tools_correct": 17,
+            "tools_accuracy": 0.85
+          }
+        }
+      },
+      "latency": {
+        "p50_ms": 295.7,
+        "p95_ms": 821.9,
+        "p99_ms": 903.2,
+        "mean_ms": 426.5875,
+        "min_ms": 146.2,
+        "max_ms": 903.2
+      }
+    },
+    {
+      "machine": "gpu-rtx-pro-6000",
+      "gpu": "NVIDIA-RTX-PRO-6000-Blackwell-Max-Q-Workstation-Edition",
+      "platform": "Linux",
+      "eval_type": "tool_selection",
+      "model_tag": "qwen3.5-4b-base",
+      "port": 9091,
+      "run_ts": "20260320T082544",
+      "source_file": "gpu-rtx-pro-6000_qwen3.5-4b-base_toolsel_20260320T082544.json",
+      "n": 160,
+      "primary_metric_name": "tool_accuracy",
+      "primary_metric": 0.5125,
+      "metrics": {
+        "tool_accuracy": 0.5125,
+        "tool_accuracy_ci": [
+          0.43566815412418414,
+          0.5887456699595649
+        ],
+        "arg_key_accuracy": 0.5125,
+        "overall": 0.5125,
+        "n": 160,
+        "per_tool": {
+          "sql_query": {
+            "n": 80,
+            "tool_correct": 6,
+            "arg_key_present": 6,
+            "tool_accuracy": 0.075,
+            "arg_key_accuracy": 0.075,
+            "tool_accuracy_ci": [
+              0.03482477485108788,
+              0.15412200097380097
+            ],
+            "sql_evaluated": 6,
+            "sql_exec_success": 6,
+            "sql_exec_accuracy": 1.0,
+            "sql_exec_accuracy_ci": [
+              0.6096569663469354,
+              0.9999999999999999
+            ],
+            "sql_returns_rows": 6,
+            "sql_returns_rows_accuracy": 1.0,
+            "sql_returns_rows_ci": [
+              0.6096569663469354,
+              0.9999999999999999
+            ]
+          },
+          "calculator": {
+            "n": 80,
+            "tool_correct": 76,
+            "arg_key_present": 76,
+            "tool_accuracy": 0.95,
+            "arg_key_accuracy": 0.95,
+            "tool_accuracy_ci": [
+              0.878375474489178,
+              0.9803867628727044
+            ],
+            "expression_evaluated": 76,
+            "expression_correct": 21,
+            "expression_accuracy": 0.27631578947368424,
+            "expression_accuracy_ci": [
+              0.18840105352742306,
+              0.38575577699701535
+            ]
+          }
+        }
+      },
+      "latency": {
+        "p50_ms": 173.2,
+        "p95_ms": 274.8,
+        "p99_ms": 372.6,
+        "mean_ms": 181.695,
+        "min_ms": 124.3,
+        "max_ms": 384.3
+      }
+    },
+    {
+      "machine": "gpu-rtx-pro-6000",
+      "gpu": "NVIDIA-RTX-PRO-6000-Blackwell-Max-Q-Workstation-Edition",
+      "platform": "Linux",
+      "eval_type": "intent",
+      "model_tag": "gemma3-ft",
+      "port": 9094,
+      "run_ts": "20260320T082544",
+      "source_file": "gpu-rtx-pro-6000_gemma3-ft_intent_20260320T082544.json",
+      "n": 180,
+      "primary_metric_name": "overall_accuracy",
+      "primary_metric": 0.9333333333333333,
+      "metrics": {
+        "overall_accuracy": 0.9333333333333333,
+        "overall_correct": 168,
+        "overall_ci": [
+          0.8871002756924606,
+          0.9614563078011558
+        ],
+        "n": 180,
+        "per_class": {
+          "rag_query": {
+            "n": 60,
+            "correct": 58,
+            "accuracy": 0.9666666666666667,
+            "ci": [
+              0.8863601247107462,
+              0.9908108735098498
+            ]
+          },
+          "tool_use": {
+            "n": 60,
+            "correct": 60,
+            "accuracy": 1.0,
+            "ci": [
+              0.9398260695220669,
+              0.9999999999999999
+            ]
+          },
+          "direct_answer": {
+            "n": 60,
+            "correct": 50,
+            "accuracy": 0.8333333333333334,
+            "ci": [
+              0.7196814850279217,
+              0.9068692279867897
+            ]
+          }
+        }
+      },
+      "latency": {
+        "p50_ms": 16.1,
+        "p95_ms": 17.8,
+        "p99_ms": 19.1,
+        "mean_ms": 16.911666666666665,
+        "min_ms": 15.0,
+        "max_ms": 123.5
+      }
+    },
+    {
+      "machine": "gpu-rtx-pro-6000",
+      "gpu": "NVIDIA-RTX-PRO-6000-Blackwell-Max-Q-Workstation-Edition",
+      "platform": "Linux",
+      "eval_type": "logreg_intent",
+      "model_tag": "logreg-v1",
+      "port": 0,
+      "run_ts": "20260320T082544",
+      "source_file": "gpu-rtx-pro-6000_logreg_intent_20260320T082544.json",
+      "n": 180,
+      "primary_metric_name": "overall_accuracy",
+      "primary_metric": 0.9722222222222222,
+      "metrics": {
+        "overall_accuracy": 0.9722222222222222,
+        "overall_correct": 175,
+        "overall_ci": [
+          0.936631043591737,
+          0.9880780538051525
+        ],
+        "n": 180,
+        "per_class": {
+          "rag_query": {
+            "n": 60,
+            "correct": 56,
+            "accuracy": 0.9333333333333333,
+            "ci": [
+              0.8407442010623228,
+              0.973771725856802
+            ]
+          },
+          "tool_use": {
+            "n": 60,
+            "correct": 59,
+            "accuracy": 0.9833333333333333,
+            "ci": [
+              0.9114466177322051,
+              0.9970519161391262
+            ]
+          },
+          "direct_answer": {
+            "n": 60,
+            "correct": 60,
+            "accuracy": 1.0,
+            "ci": [
+              0.9398260695220669,
+              0.9999999999999999
+            ]
+          }
+        }
+      },
+      "latency": {
+        "p50_ms": 5.5,
+        "p95_ms": 6.4,
+        "p99_ms": 11.1,
+        "mean_ms": 6.146111111111111,
+        "min_ms": 3.2,
+        "max_ms": 108.4
+      }
+    },
+    {
+      "machine": "gpu-rtx-pro-6000",
+      "gpu": "NVIDIA-RTX-PRO-6000-Blackwell-Max-Q-Workstation-Edition",
+      "platform": "Linux",
+      "eval_type": "multi_step",
+      "model_tag": "qwen3.5-35b-a3b-moe",
+      "port": 9100,
+      "run_ts": "20260320T082544",
+      "source_file": "gpu-rtx-pro-6000_qwen3.5-35b-a3b-moe_multistep_20260320T082544.json",
+      "n": 80,
+      "primary_metric_name": "tools_accuracy",
+      "primary_metric": 0.775,
+      "metrics": {
+        "decompose_accuracy": 0.95,
+        "decompose_correct": 76,
+        "tools_accuracy": 0.775,
+        "tools_correct": 62,
+        "n": 80,
+        "per_category": {
+          "multi_step": {
+            "n": 40,
+            "decompose_correct": 36,
+            "decompose_accuracy": 0.9,
+            "tools_correct": 30,
+            "tools_accuracy": 0.75
+          },
+          "single_sql": {
+            "n": 20,
+            "decompose_correct": 20,
+            "decompose_accuracy": 1.0,
+            "tools_correct": 19,
+            "tools_accuracy": 0.95
+          },
+          "single_calc": {
+            "n": 20,
+            "decompose_correct": 20,
+            "decompose_accuracy": 1.0,
+            "tools_correct": 13,
+            "tools_accuracy": 0.65
+          }
+        }
+      },
+      "latency": {
+        "p50_ms": 854.9,
+        "p95_ms": 1242.4,
+        "p99_ms": 1379.4,
+        "mean_ms": 757.85,
+        "min_ms": 212.4,
+        "max_ms": 1379.4
+      }
+    },
+    {
+      "machine": "gpu-rtx-pro-6000",
+      "gpu": "NVIDIA-RTX-PRO-6000-Blackwell-Max-Q-Workstation-Edition",
+      "platform": "Linux",
+      "eval_type": "tool_selection",
+      "model_tag": "qwen3.5-35b-a3b-moe",
+      "port": 9100,
+      "run_ts": "20260320T082544",
+      "source_file": "gpu-rtx-pro-6000_qwen3.5-35b-a3b-moe_toolsel_20260320T082544.json",
+      "n": 160,
+      "primary_metric_name": "tool_accuracy",
+      "primary_metric": 0.9125,
+      "metrics": {
+        "tool_accuracy": 0.9125,
+        "tool_accuracy_ci": [
+          0.8584925018317755,
+          0.9471636929319474
+        ],
+        "arg_key_accuracy": 0.9125,
+        "overall": 0.9125,
+        "n": 160,
+        "per_tool": {
+          "sql_query": {
+            "n": 80,
+            "tool_correct": 80,
+            "arg_key_present": 80,
+            "tool_accuracy": 1.0,
+            "arg_key_accuracy": 1.0,
+            "tool_accuracy_ci": [
+              0.954180263735425,
+              1.0
+            ],
+            "sql_evaluated": 80,
+            "sql_exec_success": 80,
+            "sql_exec_accuracy": 1.0,
+            "sql_exec_accuracy_ci": [
+              0.954180263735425,
+              1.0
+            ],
+            "sql_returns_rows": 58,
+            "sql_returns_rows_accuracy": 0.725,
+            "sql_returns_rows_ci": [
+              0.618557347158301,
+              0.8108237715226401
+            ]
+          },
+          "calculator": {
+            "n": 80,
+            "tool_correct": 66,
+            "arg_key_present": 66,
+            "tool_accuracy": 0.825,
+            "arg_key_accuracy": 0.825,
+            "tool_accuracy_ci": [
+              0.7274225612441251,
+              0.8927946101839012
+            ],
+            "expression_evaluated": 66,
+            "expression_correct": 63,
+            "expression_accuracy": 0.9545454545454546,
+            "expression_accuracy_ci": [
+              0.8746648398478928,
+              0.9844220081051896
+            ]
+          }
+        }
+      },
+      "latency": {
+        "p50_ms": 396.5,
+        "p95_ms": 1197.3,
+        "p99_ms": 1355.7,
+        "mean_ms": 490.20500000000004,
+        "min_ms": 225.2,
+        "max_ms": 1358.0
+      }
+    },
+    {
+      "machine": "gpu-rtx-pro-6000",
+      "gpu": "NVIDIA-RTX-PRO-6000-Blackwell-Max-Q-Workstation-Edition",
+      "platform": "Linux",
+      "eval_type": "multi_step",
+      "model_tag": "qwen3.5-4b-ft-v8",
+      "port": 9095,
+      "run_ts": "20260320T082544",
+      "source_file": "gpu-rtx-pro-6000_qwen3.5-4b-ft-v8_multistep_20260320T082544.json",
+      "n": 80,
+      "primary_metric_name": "tools_accuracy",
+      "primary_metric": 0.9875,
+      "metrics": {
+        "decompose_accuracy": 1.0,
+        "decompose_correct": 80,
+        "tools_accuracy": 0.9875,
+        "tools_correct": 79,
+        "n": 80,
+        "per_category": {
+          "multi_step": {
+            "n": 40,
+            "decompose_correct": 40,
+            "decompose_accuracy": 1.0,
+            "tools_correct": 40,
+            "tools_accuracy": 1.0
+          },
+          "single_sql": {
+            "n": 20,
+            "decompose_correct": 20,
+            "decompose_accuracy": 1.0,
+            "tools_correct": 19,
+            "tools_accuracy": 0.95
+          },
+          "single_calc": {
+            "n": 20,
+            "decompose_correct": 20,
+            "decompose_accuracy": 1.0,
+            "tools_correct": 20,
+            "tools_accuracy": 1.0
+          }
+        }
+      },
+      "latency": {
+        "p50_ms": 888.4,
+        "p95_ms": 1227.0,
+        "p99_ms": 1379.9,
+        "mean_ms": 759.6637499999999,
+        "min_ms": 279.4,
+        "max_ms": 1379.9
+      }
+    },
+    {
+      "machine": "gpu-rtx-pro-6000",
+      "gpu": "NVIDIA-RTX-PRO-6000-Blackwell-Max-Q-Workstation-Edition",
+      "platform": "Linux",
+      "eval_type": "tool_selection",
+      "model_tag": "qwen3.5-4b-ft-v8",
+      "port": 9095,
+      "run_ts": "20260320T082544",
+      "source_file": "gpu-rtx-pro-6000_qwen3.5-4b-ft-v8_toolsel_20260320T082544.json",
+      "n": 160,
+      "primary_metric_name": "tool_accuracy",
+      "primary_metric": 0.99375,
+      "metrics": {
+        "tool_accuracy": 0.99375,
+        "tool_accuracy_ci": [
+          0.9654501546624841,
+          0.9988958966456083
+        ],
+        "arg_key_accuracy": 0.99375,
+        "overall": 0.99375,
+        "n": 160,
+        "per_tool": {
+          "sql_query": {
+            "n": 80,
+            "tool_correct": 79,
+            "arg_key_present": 79,
+            "tool_accuracy": 0.9875,
+            "arg_key_accuracy": 0.9875,
+            "tool_accuracy_ci": [
+              0.9325356757603457,
+              0.9977900813816939
+            ],
+            "sql_evaluated": 79,
+            "sql_exec_success": 79,
+            "sql_exec_accuracy": 1.0,
+            "sql_exec_accuracy_ci": [
+              0.9536271631644004,
+              1.0
+            ],
+            "sql_returns_rows": 70,
+            "sql_returns_rows_accuracy": 0.8860759493670886,
+            "sql_returns_rows_ci": [
+              0.7974501267503696,
+              0.9388948979715092
+            ]
+          },
+          "calculator": {
+            "n": 80,
+            "tool_correct": 80,
+            "arg_key_present": 80,
+            "tool_accuracy": 1.0,
+            "arg_key_accuracy": 1.0,
+            "tool_accuracy_ci": [
+              0.954180263735425,
+              1.0
+            ],
+            "expression_evaluated": 80,
+            "expression_correct": 75,
+            "expression_accuracy": 0.9375,
+            "expression_accuracy_ci": [
+              0.8618967084664824,
+              0.9730110223020145
+            ]
+          }
+        }
+      },
+      "latency": {
+        "p50_ms": 389.1,
+        "p95_ms": 525.6,
+        "p99_ms": 604.0,
+        "mean_ms": 404.6675,
+        "min_ms": 317.5,
+        "max_ms": 732.4
+      }
+    },
+    {
+      "machine": "gpu-rtx-pro-6000",
+      "gpu": "NVIDIA-RTX-PRO-6000-Blackwell-Max-Q-Workstation-Edition",
+      "platform": "Linux",
+      "eval_type": "vision",
+      "model_tag": "gemma3-4b-vision",
+      "port": 9093,
+      "run_ts": "20260320T082544",
+      "source_file": "gpu-rtx-pro-6000_vision_20260320T082544.json",
+      "n": 10,
+      "primary_metric_name": "overall_accuracy",
+      "primary_metric": 1.0,
+      "metrics": {
+        "overall_accuracy": 1.0,
+        "overall_correct": 10,
+        "n": 10,
+        "per_image": {
+          "architecture_diagram.png": {
+            "n": 3,
+            "correct": 3,
+            "accuracy": 1.0
+          },
+          "pricing_table.png": {
+            "n": 3,
+            "correct": 3,
+            "accuracy": 1.0
+          },
+          "revenue_chart.png": {
+            "n": 4,
+            "correct": 4,
+            "accuracy": 1.0
+          }
+        }
+      },
+      "latency": {
+        "p50_ms": 437.2,
+        "p95_ms": 772.8,
+        "p99_ms": 772.8,
+        "mean_ms": 416.73999999999995,
+        "min_ms": 124.0,
+        "max_ms": 772.8
+      }
+    },
+    {
+      "machine": "strix-halo",
+      "gpu": "Radeon-8060S-Graphics-(RADV-GFX1151)",
+      "platform": "Linux",
+      "eval_type": "adversarial",
+      "model_tag": "full-stack",
+      "port": 0,
+      "run_ts": "20260320T183051",
+      "source_file": "strix-halo_adversarial_20260320T183051.json",
+      "n": 60,
+      "primary_metric_name": "overall_accuracy",
+      "primary_metric": 0.43333333333333335,
+      "metrics": {
+        "overall_accuracy": 0.43333333333333335,
+        "overall_correct": 26,
+        "overall_ci": [
+          0.31572200394400635,
+          0.5589678534530513
+        ],
+        "n": 60,
+        "per_category": {
+          "off_topic": {
+            "n": 10,
+            "correct": 3,
+            "accuracy": 0.3,
+            "ci": [
+              0.10778928748621183,
+              0.6032267800204347
+            ]
+          },
+          "injection": {
+            "n": 10,
+            "correct": 3,
+            "accuracy": 0.3,
+            "ci": [
+              0.10778928748621183,
+              0.6032267800204347
+            ]
+          },
+          "multilang": {
+            "n": 10,
+            "correct": 7,
+            "accuracy": 0.7,
+            "ci": [
+              0.39677321997956516,
+              0.892210712513788
+            ]
+          },
+          "gibberish": {
+            "n": 10,
+            "correct": 6,
+            "accuracy": 0.6,
+            "ci": [
+              0.3126695474501863,
+              0.8318224187964902
+            ]
+          },
+          "sql_injection": {
+            "n": 10,
+            "correct": 3,
+            "accuracy": 0.3,
+            "ci": [
+              0.10778928748621183,
+              0.6032267800204347
+            ]
+          },
+          "adversarial": {
+            "n": 10,
+            "correct": 4,
+            "accuracy": 0.4,
+            "ci": [
+              0.16817758120350962,
+              0.6873304525498136
+            ]
+          }
+        }
+      },
+      "latency": {
+        "p50_ms": 58.0,
+        "p95_ms": 61.3,
+        "p99_ms": 145.9,
+        "mean_ms": 59.20666666666667,
+        "min_ms": 53.5,
+        "max_ms": 145.9
+      }
+    },
+    {
+      "machine": "strix-halo",
+      "gpu": "Radeon-8060S-Graphics-(RADV-GFX1151)",
+      "platform": "Linux",
+      "eval_type": "embedding",
+      "model_tag": "embeddinggemma-base",
+      "port": 9092,
+      "run_ts": "20260320T183051",
+      "source_file": "strix-halo_embeddinggemma-base_embed_20260320T183051.json",
+      "n": 25,
+      "primary_metric_name": "mrr_at_10",
+      "primary_metric": 0.98,
+      "metrics": {
+        "mrr_at_10": 0.98,
+        "recall_at_5": 1.0,
+        "n": 25
+      },
+      "latency": {
+        "p50_ms": 6.0,
+        "p95_ms": 14.0,
+        "p99_ms": 14.0,
+        "mean_ms": 7.352,
+        "min_ms": 4.0,
+        "max_ms": 14.0
+      }
+    },
+    {
+      "machine": "strix-halo",
+      "gpu": "Radeon-8060S-Graphics-(RADV-GFX1151)",
+      "platform": "Linux",
+      "eval_type": "multi_step",
+      "model_tag": "qwen3.5-4b-base",
+      "port": 9091,
+      "run_ts": "20260320T183051",
+      "source_file": "strix-halo_qwen3.5-4b-base_multistep_20260320T183051.json",
+      "n": 80,
+      "primary_metric_name": "tools_accuracy",
+      "primary_metric": 0.8875,
+      "metrics": {
+        "decompose_accuracy": 0.9,
+        "decompose_correct": 72,
+        "tools_accuracy": 0.8875,
+        "tools_correct": 71,
+        "n": 80,
+        "per_category": {
+          "multi_step": {
+            "n": 40,
+            "decompose_correct": 32,
+            "decompose_accuracy": 0.8,
+            "tools_correct": 32,
+            "tools_accuracy": 0.8
+          },
+          "single_sql": {
+            "n": 20,
+            "decompose_correct": 20,
+            "decompose_accuracy": 1.0,
+            "tools_correct": 19,
+            "tools_accuracy": 0.95
+          },
+          "single_calc": {
+            "n": 20,
+            "decompose_correct": 20,
+            "decompose_accuracy": 1.0,
+            "tools_correct": 20,
+            "tools_accuracy": 1.0
+          }
+        }
+      },
+      "latency": {
+        "p50_ms": 4310.8,
+        "p95_ms": 7072.9,
+        "p99_ms": 7875.2,
+        "mean_ms": 4172.0737500000005,
+        "min_ms": 1682.1,
+        "max_ms": 7875.2
+      }
+    },
+    {
+      "machine": "strix-halo",
+      "gpu": "Radeon-8060S-Graphics-(RADV-GFX1151)",
+      "platform": "Linux",
+      "eval_type": "tool_selection",
+      "model_tag": "qwen3.5-4b-base",
+      "port": 9091,
+      "run_ts": "20260320T183051",
+      "source_file": "strix-halo_qwen3.5-4b-base_toolsel_20260320T183051.json",
+      "n": 160,
+      "primary_metric_name": "tool_accuracy",
+      "primary_metric": 0.99375,
+      "metrics": {
+        "tool_accuracy": 0.99375,
+        "tool_accuracy_ci": [
+          0.9654501546624841,
+          0.9988958966456083
+        ],
+        "arg_key_accuracy": 0.99375,
+        "overall": 0.99375,
+        "n": 160,
+        "per_tool": {
+          "sql_query": {
+            "n": 80,
+            "tool_correct": 79,
+            "arg_key_present": 79,
+            "tool_accuracy": 0.9875,
+            "arg_key_accuracy": 0.9875,
+            "tool_accuracy_ci": [
+              0.9325356757603457,
+              0.9977900813816939
+            ],
+            "sql_evaluated": 79,
+            "sql_exec_success": 79,
+            "sql_exec_accuracy": 1.0,
+            "sql_exec_accuracy_ci": [
+              0.9536271631644004,
+              1.0
+            ],
+            "sql_returns_rows": 70,
+            "sql_returns_rows_accuracy": 0.8860759493670886,
+            "sql_returns_rows_ci": [
+              0.7974501267503696,
+              0.9388948979715092
+            ]
+          },
+          "calculator": {
+            "n": 80,
+            "tool_correct": 80,
+            "arg_key_present": 80,
+            "tool_accuracy": 1.0,
+            "arg_key_accuracy": 1.0,
+            "tool_accuracy_ci": [
+              0.954180263735425,
+              1.0
+            ],
+            "expression_evaluated": 80,
+            "expression_correct": 77,
+            "expression_accuracy": 0.9625,
+            "expression_accuracy_ci": [
+              0.8954510802560568,
+              0.9871656636992113
+            ]
+          }
+        }
+      },
+      "latency": {
+        "p50_ms": 2244.7,
+        "p95_ms": 3045.5,
+        "p99_ms": 3449.2,
+        "mean_ms": 2348.131875,
+        "min_ms": 1822.9,
+        "max_ms": 4279.3
+      }
+    },
+    {
+      "machine": "strix-halo",
+      "gpu": "Radeon-8060S-Graphics-(RADV-GFX1151)",
+      "platform": "Linux",
+      "eval_type": "intent",
+      "model_tag": "gemma3-base",
+      "port": 9090,
+      "run_ts": "20260320T183051",
+      "source_file": "strix-halo_gemma3-base_intent_20260320T183051.json",
+      "n": 180,
+      "primary_metric_name": "overall_accuracy",
+      "primary_metric": 0.9277777777777778,
+      "metrics": {
+        "overall_accuracy": 0.9277777777777778,
+        "overall_correct": 167,
+        "overall_ci": [
+          0.8803669851119694,
+          0.9573106678240365
+        ],
+        "n": 180,
+        "per_class": {
+          "rag_query": {
+            "n": 60,
+            "correct": 58,
+            "accuracy": 0.9666666666666667,
+            "ci": [
+              0.8863601247107462,
+              0.9908108735098498
+            ]
+          },
+          "tool_use": {
+            "n": 60,
+            "correct": 60,
+            "accuracy": 1.0,
+            "ci": [
+              0.9398260695220669,
+              0.9999999999999999
+            ]
+          },
+          "direct_answer": {
+            "n": 60,
+            "correct": 49,
+            "accuracy": 0.8166666666666667,
+            "ci": [
+              0.7008000677353371,
+              0.8944231096286387
+            ]
+          }
+        }
+      },
+      "latency": {
+        "p50_ms": 58.5,
+        "p95_ms": 62.1,
+        "p99_ms": 94.6,
+        "mean_ms": 59.915000000000006,
+        "min_ms": 53.8,
+        "max_ms": 146.3
+      }
+    },
+    {
+      "machine": "strix-halo",
+      "gpu": "Radeon-8060S-Graphics-(RADV-GFX1151)",
+      "platform": "Linux",
+      "eval_type": "logreg_intent",
+      "model_tag": "logreg-v1",
+      "port": 0,
+      "run_ts": "20260320T183051",
+      "source_file": "strix-halo_logreg_intent_20260320T183051.json",
+      "n": 180,
+      "primary_metric_name": "overall_accuracy",
+      "primary_metric": 0.9722222222222222,
+      "metrics": {
+        "overall_accuracy": 0.9722222222222222,
+        "overall_correct": 175,
+        "overall_ci": [
+          0.936631043591737,
+          0.9880780538051525
+        ],
+        "n": 180,
+        "per_class": {
+          "rag_query": {
+            "n": 60,
+            "correct": 56,
+            "accuracy": 0.9333333333333333,
+            "ci": [
+              0.8407442010623228,
+              0.973771725856802
+            ]
+          },
+          "tool_use": {
+            "n": 60,
+            "correct": 59,
+            "accuracy": 0.9833333333333333,
+            "ci": [
+              0.9114466177322051,
+              0.9970519161391262
+            ]
+          },
+          "direct_answer": {
+            "n": 60,
+            "correct": 60,
+            "accuracy": 1.0,
+            "ci": [
+              0.9398260695220669,
+              0.9999999999999999
+            ]
+          }
+        }
+      },
+      "latency": {
+        "p50_ms": 4.7,
+        "p95_ms": 8.0,
+        "p99_ms": 33.7,
+        "mean_ms": 6.126111111111111,
+        "min_ms": 3.4,
+        "max_ms": 111.6
+      }
+    },
+    {
+      "machine": "strix-halo",
+      "gpu": "Radeon-8060S-Graphics-(RADV-GFX1151)",
+      "platform": "Linux",
+      "eval_type": "vision",
+      "model_tag": "gemma3-4b-vision",
+      "port": 9093,
+      "run_ts": "20260320T183051",
+      "source_file": "strix-halo_vision_20260320T183051.json",
+      "n": 10,
+      "primary_metric_name": "overall_accuracy",
+      "primary_metric": 1.0,
+      "metrics": {
+        "overall_accuracy": 1.0,
+        "overall_correct": 10,
+        "n": 10,
+        "per_image": {
+          "architecture_diagram.png": {
+            "n": 3,
+            "correct": 3,
+            "accuracy": 1.0
+          },
+          "pricing_table.png": {
+            "n": 3,
+            "correct": 3,
+            "accuracy": 1.0
+          },
+          "revenue_chart.png": {
+            "n": 4,
+            "correct": 4,
+            "accuracy": 1.0
+          }
+        }
+      },
+      "latency": {
+        "p50_ms": 1503.1,
+        "p95_ms": 2856.8,
+        "p99_ms": 2856.8,
+        "mean_ms": 1637.81,
+        "min_ms": 469.8,
+        "max_ms": 2856.8
+      }
+    }
+  ]
+}

@@ -1,0 +1,57 @@
+{
+  "name": "nextera",
+  "label": "Nextera Gemma",
+  "brand": "Nextera",
+  "language": "en",
+  "logo_svg": "",
+  "favicon_svg": "",
+
+  "paths": {
+    "db": "./data/business.db",
+    "docs_dir_name": "business-documents",
+    "training_data_dir": "data/training-data",
+    "training_data_suffix": "",
+    "demo_images_dir": "data/demo-images",
+    "demo_documents_dir": "data/demo-documents",
+    "logreg_model_dir": "models/intent-logreg",
+    "data_loader_module": "data.loader",
+    "chroma_dir": "./chroma_db"
+  },
+
+  "models": {
+    "inference_gguf_ft": "models/gemma3-1b-ft-merged/gemma3-1b-ft-nextera-f16.gguf",
+    "function_gguf_ft": "models/qwen3.5-4b-toolcalling-ft-merged/qwen3.5-4b-toolcalling-ft-nextera-q4_k_m.gguf",
+    "embedding_gguf_ft": "models/embeddinggemma-300m-ft-merged/embeddinggemma-300m-ft-nextera-q8_0.gguf",
+    "synthesis_4b_gguf_ft": "models/gemma3-4b-ft-merged/gemma3-4b-ft-nextera-q4_k_m.gguf"
+  },
+
+  "prompts": {
+    "direct_answer_system": "You are a helpful, concise AI assistant.",
+    "rag_synthesis_system": "You are a concise, factual assistant for Nextera platform questions. Answer using ONLY the provided sources. Include ALL relevant details from the sources — do not omit items. Use natural prose with bullet points where lists are appropriate. Only use sources whose title is relevant to the question. Never invent information not in the sources.",
+    "extraction_system": "You are a financial data extraction model. Given document text and a source filename, extract the following fields into a JSON object. Use null for any field not found in the text. Do not guess — only extract values explicitly stated.\n\nFields to extract:\n- company: Company name (string). If not in the text, infer from the filename.\n- fiscal_year: Fiscal year as integer (e.g. 2025)\n- revenue: Total revenue as a number. Preserve the exact value from the text — do NOT scale or convert units. EUR311,500 means 311500, not 311500000. $3,626,396 thousands means 3626396000.\n- revenue_growth_pct: Year-over-year revenue growth percentage (e.g. 29.0)\n- nrr: Net revenue retention rate percentage (e.g. 126)\n- customers_1m_plus: Customers with >$1M trailing 12-month revenue (integer)\n- total_customers: Total number of customers (integer)\n- product_revenue: Product-specific revenue as a number (same rules as revenue)\n- gross_margin_pct: Gross margin percentage (e.g. 66.0)\n- free_cash_flow: Free cash flow as a number (negative if cash burn)\n\nOutput ONLY a single JSON object. No markdown, no explanation, no code fences.",
+    "adversarial_refusal": "I can only help with questions about Nextera Analytics — products, pricing, customers, and sales data. Please rephrase your question or ask something else.",
+    "tool_format_prompt": "Turn this tool result into a clear, helpful answer for the user.\n\nUser's question: {query}\nTool used: {tool_name}\nRaw result:\n{result_str}\n\nWrite a concise, human-readable answer:",
+    "multi_step_synthesis_prompt": "Write a 1-2 sentence answer to the user's question using ONLY the numbers from the tool results below.\n\nUser's question: {query}\n\nTool results:\n{results_str}\n\nSTRICT RULES:\n1. Every number in your answer MUST appear in the tool results above. If a number is not there, do NOT use it.\n2. Quote numbers exactly as they appear (commas for thousands are fine — '311500' may be written '311,500'). Do NOT round (no 'approximately', 'about', 'roughly').\n3. The calculator already did the math. Quote its result; do not redo any arithmetic in your head.\n4. PRESERVE THE UNIT of every number from its source. Never invent units that aren't in the source data:\n   - Columns ending in '_pct', '_percent', or '_rate' are percentages. Write 'X%' or 'X percent'. NEVER write 'EUR X' or '€X' for these.\n   - 'COUNT(*)' is a count of rows, not currency.\n   - Columns ending in '_monthly' or 'mrr' are monthly currency; '_annual' or 'arr' are annual currency.\n   - A calculator result inherits its unit from the EXPRESSION. Read the expression to determine the unit.\n5. AGGREGATES vs INDIVIDUALS — do not confuse them:\n   - If the calculator expression is 'N * price' (or similar), the result is the total for N items, NOT what one item costs. Say 'total for N customers' or '5 customers combined', never 'one customer would pay …'.\n   - If the expression contains '* 12', the result is annual. If not, it isn't.\n   - If the expression contains '* N years' (or '* 3', '* 5'), the result spans those years.\n6. If you cannot determine the unit from the column name or expression, write 'the result is X' and let the user infer — never invent a unit.\n\nAnswer:",
+    "rag_rewrite_prompt": "Rewrite this query as a short, dense keyword phrase for semantic document search. Output ONLY the rewritten phrase. No explanation, no quotes, no punctuation at the end.\n\nOriginal: {query}\nRewritten:",
+    "decomposer_fewshot": "Query: Show our top customer by MRR, and calculate what 3 years of their spend would be.\n{\"steps\": [\"Find the top customer and their MRR\", \"Calculate 3 years of that MRR\"]}\n\nQuery: What was Q3 2024 ARR growth, and projected ARR if that rate continues for 4 more quarters?\n{\"steps\": [\"Find Q3 2024 ARR growth percentage\", \"Project ARR forward 4 quarters at that growth rate\"]}\n\nQuery: How many customers joined before 2024, and what would their combined MRR be if each paid 999 per month?\n{\"steps\": [\"Count customers joining before 2024\", \"Calculate combined MRR at 999 per customer\"]}\n\nQuery: What was revenue in Q3 2023 versus Q3 2024, and what is the percentage change?\n{\"steps\": [\"Find Q3 2023 and Q3 2024 revenue\", \"Calculate the percentage change between them\"]}\n\n",
+    "concretize_examples": "  Known: revenue = 103200. Step: Calculate 15% growth → Calculate 103200 * 1.15\n  Known: mrr = 7000. Step: 3 years of their spend → Calculate 7000 * 12 * 3\n  Known: mrr = 5000. Step: 5 years of total revenue → Calculate 5000 * 12 * 5\n  Known: price_monthly = 3500. Step: Annual cost → Calculate 3500 * 12\n  Known: price_monthly = 299. Step: Cost for 100 customers annually → Calculate 100 * 299 * 12\n  Known: count = 10. Step: Total at 999 each → Calculate 10 * 999"
+  },
+
+  "suggestions": [
+    { "label": "Help",                       "query": "What can you help me with?",                                                                                                  "group": "demo2" },
+    { "label": "Customer count",             "query": "How many customers do we have?",                                                                                              "group": "demo2" },
+    { "label": "ARR calc (2-step)",          "query": "How many customers do we have, and what would total ARR be if each paid 999 per month?",                                     "group": "demo2" },
+    { "label": "Pricing (RAG)",              "query": "What's the pricing for the Enterprise plan?",                                                                                 "group": "demo2" },
+    { "label": "Customer count (FT)",        "query": "How many customers do we have?",                                                                                              "group": "demo3" },
+    { "label": "Q3 revenue",                 "query": "What was Q3 2024 revenue?",                                                                                                   "group": "demo3" },
+    { "label": "Deal calc",                  "query": "Calculate 23 deals × $52,400",                                                                                                "group": "demo3" },
+    { "label": "Pricing (vs cloud)",         "query": "What's the pricing for the Enterprise plan?",                                                                                 "group": "demo4" },
+    { "label": "SLA + cloud escalation",     "query": "What is Nextera's uptime SLA on the Enterprise plan, and how does it compare to OpenAI's API availability guarantees?",      "group": "demo4" }
+  ],
+
+  "sql": {
+    "allowed_tables": ["products", "customers", "sales", "competitors"],
+    "tool_description": "Query the database for numbers, counts, totals, averages, and lists from the sales, customers, and products tables. Use when the user asks for specific data records, revenue figures, customer lists, or aggregations.",
+    "parameter_description": "A valid SQL SELECT query. No INSERT/UPDATE/DELETE. Tables: sales(year, quarter, revenue, new_customers, churn_rate, arr_growth_pct), customers(name, tier, mrr, joined_date, industry), products(name, category, price_monthly, price_annual), competitors(company, fiscal_year, revenue, revenue_growth_pct, nrr, customers_1m_plus, total_customers, product_revenue, gross_margin_pct, free_cash_flow, source_document). Note: product names are prefixed with 'Nextera ' (e.g., 'Nextera Enterprise', 'Nextera Professional', 'Nextera Starter'). For partial-name lookups always use LIKE '%...%' rather than '=' to tolerate naming variants. Examples: \"SELECT name, mrr FROM customers ORDER BY mrr DESC LIMIT 5\" · \"SELECT price_monthly, price_annual FROM products WHERE name LIKE '%Enterprise%'\""
+  }
+}

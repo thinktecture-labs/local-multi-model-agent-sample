@@ -1,0 +1,12 @@
+{
+  "name": "webgpu-demo",
+  "private": true,
+  "license": "MIT",
+  "description": "Browser-based document triage with LFM 2.5 1.2B via WebGPU + Transformers.js",
+  "scripts": {
+    "serve": "python3 -m http.server 8080"
+  },
+  "dependencies": {
+    "@huggingface/transformers": "^4.0.0-next.5"
+  }
+}

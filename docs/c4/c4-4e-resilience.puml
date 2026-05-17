@@ -1,0 +1,71 @@
+@startuml C4_Level4_Resilience
+title Cross-Cutting Concerns — Resilience, Security & Observability
+
+top to bottom direction
+
+skinparam PackageBackgroundColor White
+skinparam NoteBackgroundColor #FFFFCC
+skinparam ArrowColor #333333
+skinparam defaultTextAlignment left
+skinparam packageStyle rectangle
+
+' ──────────────────────────────────────
+' RESILIENCE
+' ──────────────────────────────────────
+
+package "Resilience Patterns" as resilience #E8F4FD {
+
+    card "**Circuit Breaker**\n\nPer-model, 4 instances\n...\nStates: closed -> open -> half_open\nThreshold: 3 consecutive failures\nRecovery: 30s timeout\nOnly connection errors trip breaker\nReset on model swap" as CB
+
+    card "**Concurrency Limiter**\n\nPer-model semaphore\n...\nasyncio.Semaphore(4) per model\nPrevents saturating llama-server\nConfigurable: MODEL_CONCURRENCY_LIMIT" as CL
+
+    card "**Pipeline Timeout**\n\nPIPELINE_TIMEOUT = 60s (total)\nMulti-step: reserves 5s for synthesis\nasyncio.wait_for() at API layer" as PT
+
+    card "**Graceful Degradation**\n\nOptional components degrade independently:\n...\nVision model (4B)\nWhisper STT\nPiper TTS\nCloud LLM" as GD
+
+    card "**Deterministic Inference**\n\ntemperature=0, seed=42\ntop_k=1, top_p=1\n...\n--parallel 1 (llama-server)\nSame query -> same result, always" as DI
+}
+
+' ──────────────────────────────────────
+' SECURITY
+' ──────────────────────────────────────
+
+package "Security Boundaries" as security #FFF0F0 {
+
+    card "**SQL Injection Prevention**\n\nRead-only SELECT enforcement at executor\n(src/engine/tools/sql_query.py)\nRegex pre-filter blocks INSERT/UPDATE/DELETE/\nDROP/CREATE/ALTER before reaching SQLite\nLIMIT cap: SQL_MAX_ROWS (200)" as SQL
+
+    card "**Code Execution Sandbox**\n\nsimpleeval: no builtins, no imports\n...\nWhitelisted functions only:\nabs, round, min, max, pow, sqrt,\nceil, floor, log, log10" as SANDBOX
+
+    card "**Multi-Layer Adversarial Defense**\n\n5-layer stack in IntentClassifier:\n1. 30 regex injection patterns\n2. Gibberish detector\n3. Non-ASCII filter\n4. LogReg confidence threshold (0.60)\n5. Canned refusal for direct_answer\n...\nPipeline robustness: 93.3% (was 46.7%)\nPre-LLM: zero inference wasted" as INJECT
+
+    card "**Cloud Data Leakage Prevention**\n\nnetwork_mode toggle\n(kills /compare + /escalate)\n...\nExplicit HITL consent required\ncloud_bytes_sent tracked\n/privacy endpoint: proof of zero transfer" as LEAK
+
+    card "**Input Validation**\n\n2000-char query length limit\nEmpty query guard\n...\nFile upload: 10 MB, .pdf/.txt/.md only\nPydantic validation on all endpoints" as INPUT
+
+    card "**Remote Access**\n\nngrok OAuth policy at edge\nGoogle OAuth: whitelist-only\n...\nUnauthenticated requests\nnever reach the machine" as REMOTE
+}
+
+' ──────────────────────────────────────
+' OBSERVABILITY
+' ──────────────────────────────────────
+
+package "Observability" as observability #F0FFF0 {
+
+    card "**Request Tracing**\n\n12-char hex request_id\nper AgentResponse\nuuid4().hex[:12]" as TRACE
+
+    card "**Execution Trace**\n\nExecutionStep list per response:\n...\naction, model, duration_ms\ntokens_used, prompt_tokens\ncompletion_tokens, details" as EXEC
+
+    card "**Token Accounting**\n\nPrompt + completion tokens per step\nAggregated in AgentResponse\n...\nUsed for cloud cost estimation\nGPT-5.4: $2.50/1M in, $15/1M out" as TOKENS
+
+    card "**GPU Monitoring**\n\nGET /gpu\nVRAM, utilization, temp, power\n...\nCUDA (nvidia-smi)\nMetal (mactop)\nCPU fallback\n...\nWS /ws/stats: 3s push interval" as GPU
+
+    card "**Energy Tracking**\n\nTrapezoidal integration of GPU power\n...\nCO2: 230 g/kWh local\n     390 g/kWh cloud\nCloud energy multiplier: 15x\nElectricity cost: EUR 0.34/kWh" as ENERGY
+
+    card "**Privacy Proof**\n\nGET /privacy endpoint:\n...\ntotal_queries\ntotal_tokens\nexternal_bytes_sent\nnetwork_mode\nrouting_mode\nuptime" as PRIVACY
+}
+
+' Force vertical stacking
+resilience -[hidden]down-> security
+security -[hidden]down-> observability
+
+@enduml

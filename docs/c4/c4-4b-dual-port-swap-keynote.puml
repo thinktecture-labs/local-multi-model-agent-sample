@@ -1,0 +1,95 @@
+@startuml C4_Level4_DualPortSwap_Keynote
+title Dual-Port Zero-Downtime Model Swap
+
+' TT brand palette
+!$TT_RED       = "#ff584f"
+!$TT_BLUE      = "#3d6fb4"
+!$TT_BLACK     = "#22242d"
+!$TT_GRAY      = "#868686"
+!$TT_LIGHT     = "#d1d1d1"
+!$TT_BLUE_BG   = "#e6eef7"
+!$TT_RED_BG    = "#ffe0dd"
+!$TT_CREAM     = "#f4f5f8"
+!$TT_WHITE     = "#ffffff"
+
+skinparam BackgroundColor transparent
+skinparam DefaultFontColor $TT_BLACK
+skinparam ArrowColor $TT_BLACK
+skinparam ArrowFontColor $TT_BLACK
+skinparam PackageBorderColor $TT_BLACK
+skinparam PackageFontColor $TT_BLACK
+skinparam ComponentBorderColor $TT_BLACK
+skinparam NoteBackgroundColor $TT_CREAM
+skinparam NoteBorderColor $TT_GRAY
+skinparam NoteFontColor $TT_BLACK
+
+hide stereotype
+
+' Stereotype-based styling so colored boxes get white text
+skinparam Component<<base>> {
+  BackgroundColor $TT_BLUE
+  FontColor $TT_WHITE
+  BorderColor $TT_BLACK
+}
+skinparam Component<<ft>> {
+  BackgroundColor $TT_RED
+  FontColor $TT_WHITE
+  BorderColor $TT_BLACK
+}
+skinparam Component<<action>> {
+  BackgroundColor $TT_RED
+  FontColor $TT_WHITE
+  BorderColor $TT_BLACK
+}
+skinparam Component<<aux>> {
+  BackgroundColor $TT_LIGHT
+  FontColor $TT_BLACK
+  BorderColor $TT_BLACK
+}
+skinparam Component<<plain>> {
+  BackgroundColor $TT_WHITE
+  FontColor $TT_BLACK
+  BorderColor $TT_BLACK
+}
+
+package "Base Model Servers" as base $TT_BLUE_BG {
+    component "gemma3-1b-it\n:9090" as B1 <<base>>
+    component "qwen3.5-4b\n:9091" as B2 <<base>>
+    component "embeddinggemma-308m\n:9092" as B3 <<base>>
+    component "gemma3-4b-vision\n:9093" as B4 <<aux>>
+}
+
+package "Fine-Tuned Servers" as ft $TT_RED_BG {
+    component "gemma3-ft\n:9094" as F1 <<ft>>
+    component "qwen3.5-4b-ft\n:9095" as F2 <<ft>>
+    component "embeddinggemma-ft\n:9096" as F3 <<ft>>
+}
+
+component "SmallLanguageModelClient" as GC <<plain>>
+component "POST /models/swap" as SWAP <<action>>
+
+GC --> SWAP : swap_urls()
+
+SWAP ..> B1 : mode: "base"
+SWAP ..> B2 : mode: "base"
+SWAP ..> B3 : mode: "base"
+
+SWAP ..> F1 : mode: "finetuned"
+SWAP ..> F2 : mode: "finetuned"
+SWAP ..> F3 : mode: "finetuned"
+
+B4 <.. GC : shared\n(no FT variant)
+
+note bottom of SWAP
+  ~100ms swap time.
+  No restart. Health-check before flip.
+  Vision model shared across modes.
+end note
+
+component "GLM-OCR\n:9098" as OCR <<aux>>
+note right of OCR
+  Upload-time only.
+  Not part of swap.
+end note
+
+@enduml

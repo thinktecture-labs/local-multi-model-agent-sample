@@ -1,0 +1,494 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Nextera — Launch</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    background: #06060a;
+    color: #e0e0e8;
+    font-family: 'SF Mono', 'Fira Code', 'Cascadia Code', monospace;
+    height: 100vh;
+    overflow: hidden;
+  }
+
+  .dashboard {
+    width: 100%;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    position: relative;
+  }
+
+  /* ── Title ── */
+  .hero {
+    margin-bottom: 3vh;
+    opacity: 0;
+  }
+  .hero.booting {
+    animation: fade-in 1s ease 0.3s forwards;
+  }
+  .hero h1 {
+    font-size: 68px;
+    font-weight: 100;
+    letter-spacing: 18px;
+    text-transform: uppercase;
+    color: #222;
+    transition: color 1.5s ease, text-shadow 1.5s ease;
+  }
+  .hero h1.alive { color: #5555aa; text-shadow: 0 0 40px #5555aa10; }
+  .hero h1.ready { color: #4ade80; text-shadow: 0 0 60px #4ade8015; }
+
+  .hero .tagline {
+    font-size: 12px;
+    letter-spacing: 5px;
+    text-transform: uppercase;
+    color: #1a1a1a;
+    margin-top: 8px;
+    transition: color 1s ease;
+  }
+  .hero .tagline.alive { color: #444; }
+
+  @keyframes fade-in {
+    from { opacity: 0; transform: translateY(-10px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  /* ── Model rows (the storytelling core) ── */
+  .model-rows {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    margin-bottom: 4vh;
+    width: 860px;
+  }
+
+  .model-row {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    opacity: 0;
+    transform: translateX(-20px);
+    transition: all 0.6s ease;
+    height: 52px;
+  }
+  .model-row.visible {
+    opacity: 1;
+    transform: translateX(0);
+  }
+
+  .model-row .dot {
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    background: #151520;
+    flex-shrink: 0;
+    transition: all 0.5s ease;
+  }
+  .model-row.checking .dot {
+    background: #fbbf24;
+    animation: pulse 1.2s ease-in-out infinite;
+  }
+  .model-row.online .dot {
+    background: #4ade80;
+    box-shadow: 0 0 16px #4ade8044, 0 0 5px #4ade80;
+  }
+  .model-row.aux.online .dot {
+    background: #6688cc;
+    box-shadow: 0 0 12px #6688cc33;
+  }
+  .model-row.cloud.online .dot {
+    background: #cc8844;
+    box-shadow: 0 0 12px #cc884433;
+  }
+
+  .model-row .name {
+    font-size: 20px;
+    font-weight: 600;
+    color: #333;
+    width: 200px;
+    text-align: left;
+    transition: color 0.5s;
+  }
+  .model-row.online .name { color: #ddd; }
+
+  .model-row .desc {
+    font-size: 16px;
+    color: #1a1a1a;
+    text-align: left;
+    flex: 1;
+    transition: color 0.8s ease;
+    letter-spacing: 0.5px;
+  }
+  .model-row.online .desc { color: #555; }
+
+  .model-row .size {
+    font-size: 18px;
+    color: #1a1a1a;
+    width: 50px;
+    text-align: right;
+    font-weight: 300;
+    transition: color 0.5s;
+  }
+  .model-row.online .size { color: #4ade80; }
+  .model-row.aux.online .size { color: #6688cc; }
+  .model-row.cloud.online .size { color: #cc8844; }
+
+  @keyframes pulse {
+    0%, 100% { opacity: 0.2; transform: scale(1); }
+    50% { opacity: 1; transform: scale(1.4); }
+  }
+
+  /* Section divider */
+  .row-divider {
+    height: 1px;
+    background: linear-gradient(90deg, transparent, #1a1a28 20%, #1a1a28 80%, transparent);
+    opacity: 0;
+    transition: opacity 0.5s;
+  }
+  .row-divider.visible { opacity: 1; }
+
+  /* ── Parameter counter ── */
+  .param-line {
+    display: flex;
+    align-items: baseline;
+    justify-content: center;
+    gap: 12px;
+    margin-bottom: 2vh;
+    opacity: 0;
+    transition: opacity 0.8s ease;
+  }
+  .param-line.visible { opacity: 1; }
+
+  .param-line .number {
+    font-size: 72px;
+    font-weight: 100;
+    color: #151520;
+    font-variant-numeric: tabular-nums;
+    line-height: 1;
+    transition: color 1s ease;
+  }
+  .param-line .number.counting { color: #5555aa; }
+  .param-line .number.done { color: #4ade80; }
+
+  .param-line .label {
+    font-size: 13px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: #222;
+    transition: color 0.5s;
+  }
+  .param-line .label.done { color: #555; }
+
+  /* ── GPU line (compact) ── */
+  .gpu-line {
+    font-size: 11px;
+    color: #2a2a3a;
+    letter-spacing: 1px;
+    margin-bottom: 20px;
+    opacity: 0;
+    transition: opacity 0.8s ease;
+  }
+  .gpu-line.visible { opacity: 1; }
+  .gpu-line .val { color: #444; }
+  .gpu-line .cost { color: #4ade8088; }
+
+  /* ── Status + launch ── */
+  .status {
+    font-size: 14px;
+    letter-spacing: 6px;
+    text-transform: uppercase;
+    color: #1a1a1a;
+    margin-bottom: 20px;
+    min-height: 22px;
+    transition: all 1s ease;
+  }
+  .status.loading { color: #fbbf2455; }
+  .status.ready { color: #4ade80; animation: glow 3s ease-in-out infinite; }
+
+  @keyframes glow {
+    0%, 100% { text-shadow: 0 0 6px #4ade8008; }
+    50% { text-shadow: 0 0 24px #4ade8025; }
+  }
+
+  .launch {
+    display: inline-block;
+    padding: 12px 56px;
+    border: 1px solid #111;
+    border-radius: 4px;
+    font-family: inherit;
+    font-size: 11px;
+    letter-spacing: 5px;
+    text-transform: uppercase;
+    text-decoration: none;
+    color: #1a1a1a;
+    cursor: default;
+    transition: all 0.6s ease;
+  }
+  .launch.ready { border-color: #d4a84444; color: #d4a844; cursor: pointer; }
+  .launch.ready:hover {
+    background: #d4a84406; border-color: #d4a844;
+    box-shadow: 0 0 40px #d4a84412; transform: scale(1.03);
+  }
+
+  /* ── Start screen ── */
+  .start-screen {
+    position: fixed; top: 0; left: 0; right: 0; bottom: 0;
+    background: #06060a;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 200;
+    cursor: pointer;
+    transition: opacity 0.6s ease;
+    -webkit-tap-highlight-color: transparent;
+  }
+  .start-screen *, .start-btn * { outline: none; -webkit-tap-highlight-color: transparent; }
+  .start-screen.hidden {
+    opacity: 0;
+    pointer-events: none;
+  }
+  .start-btn {
+    width: 120px;
+    height: 120px;
+    border: 2px solid #4ade8044;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 0 20px #4ade8010, inset 0 0 20px #4ade8008;
+    animation: btn-glow 3s ease-in-out infinite;
+    transition: border-color 0.3s, box-shadow 0.3s;
+  }
+  .start-btn:hover {
+    border-color: #4ade80;
+    box-shadow: 0 0 40px #4ade8030, inset 0 0 30px #4ade8010;
+  }
+  @keyframes btn-glow {
+    0%, 100% { border-color: #4ade8030; box-shadow: 0 0 20px #4ade8008; }
+    50% { border-color: #4ade8066; box-shadow: 0 0 30px #4ade8018, inset 0 0 20px #4ade8008; }
+  }
+  .start-btn svg {
+    width: 48px;
+    height: 48px;
+    stroke: #4ade8066;
+    fill: none;
+    background: none;
+    stroke-width: 2;
+    stroke-linecap: round;
+    transition: stroke 0.3s;
+  }
+  .start-btn:hover svg { stroke: #4ade80; }
+  /* Scanlines */
+  .scan {
+    position: fixed; top: 0; left: 0; right: 0; bottom: 0;
+    pointer-events: none;
+    background: repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(0,0,0,0.02) 2px, rgba(0,0,0,0.02) 4px);
+    z-index: 100;
+  }
+</style>
+</head>
+<body>
+<div class="start-screen" id="startScreen">
+  <div class="start-btn">
+    <svg viewBox="0 0 24 24"><path d="M12 3v9"/><path d="M18.36 6.64A9 9 0 1 1 5.64 6.64"/></svg>
+  </div>
+</div>
+<div class="scan"></div>
+<div class="dashboard">
+  <div class="hero">
+    <h1 id="title">Nextera AI</h1>
+    <div class="tagline" id="tagline">Local Multi-Model Agent</div>
+  </div>
+
+  <div class="model-rows" id="rows"></div>
+
+  <div class="param-line" id="paramLine">
+    <span class="number" id="paramNum">0</span>
+    <span class="label" id="paramLabel">billion parameters</span>
+  </div>
+
+  <div>
+    <div class="gpu-line" id="gpuLine"><span class="val" id="gpuName"></span> <span class="val" id="gpuVram"></span> <span class="val" id="gpuTemp"></span> <span class="cost">$0.00/query</span></div>
+    <a class="launch" id="launch" href="/app">Launch Observatory</a>
+  </div>
+</div>
+
+<script>
+// Each model tells a micro-story as it boots
+const BOOT = [
+  { key: 'EMBEDDING', name: 'Librarian',        desc: '768-dim vector search \u2022 5ms',                   size: '308M', params: 0.3, type: 'core',  delay: 1500 },
+  { key: 'INFERENCE', name: 'Thinker',           desc: 'Intent classification \u2022 30ms',                  size: '1B',   params: 1.0, type: 'core',  delay: 3000 },
+  { key: 'FUNCTION',  name: 'Doer',              desc: 'SQL + tool calling \u2022 99.4% accuracy',           size: '4B',   params: 4.0, type: 'core',  delay: 4800 },
+  { key: 'VISION',    name: 'Eye',               desc: 'Image understanding + RAG synthesis',                size: '4B',   params: 4.0, type: 'core',  delay: 6500 },
+  { key: 'OCR',       name: 'Reader',            desc: 'Scanned PDF extraction \u2022 1s/page',              size: '0.9B', params: 0.9, type: 'core',  delay: 8000 },
+  { key: 'WHISPER',   name: 'Ear',               desc: 'Speech-to-text \u2022 local \u2022 250ms',           size: '',     params: 0,   type: 'aux',   delay: 9500 },
+  { key: 'PIPER',     name: 'Voice',             desc: 'Text-to-speech \u2022 ONNX \u2022 zero cloud',       size: '',     params: 0,   type: 'aux',   delay: 10000 },
+  { key: 'QWEN',      name: 'MoE Challenger',    desc: 'One model vs. five specialists',                     size: '35B',  params: 0,   type: 'aux',   delay: 11500 },
+  { key: 'CLOUD',     name: 'Cloud Option',      desc: 'GPT-5.4 \u2014 when you choose it',                  size: '',     params: 0,   type: 'cloud', delay: 13000 },
+];
+
+const CORE_TOTAL = BOOT.filter(m => m.type === 'core').reduce((s, m) => s + m.params, 0);
+
+const rowsEl = document.getElementById('rows');
+const title = document.getElementById('title');
+const tagline = document.getElementById('tagline');
+const launchEl = document.getElementById('launch');
+const paramNum = document.getElementById('paramNum');
+const paramLabel = document.getElementById('paramLabel');
+const gpuLine = document.getElementById('gpuLine');
+
+// Build rows (hidden initially)
+let lastCoreIdx = -1;
+BOOT.forEach((m, i) => {
+  // Add divider between core and aux
+  if (i > 0 && m.type !== BOOT[i-1].type) {
+    const div = document.createElement('div');
+    div.className = 'row-divider';
+    div.id = `div-${i}`;
+    rowsEl.appendChild(div);
+  }
+
+  const row = document.createElement('div');
+  row.className = `model-row ${m.type}`;
+  row.id = `row-${m.key}`;
+  row.innerHTML = `
+    <div class="dot"></div>
+    <div class="name">${m.name}</div>
+    <div class="desc">${m.desc}</div>
+    <div class="size">${m.size}</div>
+  `;
+  rowsEl.appendChild(row);
+
+  if (m.type === 'core') lastCoreIdx = i;
+});
+
+// ── Param counter ──
+let displayP = 0, targetP = 0;
+
+function tickParams() {
+  const diff = targetP - displayP;
+  if (Math.abs(diff) < 0.05) {
+    displayP = targetP;
+    paramNum.textContent = targetP.toFixed(1);
+    if (targetP >= CORE_TOTAL) {
+      paramNum.classList.remove('counting');
+      paramNum.classList.add('done');
+      paramLabel.classList.add('done');
+      paramLabel.textContent = 'billion parameters \u2022 five models \u2022 on-device';
+    }
+    return;
+  }
+  displayP += diff * 0.06;
+  paramNum.textContent = displayP.toFixed(1);
+  paramNum.classList.add('counting');
+  requestAnimationFrame(tickParams);
+}
+
+// ── Start screen ──
+document.getElementById('startScreen').addEventListener('click', startBoot);
+
+function startBoot() {
+  const ss = document.getElementById('startScreen');
+  ss.classList.add('hidden');
+  setTimeout(() => ss.style.display = 'none', 700);
+
+  // Kick off hero fade-in
+  document.querySelector('.hero').classList.add('booting');
+  runBootSequence();
+}
+
+// ── Boot sequence ──
+let coreBooted = 0;
+let runningParams = 0;
+
+function runBootSequence() {
+// Show param line early
+setTimeout(() => document.getElementById('paramLine').classList.add('visible'), 1200);
+
+BOOT.forEach((m, i) => {
+  // Row appears (slides in from left, yellow checking)
+  setTimeout(() => {
+    const row = document.getElementById(`row-${m.key}`);
+    row.classList.add('visible', 'checking');
+
+    // Show dividers
+    const div = document.getElementById(`div-${i}`);
+    if (div) div.classList.add('visible');
+
+    // Title alive on first model
+    if (i === 0) {
+      title.classList.add('alive');
+      tagline.classList.add('alive');
+      // status removed — dots tell the story
+    }
+  }, m.delay - 800); // appear 800ms before going green
+
+  // Row goes online (green)
+  setTimeout(() => {
+    const row = document.getElementById(`row-${m.key}`);
+    row.classList.remove('checking');
+    row.classList.add('online');
+
+    if (m.type === 'core') {
+      coreBooted++;
+      runningParams += m.params;
+      targetP = runningParams;
+      requestAnimationFrame(tickParams);
+    }
+
+    if (coreBooted === 5) {
+      title.classList.add('ready');
+      launchEl.classList.add('ready');
+
+      // Show GPU line after core ready
+      setTimeout(() => gpuLine.classList.add('visible'), 600);
+    }
+  }, m.delay);
+});
+
+const lastDelay = BOOT[BOOT.length - 1].delay;
+// No "all systems go" — let the green dots and launch button speak
+
+// ── Real health verification (background) ──
+async function verifyHealth() {
+  try {
+    const r = await fetch('/health');
+    const data = await r.json();
+    const models = { ...data.models };
+    if (models['WHISPER'] && !('PIPER' in models)) models['PIPER'] = true;
+    BOOT.forEach(m => {
+      if (!models[m.key]) {
+        const row = document.getElementById(`row-${m.key}`);
+        if (row) { row.classList.remove('online'); row.classList.add('checking'); }
+      }
+    });
+  } catch {}
+}
+setTimeout(verifyHealth, lastDelay + 2000);
+setInterval(verifyHealth, 5000);
+
+pollGpu();
+setInterval(pollGpu, 3000);
+} // end runBootSequence
+
+// ── GPU (real data) ──
+async function pollGpu() {
+  try {
+    const r = await fetch('/gpu');
+    const d = await r.json();
+    if (d.available) {
+      document.getElementById('gpuName').textContent = d.name?.replace(/\(.*\)/, '').trim() || '';
+      document.getElementById('gpuVram').textContent = `${(d.vram_used_mb/1024).toFixed(1)} / ${(d.vram_total_mb/1024).toFixed(0)} GB`;
+      document.getElementById('gpuTemp').textContent = d.temperature_c ? `${d.temperature_c.toFixed(0)}\u00B0C` : '';
+    }
+  } catch {}
+}
+</script>
+</body>
+</html>

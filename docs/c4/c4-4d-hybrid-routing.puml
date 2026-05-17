@@ -1,0 +1,71 @@
+@startuml C4_Level4_HybridRouting
+title Hybrid Routing & HITL Cloud Escalation
+
+skinparam ActivityBackgroundColor White
+skinparam ActivityDiamondBackgroundColor White
+skinparam ArrowColor #333333
+
+start
+
+:POST /query;
+:agent.process(query)\n<i>Full local pipeline</i>;<<#CCFFCC>>
+:AgentResponse;
+
+if (routing_mode?) then (local-only)
+    :Return response\nconfidence: null;
+    stop
+else (hybrid)
+    :ConfidenceRouter\n8-factor heuristic scoring;
+    note right
+        Factor 1: Strong uncertainty (-0.35)
+        Factor 2: Hedging language (-0.15 max)
+        Factor 3: Apology/disclaimer (-0.10)
+        Factor 4: Clarification request (-0.20)
+        Factor 5: Response length vs query (-0.15)
+        Factor 6: Confident language (+0.10)
+        Factor 7: Structured response (+0.05)
+        Factor 8: Entity grounding (-0.40)
+        Base: 0.85
+    end note
+
+    if (score >= 0.6?) then (yes)
+        :Return response\nconfidence: 0.85;<<#CCFFCC>>
+        stop
+    else (no)
+        :Return response\n+ should_escalate: true\n+ confidence: 0.42;<<#FFFFCC>>
+
+        :Observatory UI\nshows escalation banner\nwith confidence score;
+
+        if (User clicks\n"Escalate to GPT-5.4"?) then (no)
+            :Keep local response;
+            stop
+        else (yes)
+            :POST /escalate;
+
+            if (network_mode?) then (offline)
+                :403: Blocked\n"Offline mode —\ncloud escalation blocked";<<#FF9999>>
+                stop
+            else (online)
+                if (OPENAI_API_KEY\nconfigured?) then (no)
+                    :503: No cloud\nAPI key configured;<<#FF9999>>
+                    stop
+                else (yes)
+                    :GPT-5.4 API call\n<i>Data leaves machine</i>;<<#FFE0E0>>
+                    :cloud_bytes_sent += payload;
+                    :Return cloud response\n+ model badge\n+ latency_ms\n+ cost;
+                    stop
+                endif
+            endif
+        endif
+    endif
+endif
+
+legend right
+    |= Color |= Meaning |
+    | <#CCFFCC> | Local AI processing |
+    | <#FFFFCC> | Needs user decision |
+    | <#FFE0E0> | Data leaves machine |
+    | <#FF9999> | Blocked / error |
+endlegend
+
+@enduml

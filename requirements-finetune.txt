@@ -1,0 +1,18 @@
+# Fine-tuning extras — install only when you want to train models
+# pip install -r requirements-finetune.txt
+
+# Core training stack
+torch>=2.4.0
+transformers>=4.45.0
+peft>=0.13.0          # LoRA / QLoRA
+trl>=0.12.0           # SFTTrainer
+datasets>=3.0.0       # HuggingFace datasets
+
+# 4-bit quantization (QLoRA) — CUDA only
+bitsandbytes>=0.44.0
+
+# Embedding model fine-tuning
+sentence-transformers>=3.3.0
+
+# Accelerate for multi-GPU / mixed precision
+accelerate>=1.0.0

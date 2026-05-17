@@ -1,0 +1,1629 @@
+{
+  "runs": 3,
+  "queries_per_run": 15,
+  "results": [
+    {
+      "run": 1,
+      "query": "What are the features included in the Enterprise plan?",
+      "expected_type": "rag_query",
+      "actual_intent": "rag_query",
+      "latency_ms": 598.4,
+      "steps": 4,
+      "step_breakdown": [
+        {
+          "action": "classify_intent",
+          "model": "logreg",
+          "duration_ms": 6.6,
+          "tokens_used": 0,
+          "prompt_tokens": 0,
+          "completion_tokens": 0
+        },
+        {
+          "action": "rewrite_query",
+          "model": "gemma3-ft",
+          "duration_ms": 71.1,
+          "tokens_used": 79,
+          "prompt_tokens": 59,
+          "completion_tokens": 20
+        },
+        {
+          "action": "vector_search",
+          "model": "embeddinggemma",
+          "duration_ms": 14.0,
+          "tokens_used": 0,
+          "prompt_tokens": 0,
+          "completion_tokens": 0
+        },
+        {
+          "action": "synthesize_response",
+          "model": "gemma3-4b",
+          "duration_ms": 506.7,
+          "tokens_used": 790,
+          "prompt_tokens": 668,
+          "completion_tokens": 122
+        }
+      ],
+      "success": true
+    },
+    {
+      "run": 1,
+      "query": "What integrations does the platform support?",
+      "expected_type": "rag_query",
+      "actual_intent": "rag_query",
+      "latency_ms": 434.6,
+      "steps": 4,
+      "step_breakdown": [
+        {
+          "action": "classify_intent",
+          "model": "logreg",
+          "duration_ms": 6.3,
+          "tokens_used": 0,
+          "prompt_tokens": 0,
+          "completion_tokens": 0
+        },
+        {
+          "action": "rewrite_query",
+          "model": "gemma3-ft",
+          "duration_ms": 133.0,
+          "tokens_used": 96,
+          "prompt_tokens": 56,
+          "completion_tokens": 40
+        },
+        {
+          "action": "vector_search",
+          "model": "embeddinggemma",
+          "duration_ms": 14.5,
+          "tokens_used": 0,
+          "prompt_tokens": 0,
+          "completion_tokens": 0
+        },
+        {
+          "action": "synthesize_response",
+          "model": "gemma3-4b",
+          "duration_ms": 280.7,
+          "tokens_used": 780,
+          "prompt_tokens": 718,
+          "completion_tokens": 62
+        }
+      ],
+      "success": true
+    },
+    {
+      "run": 1,
+      "query": "What are the support SLAs?",
+      "expected_type": "rag_query",
+      "actual_intent": "rag_query",
+      "latency_ms": 379.5,
+      "steps": 4,
+      "step_breakdown": [
+        {
+          "action": "classify_intent",
+          "model": "logreg",
+          "duration_ms": 4.3,
+          "tokens_used": 0,
+          "prompt_tokens": 0,
+          "completion_tokens": 0
+        },
+        {
+          "action": "rewrite_query",
+          "model": "gemma3-ft",
+          "duration_ms": 78.8,
+          "tokens_used": 78,
+          "prompt_tokens": 55,
+          "completion_tokens": 23
+        },
+        {
+          "action": "vector_search",
+          "model": "embeddinggemma",
+          "duration_ms": 11.5,
+          "tokens_used": 0,
+          "prompt_tokens": 0,
+          "completion_tokens": 0
+        },
+        {
+          "action": "synthesize_response",
+          "model": "gemma3-4b",
+          "duration_ms": 284.8,
+          "tokens_used": 797,
+          "prompt_tokens": 734,
+          "completion_tokens": 63
+        }
+      ],
+      "success": true
+    },
+    {
+      "run": 1,
+      "query": "Which plan should a 15-person startup choose?",
+      "expected_type": "rag_query",
+      "actual_intent": "rag_query",
+      "latency_ms": 688.2,
+      "steps": 4,
+      "step_breakdown": [
+        {
+          "action": "classify_intent",
+          "model": "logreg",
+          "duration_ms": 6.6,
+          "tokens_used": 0,
+          "prompt_tokens": 0,
+          "completion_tokens": 0
+        },
+        {
+          "action": "rewrite_query",
+          "model": "gemma3-ft",
+          "duration_ms": 40.2,
+          "tokens_used": 72,
+          "prompt_tokens": 61,
+          "completion_tokens": 11
+        },
+        {
+          "action": "vector_search",
+          "model": "embeddinggemma",
+          "duration_ms": 13.6,
+          "tokens_used": 0,
+          "prompt_tokens": 0,
+          "completion_tokens": 0
+        },
+        {
+          "action": "synthesize_response",
+          "model": "gemma3-4b",
+          "duration_ms": 627.7,
+          "tokens_used": 1048,
+          "prompt_tokens": 895,
+          "completion_tokens": 153
+        }
+      ],
+      "success": true
+    },
+    {
+      "run": 1,
+      "query": "If I have 50 customers paying \u20ac999/month, what is my ARR?",
+      "expected_type": "tool_calc",
+      "actual_intent": "tool_use",
+      "latency_ms": 277.2,
+      "steps": 4,
+      "step_breakdown": [
+        {
+          "action": "classify_intent",
+          "model": "logreg",
+          "duration_ms": 6.4,
+          "tokens_used": 0,
+          "prompt_tokens": 0,
+          "completion_tokens": 0
+        },
+        {
+          "action": "select_tool",
+          "model": "qwen35-toolcalling-ft",
+          "duration_ms": 270.5,
+          "tokens_used": 706,
+          "prompt_tokens": 670,
+          "completion_tokens": 36
+        },
+        {
+          "action": "execute_tool",
+          "model": "local_execution",
+          "duration_ms": 0.1,
+          "tokens_used": 0,
+          "prompt_tokens": 0,
+          "completion_tokens": 0
+        },
+        {
+          "action": "format_response",
+          "model": "local_execution",
+          "duration_ms": 0.0,
+          "tokens_used": 0,
+          "prompt_tokens": 0,
+          "completion_tokens": 0
+        }
+      ],
+      "success": true
+    },
+    {
+      "run": 1,
+      "query": "What is 23% of 84900?",
+      "expected_type": "tool_calc",
+      "actual_intent": "tool_use",
+      "latency_ms": 276.1,
+      "steps": 4,
+      "step_breakdown": [
+        {
+          "action": "classify_intent",
+          "model": "logreg",
+          "duration_ms": 6.3,
+          "tokens_used": 0,
+          "prompt_tokens": 0,
+          "completion_tokens": 0
+        },
+        {
+          "action": "select_tool",
+          "model": "qwen35-toolcalling-ft",
+          "duration_ms": 269.5,
+          "tokens_used": 701,
+          "prompt_tokens": 665,
+          "completion_tokens": 36
+        },
+        {
+          "action": "execute_tool",
+          "model": "local_execution",
+          "duration_ms": 0.2,
+          "tokens_used": 0,
+          "prompt_tokens": 0,
+          "completion_tokens": 0
+        },
+        {
+          "action": "format_response",
+          "model": "local_execution",
+          "duration_ms": 0.0,
+          "tokens_used": 0,
+          "prompt_tokens": 0,
+          "completion_tokens": 0
+        }
+      ],
+      "success": true
+    },
+    {
+      "run": 1,
+      "query": "What's 15% of $45,000?",
+      "expected_type": "tool_calc",
+      "actual_intent": "tool_use",
+      "latency_ms": 275.9,
+      "steps": 4,
+      "step_breakdown": [
+        {
+          "action": "classify_intent",
+          "model": "logreg",
+          "duration_ms": 6.7,
+          "tokens_used": 0,
+          "prompt_tokens": 0,
+          "completion_tokens": 0
+        },
+        {
+          "action": "select_tool",
+          "model": "qwen35-toolcalling-ft",
+          "duration_ms": 269.0,
+          "tokens_used": 702,
+          "prompt_tokens": 666,
+          "completion_tokens": 36
+        },
+        {
+          "action": "execute_tool",
+          "model": "local_execution",
+          "duration_ms": 0.2,
+          "tokens_used": 0,
+          "prompt_tokens": 0,
+          "completion_tokens": 0
+        },
+        {
+          "action": "format_response",
+          "model": "local_execution",
+          "duration_ms": 0.0,
+          "tokens_used": 0,
+          "prompt_tokens": 0,
+          "completion_tokens": 0
+        }
+      ],
+      "success": true
+    },
+    {
+      "run": 1,
+      "query": "What were the total sales revenue figures for 2024?",
+      "expected_type": "tool_sql",
+      "actual_intent": "tool_use",
+      "latency_ms": 365.2,
+      "steps": 4,
+      "step_breakdown": [
+        {
+          "action": "classify_intent",
+          "model": "logreg",
+          "duration_ms": 6.2,
+          "tokens_used": 0,
+          "prompt_tokens": 0,
+          "completion_tokens": 0
+        },
+        {
+          "action": "select_tool",
+          "model": "qwen35-toolcalling-ft",
+          "duration_ms": 294.4,
+          "tokens_used": 705,
+          "prompt_tokens": 665,
+          "completion_tokens": 40
+        },
+        {
+          "action": "execute_tool",
+          "model": "local_execution",
+          "duration_ms": 0.8,
+          "tokens_used": 0,
+          "prompt_tokens": 0,
+          "completion_tokens": 0
+        },
+        {
+          "action": "format_response",
+          "model": "gemma3-ft",
+          "duration_ms": 63.6,
+          "tokens_used": 142,
+          "prompt_tokens": 123,
+          "completion_tokens": 19
+        }
+      ],
+      "success": true
+    },
+    {
+      "run": 1,
+      "query": "How many new customers joined in Q3 and Q4 of 2024?",
+      "expected_type": "tool_sql",
+      "actual_intent": "tool_use",
+      "latency_ms": 447.5,
+      "steps": 4,
+      "step_breakdown": [
+        {
+          "action": "classify_intent",
+          "model": "logreg",
+          "duration_ms": 6.5,
+          "tokens_used": 0,
+          "prompt_tokens": 0,
+          "completion_tokens": 0
+        },
+        {
+          "action": "select_tool",
+          "model": "qwen35-toolcalling-ft",
+          "duration_ms": 369.3,
+          "tokens_used": 721,
+          "prompt_tokens": 669,
+          "completion_tokens": 52
+        },
+        {
+          "action": "execute_tool",
+          "model": "local_execution",
+          "duration_ms": 0.5,
+          "tokens_used": 0,
+          "prompt_tokens": 0,
+          "completion_tokens": 0
+        },
+        {
+          "action": "format_response",
+          "model": "gemma3-ft",
+          "duration_ms": 71.1,
+          "tokens_used": 146,
+          "prompt_tokens": 125,
+          "completion_tokens": 21
+        }
+      ],
+      "success": true
+    },
+    {
+      "run": 1,
+      "query": "Show top 3 customers by revenue",
+      "expected_type": "tool_sql",
+      "actual_intent": "tool_use",
+      "latency_ms": 475.6,
+      "steps": 4,
+      "step_breakdown": [
+        {
+          "action": "classify_intent",
+          "model": "logreg",
+          "duration_ms": 6.2,
+          "tokens_used": 0,
+          "prompt_tokens": 0,
+          "completion_tokens": 0
+        },
+        {
+          "action": "select_tool",
+          "model": "qwen35-toolcalling-ft",
+          "duration_ms": 294.2,
+          "tokens_used": 698,
+          "prompt_tokens": 658,
+          "completion_tokens": 40
+        },
+        {
+          "action": "execute_tool",
+          "model": "local_execution",
+          "duration_ms": 0.5,
+          "tokens_used": 0,
+          "prompt_tokens": 0,
+          "completion_tokens": 0
+        },
+        {
+          "action": "format_response",
+          "model": "gemma3-ft",
+          "duration_ms": 174.7,
+          "tokens_used": 236,
+          "prompt_tokens": 183,
+          "completion_tokens": 53
+        }
+      ],
+      "success": true
+    },
+    {
+      "run": 1,
+      "query": "Hello! What can you help me with?",
+      "expected_type": "direct",
+      "actual_intent": "direct_answer",
+      "latency_ms": 115.5,
+      "steps": 2,
+      "step_breakdown": [
+        {
+          "action": "classify_intent",
+          "model": "logreg",
+          "duration_ms": 6.3,
+          "tokens_used": 0,
+          "prompt_tokens": 0,
+          "completion_tokens": 0
+        },
+        {
+          "action": "direct_response",
+          "model": "gemma3-ft",
+          "duration_ms": 109.2,
+          "tokens_used": 61,
+          "prompt_tokens": 28,
+          "completion_tokens": 33
+        }
+      ],
+      "success": true
+    },
+    {
+      "run": 1,
+      "query": "How are you?",
+      "expected_type": "direct",
+      "actual_intent": "direct_answer",
+      "latency_ms": 154.1,
+      "steps": 2,
+      "step_breakdown": [
+        {
+          "action": "classify_intent",
+          "model": "logreg",
+          "duration_ms": 3.6,
+          "tokens_used": 0,
+          "prompt_tokens": 0,
+          "completion_tokens": 0
+        },
+        {
+          "action": "direct_response",
+          "model": "gemma3-ft",
+          "duration_ms": 150.4,
+          "tokens_used": 69,
+          "prompt_tokens": 23,
+          "completion_tokens": 46
+        }
+      ],
+      "success": true
+    },
+    {
+      "run": 1,
+      "query": "What trends do you see in this revenue chart?",
+      "expected_type": "image_query",
+      "actual_intent": "image_query",
+      "latency_ms": 1688.3,
+      "steps": 1,
+      "step_breakdown": [
+        {
+          "action": "analyse_image",
+          "model": "gemma3-4b-vision",
+          "duration_ms": 1688.2,
+          "tokens_used": 703,
+          "prompt_tokens": 303,
+          "completion_tokens": 400
+        }
+      ],
+      "success": true
+    },
+    {
+      "run": 1,
+      "query": "Summarize the pricing tiers shown in this table",
+      "expected_type": "image_query",
+      "actual_intent": "image_query",
+      "latency_ms": 1332.2,
+      "steps": 1,
+      "step_breakdown": [
+        {
+          "action": "analyse_image",
+          "model": "gemma3-4b-vision",
+          "duration_ms": 1332.2,
+          "tokens_used": 610,
+          "prompt_tokens": 302,
+          "completion_tokens": 308
+        }
+      ],
+      "success": true
+    },
+    {
+      "run": 1,
+      "query": "Explain what this system diagram shows",
+      "expected_type": "image_query",
+      "actual_intent": "image_query",
+      "latency_ms": 1681.3,
+      "steps": 1,
+      "step_breakdown": [
+        {
+          "action": "analyse_image",
+          "model": "gemma3-4b-vision",
+          "duration_ms": 1681.2,
+          "tokens_used": 699,
+          "prompt_tokens": 299,
+          "completion_tokens": 400
+        }
+      ],
+      "success": true
+    },
+    {
+      "run": 2,
+      "query": "What are the features included in the Enterprise plan?",
+      "expected_type": "rag_query",
+      "actual_intent": "rag_query",
+      "latency_ms": 593.8,
+      "steps": 4,
+      "step_breakdown": [
+        {
+          "action": "classify_intent",
+          "model": "logreg",
+          "duration_ms": 6.6,
+          "tokens_used": 0,
+          "prompt_tokens": 0,
+          "completion_tokens": 0
+        },
+        {
+          "action": "rewrite_query",
+          "model": "gemma3-ft",
+          "duration_ms": 70.9,
+          "tokens_used": 79,
+          "prompt_tokens": 59,
+          "completion_tokens": 20
+        },
+        {
+          "action": "vector_search",
+          "model": "embeddinggemma",
+          "duration_ms": 13.6,
+          "tokens_used": 0,
+          "prompt_tokens": 0,
+          "completion_tokens": 0
+        },
+        {
+          "action": "synthesize_response",
+          "model": "gemma3-4b",
+          "duration_ms": 502.7,
+          "tokens_used": 789,
+          "prompt_tokens": 668,
+          "completion_tokens": 121
+        }
+      ],
+      "success": true
+    },
+    {
+      "run": 2,
+      "query": "What integrations does the platform support?",
+      "expected_type": "rag_query",
+      "actual_intent": "rag_query",
+      "latency_ms": 434.2,
+      "steps": 4,
+      "step_breakdown": [
+        {
+          "action": "classify_intent",
+          "model": "logreg",
+          "duration_ms": 6.4,
+          "tokens_used": 0,
+          "prompt_tokens": 0,
+          "completion_tokens": 0
+        },
+        {
+          "action": "rewrite_query",
+          "model": "gemma3-ft",
+          "duration_ms": 132.7,
+          "tokens_used": 96,
+          "prompt_tokens": 56,
+          "completion_tokens": 40
+        },
+        {
+          "action": "vector_search",
+          "model": "embeddinggemma",
+          "duration_ms": 14.4,
+          "tokens_used": 0,
+          "prompt_tokens": 0,
+          "completion_tokens": 0
+        },
+        {
+          "action": "synthesize_response",
+          "model": "gemma3-4b",
+          "duration_ms": 280.6,
+          "tokens_used": 780,
+          "prompt_tokens": 718,
+          "completion_tokens": 62
+        }
+      ],
+      "success": true
+    },
+    {
+      "run": 2,
+      "query": "What are the support SLAs?",
+      "expected_type": "rag_query",
+      "actual_intent": "rag_query",
+      "latency_ms": 378.9,
+      "steps": 4,
+      "step_breakdown": [
+        {
+          "action": "classify_intent",
+          "model": "logreg",
+          "duration_ms": 4.1,
+          "tokens_used": 0,
+          "prompt_tokens": 0,
+          "completion_tokens": 0
+        },
+        {
+          "action": "rewrite_query",
+          "model": "gemma3-ft",
+          "duration_ms": 78.4,
+          "tokens_used": 78,
+          "prompt_tokens": 55,
+          "completion_tokens": 23
+        },
+        {
+          "action": "vector_search",
+          "model": "embeddinggemma",
+          "duration_ms": 11.5,
+          "tokens_used": 0,
+          "prompt_tokens": 0,
+          "completion_tokens": 0
+        },
+        {
+          "action": "synthesize_response",
+          "model": "gemma3-4b",
+          "duration_ms": 284.8,
+          "tokens_used": 797,
+          "prompt_tokens": 734,
+          "completion_tokens": 63
+        }
+      ],
+      "success": true
+    },
+    {
+      "run": 2,
+      "query": "Which plan should a 15-person startup choose?",
+      "expected_type": "rag_query",
+      "actual_intent": "rag_query",
+      "latency_ms": 688.0,
+      "steps": 4,
+      "step_breakdown": [
+        {
+          "action": "classify_intent",
+          "model": "logreg",
+          "duration_ms": 6.2,
+          "tokens_used": 0,
+          "prompt_tokens": 0,
+          "completion_tokens": 0
+        },
+        {
+          "action": "rewrite_query",
+          "model": "gemma3-ft",
+          "duration_ms": 40.4,
+          "tokens_used": 72,
+          "prompt_tokens": 61,
+          "completion_tokens": 11
+        },
+        {
+          "action": "vector_search",
+          "model": "embeddinggemma",
+          "duration_ms": 13.2,
+          "tokens_used": 0,
+          "prompt_tokens": 0,
+          "completion_tokens": 0
+        },
+        {
+          "action": "synthesize_response",
+          "model": "gemma3-4b",
+          "duration_ms": 628.1,
+          "tokens_used": 1048,
+          "prompt_tokens": 895,
+          "completion_tokens": 153
+        }
+      ],
+      "success": true
+    },
+    {
+      "run": 2,
+      "query": "If I have 50 customers paying \u20ac999/month, what is my ARR?",
+      "expected_type": "tool_calc",
+      "actual_intent": "tool_use",
+      "latency_ms": 277.3,
+      "steps": 4,
+      "step_breakdown": [
+        {
+          "action": "classify_intent",
+          "model": "logreg",
+          "duration_ms": 6.6,
+          "tokens_used": 0,
+          "prompt_tokens": 0,
+          "completion_tokens": 0
+        },
+        {
+          "action": "select_tool",
+          "model": "qwen35-toolcalling-ft",
+          "duration_ms": 270.6,
+          "tokens_used": 706,
+          "prompt_tokens": 670,
+          "completion_tokens": 36
+        },
+        {
+          "action": "execute_tool",
+          "model": "local_execution",
+          "duration_ms": 0.1,
+          "tokens_used": 0,
+          "prompt_tokens": 0,
+          "completion_tokens": 0
+        },
+        {
+          "action": "format_response",
+          "model": "local_execution",
+          "duration_ms": 0.0,
+          "tokens_used": 0,
+          "prompt_tokens": 0,
+          "completion_tokens": 0
+        }
+      ],
+      "success": true
+    },
+    {
+      "run": 2,
+      "query": "What is 23% of 84900?",
+      "expected_type": "tool_calc",
+      "actual_intent": "tool_use",
+      "latency_ms": 276.7,
+      "steps": 4,
+      "step_breakdown": [
+        {
+          "action": "classify_intent",
+          "model": "logreg",
+          "duration_ms": 6.6,
+          "tokens_used": 0,
+          "prompt_tokens": 0,
+          "completion_tokens": 0
+        },
+        {
+          "action": "select_tool",
+          "model": "qwen35-toolcalling-ft",
+          "duration_ms": 269.9,
+          "tokens_used": 701,
+          "prompt_tokens": 665,
+          "completion_tokens": 36
+        },
+        {
+          "action": "execute_tool",
+          "model": "local_execution",
+          "duration_ms": 0.1,
+          "tokens_used": 0,
+          "prompt_tokens": 0,
+          "completion_tokens": 0
+        },
+        {
+          "action": "format_response",
+          "model": "local_execution",
+          "duration_ms": 0.0,
+          "tokens_used": 0,
+          "prompt_tokens": 0,
+          "completion_tokens": 0
+        }
+      ],
+      "success": true
+    },
+    {
+      "run": 2,
+      "query": "What's 15% of $45,000?",
+      "expected_type": "tool_calc",
+      "actual_intent": "tool_use",
+      "latency_ms": 275.4,
+      "steps": 4,
+      "step_breakdown": [
+        {
+          "action": "classify_intent",
+          "model": "logreg",
+          "duration_ms": 6.7,
+          "tokens_used": 0,
+          "prompt_tokens": 0,
+          "completion_tokens": 0
+        },
+        {
+          "action": "select_tool",
+          "model": "qwen35-toolcalling-ft",
+          "duration_ms": 268.6,
+          "tokens_used": 702,
+          "prompt_tokens": 666,
+          "completion_tokens": 36
+        },
+        {
+          "action": "execute_tool",
+          "model": "local_execution",
+          "duration_ms": 0.1,
+          "tokens_used": 0,
+          "prompt_tokens": 0,
+          "completion_tokens": 0
+        },
+        {
+          "action": "format_response",
+          "model": "local_execution",
+          "duration_ms": 0.0,
+          "tokens_used": 0,
+          "prompt_tokens": 0,
+          "completion_tokens": 0
+        }
+      ],
+      "success": true
+    },
+    {
+      "run": 2,
+      "query": "What were the total sales revenue figures for 2024?",
+      "expected_type": "tool_sql",
+      "actual_intent": "tool_use",
+      "latency_ms": 365.2,
+      "steps": 4,
+      "step_breakdown": [
+        {
+          "action": "classify_intent",
+          "model": "logreg",
+          "duration_ms": 6.4,
+          "tokens_used": 0,
+          "prompt_tokens": 0,
+          "completion_tokens": 0
+        },
+        {
+          "action": "select_tool",
+          "model": "qwen35-toolcalling-ft",
+          "duration_ms": 294.5,
+          "tokens_used": 705,
+          "prompt_tokens": 665,
+          "completion_tokens": 40
+        },
+        {
+          "action": "execute_tool",
+          "model": "local_execution",
+          "duration_ms": 0.6,
+          "tokens_used": 0,
+          "prompt_tokens": 0,
+          "completion_tokens": 0
+        },
+        {
+          "action": "format_response",
+          "model": "gemma3-ft",
+          "duration_ms": 63.5,
+          "tokens_used": 142,
+          "prompt_tokens": 123,
+          "completion_tokens": 19
+        }
+      ],
+      "success": true
+    },
+    {
+      "run": 2,
+      "query": "How many new customers joined in Q3 and Q4 of 2024?",
+      "expected_type": "tool_sql",
+      "actual_intent": "tool_use",
+      "latency_ms": 448.5,
+      "steps": 4,
+      "step_breakdown": [
+        {
+          "action": "classify_intent",
+          "model": "logreg",
+          "duration_ms": 6.6,
+          "tokens_used": 0,
+          "prompt_tokens": 0,
+          "completion_tokens": 0
+        },
+        {
+          "action": "select_tool",
+          "model": "qwen35-toolcalling-ft",
+          "duration_ms": 370.1,
+          "tokens_used": 721,
+          "prompt_tokens": 669,
+          "completion_tokens": 52
+        },
+        {
+          "action": "execute_tool",
+          "model": "local_execution",
+          "duration_ms": 0.6,
+          "tokens_used": 0,
+          "prompt_tokens": 0,
+          "completion_tokens": 0
+        },
+        {
+          "action": "format_response",
+          "model": "gemma3-ft",
+          "duration_ms": 71.1,
+          "tokens_used": 146,
+          "prompt_tokens": 125,
+          "completion_tokens": 21
+        }
+      ],
+      "success": true
+    },
+    {
+      "run": 2,
+      "query": "Show top 3 customers by revenue",
+      "expected_type": "tool_sql",
+      "actual_intent": "tool_use",
+      "latency_ms": 475.1,
+      "steps": 4,
+      "step_breakdown": [
+        {
+          "action": "classify_intent",
+          "model": "logreg",
+          "duration_ms": 6.0,
+          "tokens_used": 0,
+          "prompt_tokens": 0,
+          "completion_tokens": 0
+        },
+        {
+          "action": "select_tool",
+          "model": "qwen35-toolcalling-ft",
+          "duration_ms": 294.1,
+          "tokens_used": 698,
+          "prompt_tokens": 658,
+          "completion_tokens": 40
+        },
+        {
+          "action": "execute_tool",
+          "model": "local_execution",
+          "duration_ms": 0.6,
+          "tokens_used": 0,
+          "prompt_tokens": 0,
+          "completion_tokens": 0
+        },
+        {
+          "action": "format_response",
+          "model": "gemma3-ft",
+          "duration_ms": 174.3,
+          "tokens_used": 236,
+          "prompt_tokens": 183,
+          "completion_tokens": 53
+        }
+      ],
+      "success": true
+    },
+    {
+      "run": 2,
+      "query": "Hello! What can you help me with?",
+      "expected_type": "direct",
+      "actual_intent": "direct_answer",
+      "latency_ms": 115.7,
+      "steps": 2,
+      "step_breakdown": [
+        {
+          "action": "classify_intent",
+          "model": "logreg",
+          "duration_ms": 6.2,
+          "tokens_used": 0,
+          "prompt_tokens": 0,
+          "completion_tokens": 0
+        },
+        {
+          "action": "direct_response",
+          "model": "gemma3-ft",
+          "duration_ms": 109.4,
+          "tokens_used": 61,
+          "prompt_tokens": 28,
+          "completion_tokens": 33
+        }
+      ],
+      "success": true
+    },
+    {
+      "run": 2,
+      "query": "How are you?",
+      "expected_type": "direct",
+      "actual_intent": "direct_answer",
+      "latency_ms": 154.3,
+      "steps": 2,
+      "step_breakdown": [
+        {
+          "action": "classify_intent",
+          "model": "logreg",
+          "duration_ms": 3.5,
+          "tokens_used": 0,
+          "prompt_tokens": 0,
+          "completion_tokens": 0
+        },
+        {
+          "action": "direct_response",
+          "model": "gemma3-ft",
+          "duration_ms": 150.7,
+          "tokens_used": 69,
+          "prompt_tokens": 23,
+          "completion_tokens": 46
+        }
+      ],
+      "success": true
+    },
+    {
+      "run": 2,
+      "query": "What trends do you see in this revenue chart?",
+      "expected_type": "image_query",
+      "actual_intent": "image_query",
+      "latency_ms": 1690.1,
+      "steps": 1,
+      "step_breakdown": [
+        {
+          "action": "analyse_image",
+          "model": "gemma3-4b-vision",
+          "duration_ms": 1690.0,
+          "tokens_used": 703,
+          "prompt_tokens": 303,
+          "completion_tokens": 400
+        }
+      ],
+      "success": true
+    },
+    {
+      "run": 2,
+      "query": "Summarize the pricing tiers shown in this table",
+      "expected_type": "image_query",
+      "actual_intent": "image_query",
+      "latency_ms": 1380.4,
+      "steps": 1,
+      "step_breakdown": [
+        {
+          "action": "analyse_image",
+          "model": "gemma3-4b-vision",
+          "duration_ms": 1380.3,
+          "tokens_used": 622,
+          "prompt_tokens": 302,
+          "completion_tokens": 320
+        }
+      ],
+      "success": true
+    },
+    {
+      "run": 2,
+      "query": "Explain what this system diagram shows",
+      "expected_type": "image_query",
+      "actual_intent": "image_query",
+      "latency_ms": 1683.4,
+      "steps": 1,
+      "step_breakdown": [
+        {
+          "action": "analyse_image",
+          "model": "gemma3-4b-vision",
+          "duration_ms": 1683.4,
+          "tokens_used": 699,
+          "prompt_tokens": 299,
+          "completion_tokens": 400
+        }
+      ],
+      "success": true
+    },
+    {
+      "run": 3,
+      "query": "What are the features included in the Enterprise plan?",
+      "expected_type": "rag_query",
+      "actual_intent": "rag_query",
+      "latency_ms": 598.0,
+      "steps": 4,
+      "step_breakdown": [
+        {
+          "action": "classify_intent",
+          "model": "logreg",
+          "duration_ms": 6.7,
+          "tokens_used": 0,
+          "prompt_tokens": 0,
+          "completion_tokens": 0
+        },
+        {
+          "action": "rewrite_query",
+          "model": "gemma3-ft",
+          "duration_ms": 70.8,
+          "tokens_used": 79,
+          "prompt_tokens": 59,
+          "completion_tokens": 20
+        },
+        {
+          "action": "vector_search",
+          "model": "embeddinggemma",
+          "duration_ms": 13.8,
+          "tokens_used": 0,
+          "prompt_tokens": 0,
+          "completion_tokens": 0
+        },
+        {
+          "action": "synthesize_response",
+          "model": "gemma3-4b",
+          "duration_ms": 506.6,
+          "tokens_used": 790,
+          "prompt_tokens": 668,
+          "completion_tokens": 122
+        }
+      ],
+      "success": true
+    },
+    {
+      "run": 3,
+      "query": "What integrations does the platform support?",
+      "expected_type": "rag_query",
+      "actual_intent": "rag_query",
+      "latency_ms": 434.5,
+      "steps": 4,
+      "step_breakdown": [
+        {
+          "action": "classify_intent",
+          "model": "logreg",
+          "duration_ms": 6.5,
+          "tokens_used": 0,
+          "prompt_tokens": 0,
+          "completion_tokens": 0
+        },
+        {
+          "action": "rewrite_query",
+          "model": "gemma3-ft",
+          "duration_ms": 133.0,
+          "tokens_used": 96,
+          "prompt_tokens": 56,
+          "completion_tokens": 40
+        },
+        {
+          "action": "vector_search",
+          "model": "embeddinggemma",
+          "duration_ms": 14.3,
+          "tokens_used": 0,
+          "prompt_tokens": 0,
+          "completion_tokens": 0
+        },
+        {
+          "action": "synthesize_response",
+          "model": "gemma3-4b",
+          "duration_ms": 280.6,
+          "tokens_used": 780,
+          "prompt_tokens": 718,
+          "completion_tokens": 62
+        }
+      ],
+      "success": true
+    },
+    {
+      "run": 3,
+      "query": "What are the support SLAs?",
+      "expected_type": "rag_query",
+      "actual_intent": "rag_query",
+      "latency_ms": 378.7,
+      "steps": 4,
+      "step_breakdown": [
+        {
+          "action": "classify_intent",
+          "model": "logreg",
+          "duration_ms": 4.0,
+          "tokens_used": 0,
+          "prompt_tokens": 0,
+          "completion_tokens": 0
+        },
+        {
+          "action": "rewrite_query",
+          "model": "gemma3-ft",
+          "duration_ms": 78.5,
+          "tokens_used": 78,
+          "prompt_tokens": 55,
+          "completion_tokens": 23
+        },
+        {
+          "action": "vector_search",
+          "model": "embeddinggemma",
+          "duration_ms": 11.2,
+          "tokens_used": 0,
+          "prompt_tokens": 0,
+          "completion_tokens": 0
+        },
+        {
+          "action": "synthesize_response",
+          "model": "gemma3-4b",
+          "duration_ms": 284.8,
+          "tokens_used": 797,
+          "prompt_tokens": 734,
+          "completion_tokens": 63
+        }
+      ],
+      "success": true
+    },
+    {
+      "run": 3,
+      "query": "Which plan should a 15-person startup choose?",
+      "expected_type": "rag_query",
+      "actual_intent": "rag_query",
+      "latency_ms": 690.5,
+      "steps": 4,
+      "step_breakdown": [
+        {
+          "action": "classify_intent",
+          "model": "logreg",
+          "duration_ms": 6.4,
+          "tokens_used": 0,
+          "prompt_tokens": 0,
+          "completion_tokens": 0
+        },
+        {
+          "action": "rewrite_query",
+          "model": "gemma3-ft",
+          "duration_ms": 40.5,
+          "tokens_used": 72,
+          "prompt_tokens": 61,
+          "completion_tokens": 11
+        },
+        {
+          "action": "vector_search",
+          "model": "embeddinggemma",
+          "duration_ms": 14.2,
+          "tokens_used": 0,
+          "prompt_tokens": 0,
+          "completion_tokens": 0
+        },
+        {
+          "action": "synthesize_response",
+          "model": "gemma3-4b",
+          "duration_ms": 629.3,
+          "tokens_used": 1048,
+          "prompt_tokens": 895,
+          "completion_tokens": 153
+        }
+      ],
+      "success": true
+    },
+    {
+      "run": 3,
+      "query": "If I have 50 customers paying \u20ac999/month, what is my ARR?",
+      "expected_type": "tool_calc",
+      "actual_intent": "tool_use",
+      "latency_ms": 277.3,
+      "steps": 4,
+      "step_breakdown": [
+        {
+          "action": "classify_intent",
+          "model": "logreg",
+          "duration_ms": 7.0,
+          "tokens_used": 0,
+          "prompt_tokens": 0,
+          "completion_tokens": 0
+        },
+        {
+          "action": "select_tool",
+          "model": "qwen35-toolcalling-ft",
+          "duration_ms": 270.1,
+          "tokens_used": 706,
+          "prompt_tokens": 670,
+          "completion_tokens": 36
+        },
+        {
+          "action": "execute_tool",
+          "model": "local_execution",
+          "duration_ms": 0.1,
+          "tokens_used": 0,
+          "prompt_tokens": 0,
+          "completion_tokens": 0
+        },
+        {
+          "action": "format_response",
+          "model": "local_execution",
+          "duration_ms": 0.0,
+          "tokens_used": 0,
+          "prompt_tokens": 0,
+          "completion_tokens": 0
+        }
+      ],
+      "success": true
+    },
+    {
+      "run": 3,
+      "query": "What is 23% of 84900?",
+      "expected_type": "tool_calc",
+      "actual_intent": "tool_use",
+      "latency_ms": 276.3,
+      "steps": 4,
+      "step_breakdown": [
+        {
+          "action": "classify_intent",
+          "model": "logreg",
+          "duration_ms": 6.9,
+          "tokens_used": 0,
+          "prompt_tokens": 0,
+          "completion_tokens": 0
+        },
+        {
+          "action": "select_tool",
+          "model": "qwen35-toolcalling-ft",
+          "duration_ms": 269.2,
+          "tokens_used": 701,
+          "prompt_tokens": 665,
+          "completion_tokens": 36
+        },
+        {
+          "action": "execute_tool",
+          "model": "local_execution",
+          "duration_ms": 0.1,
+          "tokens_used": 0,
+          "prompt_tokens": 0,
+          "completion_tokens": 0
+        },
+        {
+          "action": "format_response",
+          "model": "local_execution",
+          "duration_ms": 0.0,
+          "tokens_used": 0,
+          "prompt_tokens": 0,
+          "completion_tokens": 0
+        }
+      ],
+      "success": true
+    },
+    {
+      "run": 3,
+      "query": "What's 15% of $45,000?",
+      "expected_type": "tool_calc",
+      "actual_intent": "tool_use",
+      "latency_ms": 276.1,
+      "steps": 4,
+      "step_breakdown": [
+        {
+          "action": "classify_intent",
+          "model": "logreg",
+          "duration_ms": 6.5,
+          "tokens_used": 0,
+          "prompt_tokens": 0,
+          "completion_tokens": 0
+        },
+        {
+          "action": "select_tool",
+          "model": "qwen35-toolcalling-ft",
+          "duration_ms": 269.4,
+          "tokens_used": 702,
+          "prompt_tokens": 666,
+          "completion_tokens": 36
+        },
+        {
+          "action": "execute_tool",
+          "model": "local_execution",
+          "duration_ms": 0.1,
+          "tokens_used": 0,
+          "prompt_tokens": 0,
+          "completion_tokens": 0
+        },
+        {
+          "action": "format_response",
+          "model": "local_execution",
+          "duration_ms": 0.0,
+          "tokens_used": 0,
+          "prompt_tokens": 0,
+          "completion_tokens": 0
+        }
+      ],
+      "success": true
+    },
+    {
+      "run": 3,
+      "query": "What were the total sales revenue figures for 2024?",
+      "expected_type": "tool_sql",
+      "actual_intent": "tool_use",
+      "latency_ms": 366.5,
+      "steps": 4,
+      "step_breakdown": [
+        {
+          "action": "classify_intent",
+          "model": "logreg",
+          "duration_ms": 6.6,
+          "tokens_used": 0,
+          "prompt_tokens": 0,
+          "completion_tokens": 0
+        },
+        {
+          "action": "select_tool",
+          "model": "qwen35-toolcalling-ft",
+          "duration_ms": 295.1,
+          "tokens_used": 705,
+          "prompt_tokens": 665,
+          "completion_tokens": 40
+        },
+        {
+          "action": "execute_tool",
+          "model": "local_execution",
+          "duration_ms": 0.7,
+          "tokens_used": 0,
+          "prompt_tokens": 0,
+          "completion_tokens": 0
+        },
+        {
+          "action": "format_response",
+          "model": "gemma3-ft",
+          "duration_ms": 64.0,
+          "tokens_used": 142,
+          "prompt_tokens": 123,
+          "completion_tokens": 19
+        }
+      ],
+      "success": true
+    },
+    {
+      "run": 3,
+      "query": "How many new customers joined in Q3 and Q4 of 2024?",
+      "expected_type": "tool_sql",
+      "actual_intent": "tool_use",
+      "latency_ms": 450.1,
+      "steps": 4,
+      "step_breakdown": [
+        {
+          "action": "classify_intent",
+          "model": "logreg",
+          "duration_ms": 7.1,
+          "tokens_used": 0,
+          "prompt_tokens": 0,
+          "completion_tokens": 0
+        },
+        {
+          "action": "select_tool",
+          "model": "qwen35-toolcalling-ft",
+          "duration_ms": 370.2,
+          "tokens_used": 721,
+          "prompt_tokens": 669,
+          "completion_tokens": 52
+        },
+        {
+          "action": "execute_tool",
+          "model": "local_execution",
+          "duration_ms": 0.6,
+          "tokens_used": 0,
+          "prompt_tokens": 0,
+          "completion_tokens": 0
+        },
+        {
+          "action": "format_response",
+          "model": "gemma3-ft",
+          "duration_ms": 72.0,
+          "tokens_used": 146,
+          "prompt_tokens": 125,
+          "completion_tokens": 21
+        }
+      ],
+      "success": true
+    },
+    {
+      "run": 3,
+      "query": "Show top 3 customers by revenue",
+      "expected_type": "tool_sql",
+      "actual_intent": "tool_use",
+      "latency_ms": 476.1,
+      "steps": 4,
+      "step_breakdown": [
+        {
+          "action": "classify_intent",
+          "model": "logreg",
+          "duration_ms": 6.1,
+          "tokens_used": 0,
+          "prompt_tokens": 0,
+          "completion_tokens": 0
+        },
+        {
+          "action": "select_tool",
+          "model": "qwen35-toolcalling-ft",
+          "duration_ms": 294.5,
+          "tokens_used": 698,
+          "prompt_tokens": 658,
+          "completion_tokens": 40
+        },
+        {
+          "action": "execute_tool",
+          "model": "local_execution",
+          "duration_ms": 0.6,
+          "tokens_used": 0,
+          "prompt_tokens": 0,
+          "completion_tokens": 0
+        },
+        {
+          "action": "format_response",
+          "model": "gemma3-ft",
+          "duration_ms": 174.8,
+          "tokens_used": 236,
+          "prompt_tokens": 183,
+          "completion_tokens": 53
+        }
+      ],
+      "success": true
+    },
+    {
+      "run": 3,
+      "query": "Hello! What can you help me with?",
+      "expected_type": "direct",
+      "actual_intent": "direct_answer",
+      "latency_ms": 115.7,
+      "steps": 2,
+      "step_breakdown": [
+        {
+          "action": "classify_intent",
+          "model": "logreg",
+          "duration_ms": 6.2,
+          "tokens_used": 0,
+          "prompt_tokens": 0,
+          "completion_tokens": 0
+        },
+        {
+          "action": "direct_response",
+          "model": "gemma3-ft",
+          "duration_ms": 109.4,
+          "tokens_used": 61,
+          "prompt_tokens": 28,
+          "completion_tokens": 33
+        }
+      ],
+      "success": true
+    },
+    {
+      "run": 3,
+      "query": "How are you?",
+      "expected_type": "direct",
+      "actual_intent": "direct_answer",
+      "latency_ms": 154.2,
+      "steps": 2,
+      "step_breakdown": [
+        {
+          "action": "classify_intent",
+          "model": "logreg",
+          "duration_ms": 3.8,
+          "tokens_used": 0,
+          "prompt_tokens": 0,
+          "completion_tokens": 0
+        },
+        {
+          "action": "direct_response",
+          "model": "gemma3-ft",
+          "duration_ms": 150.4,
+          "tokens_used": 69,
+          "prompt_tokens": 23,
+          "completion_tokens": 46
+        }
+      ],
+      "success": true
+    },
+    {
+      "run": 3,
+      "query": "What trends do you see in this revenue chart?",
+      "expected_type": "image_query",
+      "actual_intent": "image_query",
+      "latency_ms": 1601.0,
+      "steps": 1,
+      "step_breakdown": [
+        {
+          "action": "analyse_image",
+          "model": "gemma3-4b-vision",
+          "duration_ms": 1600.9,
+          "tokens_used": 679,
+          "prompt_tokens": 303,
+          "completion_tokens": 376
+        }
+      ],
+      "success": true
+    },
+    {
+      "run": 3,
+      "query": "Summarize the pricing tiers shown in this table",
+      "expected_type": "image_query",
+      "actual_intent": "image_query",
+      "latency_ms": 1347.9,
+      "steps": 1,
+      "step_breakdown": [
+        {
+          "action": "analyse_image",
+          "model": "gemma3-4b-vision",
+          "duration_ms": 1347.9,
+          "tokens_used": 613,
+          "prompt_tokens": 302,
+          "completion_tokens": 311
+        }
+      ],
+      "success": true
+    },
+    {
+      "run": 3,
+      "query": "Explain what this system diagram shows",
+      "expected_type": "image_query",
+      "actual_intent": "image_query",
+      "latency_ms": 1683.0,
+      "steps": 1,
+      "step_breakdown": [
+        {
+          "action": "analyse_image",
+          "model": "gemma3-4b-vision",
+          "duration_ms": 1683.0,
+          "tokens_used": 699,
+          "prompt_tokens": 299,
+          "completion_tokens": 400
+        }
+      ],
+      "success": true
+    }
+  ]
+}

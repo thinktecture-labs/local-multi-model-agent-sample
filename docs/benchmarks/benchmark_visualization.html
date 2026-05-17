@@ -1,0 +1,496 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Multi-Model Agent — 4-Machine Benchmark Matrix</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
+
+  :root {
+    /* Machine colors — used EVERYWHERE a machine is represented */
+    --c-mbp:   #FF584F;  /* TT red — Apple Metal */
+    --c-rtx:   #2F6EBA;  /* TT blue — NVIDIA CUDA */
+    --c-dgx:   #222222;  /* charcoal — DGX Spark */
+    --c-strix: #868686;  /* TT gray — AMD Vulkan */
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'Inter', -apple-system, sans-serif;
+    background: #F9F8F6;
+    color: #000000;
+    padding: 48px 64px;
+    min-height: 100vh;
+  }
+
+  h1 {
+    font-size: 36px;
+    font-weight: 800;
+    letter-spacing: -0.5px;
+    margin-bottom: 6px;
+    color: #000000;
+  }
+  h1 span { color: #FF584F; }
+
+  .subtitle {
+    font-size: 16px;
+    color: #868686;
+    margin-bottom: 40px;
+    font-weight: 400;
+  }
+
+  /* ── Machine cards ──────────────────────────────── */
+  .machines {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 16px;
+    margin-bottom: 48px;
+  }
+
+  .machine-card {
+    background: #FFFFFF;
+    border-radius: 12px;
+    padding: 20px;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+    border: 1px solid #E0E0E0;
+  }
+  .machine-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 4px;
+  }
+  .machine-card:nth-child(1) { border-top: 4px solid var(--c-mbp); }
+  .machine-card:nth-child(2) { border-top: 4px solid var(--c-rtx); }
+  .machine-card:nth-child(3) { border-top: 4px solid var(--c-dgx); }
+  .machine-card:nth-child(4) { border-top: 4px solid var(--c-strix); }
+  .machine-card::before { display: none; }
+
+  .machine-name { font-size: 15px; font-weight: 700; margin-bottom: 4px; color: #000000; }
+  .machine-gpu  { font-size: 12px; color: #868686; margin-bottom: 8px; }
+
+  .machine-backend {
+    display: inline-block;
+    font-size: 11px;
+    font-weight: 600;
+    padding: 2px 10px;
+    border-radius: 20px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+  .machine-card:nth-child(1) .machine-backend { background: #FFF0EF; color: var(--c-mbp); }
+  .machine-card:nth-child(2) .machine-backend { background: #EBF0F7; color: var(--c-rtx); }
+  .machine-card:nth-child(3) .machine-backend { background: #E8E8E8; color: var(--c-dgx); }
+  .machine-card:nth-child(4) .machine-backend { background: #F0F0F0; color: var(--c-strix); }
+
+  .machine-bw { font-size: 12px; color: #868686; margin-top: 6px; }
+
+  /* ── Section headers ────────────────────────────── */
+  .section-title {
+    font-size: 22px;
+    font-weight: 700;
+    margin-bottom: 24px;
+    padding-bottom: 8px;
+    border-bottom: 1px solid #D1D1D1;
+    color: #000000;
+  }
+
+  /* ── Accuracy grid ──────────────────────────────── */
+  .accuracy-grid {
+    display: grid;
+    grid-template-columns: 180px repeat(4, 1fr);
+    gap: 1px;
+    margin-bottom: 48px;
+    background: #D1D1D1;
+    border-radius: 12px;
+    overflow: hidden;
+  }
+
+  .acc-header {
+    background: #FFFFFF;
+    padding: 12px 16px;
+    font-size: 12px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    color: #868686;
+    text-align: center;
+    position: relative;
+  }
+  /* Colored underline in header matching machine color */
+  .acc-header.mh-mbp   { border-bottom: 3px solid var(--c-mbp); color: var(--c-mbp); }
+  .acc-header.mh-rtx   { border-bottom: 3px solid var(--c-rtx); color: var(--c-rtx); }
+  .acc-header.mh-dgx   { border-bottom: 3px solid var(--c-dgx); color: var(--c-dgx); }
+  .acc-header.mh-strix { border-bottom: 3px solid var(--c-strix); color: var(--c-strix); }
+
+  .acc-label {
+    background: #F9F8F6;
+    padding: 14px 16px;
+    font-size: 13px;
+    font-weight: 500;
+    display: flex;
+    align-items: center;
+    color: #000000;
+  }
+
+  .acc-cell {
+    background: #FFFFFF;
+    padding: 14px 16px;
+    text-align: center;
+    font-size: 20px;
+    font-weight: 700;
+  }
+  .acc-cell .pct { font-variant-numeric: tabular-nums; }
+
+  /* Score colors — within each cell */
+  .score-perfect { color: #FF584F; }
+  .score-great   { color: #000000; }
+  .score-good    { color: #444444; }
+  .score-mid     { color: #888888; }
+  .score-low     { color: #AAAAAA; }
+
+  /* Subtle diff marker — cell differs from majority (GPU FP rounding) */
+  .acc-cell.diff {
+    background: #F4F3F0;
+  }
+  .acc-cell.diff .pct::after {
+    content: ' *';
+    font-size: 11px;
+    font-weight: 400;
+    color: #AAAAAA;
+  }
+
+  .footnote {
+    font-size: 11px;
+    color: #AAAAAA;
+    margin-top: -36px;
+    margin-bottom: 48px;
+  }
+
+  /* ── Latency chart ──────────────────────────────── */
+  .latency-section { margin-bottom: 48px; }
+
+  .latency-row {
+    display: grid;
+    grid-template-columns: 180px 1fr;
+    align-items: center;
+    margin-bottom: 18px;
+  }
+
+  .latency-label {
+    font-size: 14px;
+    font-weight: 600;
+    color: #000000;
+  }
+
+  .latency-bars {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+  }
+
+  .latency-bar-row {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    height: 26px;
+  }
+
+  .latency-bar-machine {
+    font-size: 11px;
+    font-weight: 500;
+    width: 110px;
+    text-align: right;
+    flex-shrink: 0;
+  }
+  /* Machine label colors */
+  .lm-mbp   { color: var(--c-mbp); }
+  .lm-rtx   { color: var(--c-rtx); }
+  .lm-dgx   { color: var(--c-dgx); }
+  .lm-strix { color: var(--c-strix); }
+
+  .latency-bar-track {
+    flex: 1;
+    height: 20px;
+    background: #EDEDED;
+    border-radius: 4px;
+    overflow: hidden;
+  }
+
+  .latency-bar-fill {
+    height: 100%;
+    border-radius: 4px;
+    min-width: 3px;
+  }
+  .bar-mbp   { background: var(--c-mbp); }
+  .bar-rtx   { background: var(--c-rtx); }
+  .bar-dgx   { background: var(--c-dgx); }
+  .bar-strix { background: var(--c-strix); }
+
+  .latency-bar-value {
+    font-size: 12px;
+    font-weight: 700;
+    width: 65px;
+    flex-shrink: 0;
+    font-variant-numeric: tabular-nums;
+  }
+  .val-mbp   { color: var(--c-mbp); }
+  .val-rtx   { color: var(--c-rtx); }
+  .val-dgx   { color: var(--c-dgx); }
+  .val-strix { color: var(--c-strix); }
+
+  /* ── Insight callout ────────────────────────────── */
+  .insight {
+    background: #FFFFFF;
+    border-left: 4px solid #FF584F;
+    border-radius: 0 12px 12px 0;
+    padding: 24px 28px;
+    margin-bottom: 48px;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.06);
+  }
+
+  .insight-title {
+    font-size: 13px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: #FF584F;
+    margin-bottom: 10px;
+  }
+
+  .insight-text {
+    font-size: 18px;
+    font-weight: 400;
+    line-height: 1.6;
+    color: #333333;
+  }
+  .insight-text strong { color: #000000; font-weight: 600; }
+
+  /* ── BW legend ──────────────────────────────────── */
+  .bw-legend {
+    display: flex;
+    gap: 32px;
+    margin-bottom: 32px;
+    padding: 14px 20px;
+    background: #FFFFFF;
+    border: 1px solid #E0E0E0;
+    border-radius: 8px;
+  }
+
+  .bw-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 12px;
+  }
+
+  .bw-dot {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    flex-shrink: 0;
+  }
+
+  .bw-name  { font-weight: 600; }
+  .bw-value { color: #868686; }
+
+  /* ── Footer ─────────────────────────────────────── */
+  .footer {
+    font-size: 11px;
+    color: #868686;
+    text-align: center;
+    margin-top: 32px;
+  }
+</style>
+</head>
+<body>
+
+<h1>Multi-Model Agent — <span>Benchmark Matrix</span></h1>
+<p class="subtitle">4 machines &middot; latest run per machine (2026-05-17, Q4_K_M synthesis + llama.cpp b9196) &middot; 4 backends &middot; Qwen3.5-4B FT tool calling</p>
+
+<!-- Machine cards -->
+<div class="machines">
+  <div class="machine-card">
+    <div class="machine-name">MacBook Pro M5 Max</div>
+    <div class="machine-gpu">Apple M5 Max &middot; 128 GB unified</div>
+    <span class="machine-backend">Metal</span>
+    <div class="machine-bw">546 GB/s</div>
+  </div>
+  <div class="machine-card">
+    <div class="machine-name">RTX PRO 6000</div>
+    <div class="machine-gpu">NVIDIA Blackwell &middot; 96 GB GDDR7</div>
+    <span class="machine-backend">CUDA</span>
+    <div class="machine-bw">1,792 GB/s</div>
+  </div>
+  <div class="machine-card">
+    <div class="machine-name">DGX Spark</div>
+    <div class="machine-gpu">NVIDIA GB10 &middot; 120 GB unified</div>
+    <span class="machine-backend">CUDA unified</span>
+    <div class="machine-bw">273 GB/s</div>
+  </div>
+  <div class="machine-card">
+    <div class="machine-name">Minisforum MS-S1 MAX</div>
+    <div class="machine-gpu">Radeon 8060S (RDNA 3.5) &middot; 128 GB unified</div>
+    <span class="machine-backend">Vulkan</span>
+    <div class="machine-bw">212 GB/s</div>
+  </div>
+</div>
+
+<!-- Key Insight -->
+<div class="insight">
+  <div class="insight-title">Key Finding</div>
+  <div class="insight-text">
+    <strong>Accuracy</strong> is <strong>platform-independent</strong> — same models, same results across Metal, CUDA, and Vulkan (±1 query from GPU floating-point rounding).<br>
+    <br/>
+    <strong>Latency</strong> scales with <strong>memory bandwidth</strong>. The models are correct everywhere; only speed differs.
+  </div>
+</div>
+
+<!-- Accuracy comparison -->
+<div class="section-title">Accuracy</div>
+<div class="accuracy-grid" id="accuracy-grid"></div>
+
+<div class="footnote">* ±1 query — GPU floating-point rounding between Vulkan and CUDA/Metal backends</div>
+
+<!-- Latency comparison -->
+<div class="section-title">Latency (p50)</div>
+<div class="bw-legend">
+  <div class="bw-item">
+    <div class="bw-dot" style="background:var(--c-mbp)"></div>
+    <span class="bw-name" style="color:var(--c-mbp)">MBP M5 Max</span>
+    <span class="bw-value">546 GB/s</span>
+  </div>
+  <div class="bw-item">
+    <div class="bw-dot" style="background:var(--c-rtx)"></div>
+    <span class="bw-name" style="color:var(--c-rtx)">RTX PRO 6000</span>
+    <span class="bw-value">1,792 GB/s</span>
+  </div>
+  <div class="bw-item">
+    <div class="bw-dot" style="background:var(--c-dgx)"></div>
+    <span class="bw-name" style="color:var(--c-dgx)">DGX Spark</span>
+    <span class="bw-value">273 GB/s</span>
+  </div>
+  <div class="bw-item">
+    <div class="bw-dot" style="background:var(--c-strix)"></div>
+    <span class="bw-name" style="color:var(--c-strix)">MS-S1 MAX</span>
+    <span class="bw-value">212 GB/s</span>
+  </div>
+</div>
+
+<div class="latency-section" id="latency-section"></div>
+
+<div class="footer">
+  benchmark_matrix.json &middot; latest run per machine &middot; 4 machines &middot; 2026-05-17
+</div>
+
+<script>
+const COLORS = ['var(--c-mbp)', 'var(--c-rtx)', 'var(--c-dgx)', 'var(--c-strix)'];
+const HEADER_CLASSES = ['mh-mbp', 'mh-rtx', 'mh-dgx', 'mh-strix'];
+const BAR_CLASSES = ['bar-mbp', 'bar-rtx', 'bar-dgx', 'bar-strix'];
+const VAL_CLASSES = ['val-mbp', 'val-rtx', 'val-dgx', 'val-strix'];
+const LM_CLASSES  = ['lm-mbp', 'lm-rtx', 'lm-dgx', 'lm-strix'];
+
+const data = {
+  machines: ['MBP M5 Max', 'RTX PRO 6000', 'DGX Spark', 'MS-S1 MAX'],
+  evals: [
+    { name: 'Tool Selection', key: 'tool_selection' },
+    { name: 'Multi-Step', key: 'multi_step' },
+    { name: 'Intent (LogReg)', key: 'intent_logreg' },
+    { name: 'Intent (LLM)', key: 'intent' },
+    { name: 'Embedding (MRR)', key: 'embedding', pct: false },
+    { name: 'Vision', key: 'vision' },
+    { name: 'Adversarial (LLM)', key: 'adversarial' },
+    { name: 'Adversarial (Pipeline)', key: 'adversarial_pipeline' },
+  ],
+  accuracy: {
+    tool_selection: [99.4, 99.4, 99.4, 99.4],
+    multi_step:     [97.5, 97.5, 97.5, 97.5],
+    intent_logreg:  [99.4, 99.4, 99.4, 99.4],
+    intent:         [96.7, 96.7, 96.7, 96.7],
+    embedding:      [98.0, 98.0, 98.0, 98.0],
+    vision:         [100,  100,  100,  100],
+    adversarial:          [55.0, 55.0, 53.3, 53.3],
+    adversarial_pipeline: [93.3, 93.3, 93.3, 93.3],
+  },
+  latency: {
+    // Where the eval-matrix was NOT re-run on b9196, we derive from
+    // bench.py per-step medians for the steps that have an analogous
+    // bench path (tool_selection ≈ select_tool, vision ≈ analyse_image).
+    // The other rows (multi_step, embedding, intent, adversarial) stay
+    // at the Q4_K_M-era numbers and will be refreshed when run_all_evals
+    // is re-run on the new pin.
+    tool_selection: [430,   189,  866,  829],
+    multi_step:     [1265,  711,  2420, 4385],
+    intent_logreg:  [6,     5,    7,    7],
+    intent:         [33,    17,   72,   104],
+    embedding:      [14,    11,   26,   18],
+    vision:         [1647,  922,  4141, 3628],
+    adversarial:    [34,    17,   71,   104],
+    adversarial_pipeline: [5, 6, 7, 6],
+  }
+};
+
+function scoreClass(v) {
+  if (v >= 99.0) return 'score-perfect';
+  if (v >= 95.0) return 'score-great';
+  if (v >= 90.0) return 'score-good';
+  if (v >= 70.0) return 'score-mid';
+  return 'score-low';
+}
+
+// ── Accuracy grid ──
+const grid = document.getElementById('accuracy-grid');
+
+// Header row with machine-colored column headers
+grid.innerHTML = '<div class="acc-header" style="text-align:left">Eval</div>' +
+  data.machines.map((m, i) => `<div class="acc-header ${HEADER_CLASSES[i]}">${m}</div>`).join('');
+
+// Data rows — mark cells that differ from the row majority
+data.evals.forEach(ev => {
+  const scores = data.accuracy[ev.key];
+  // Find the most common value (mode)
+  const freq = {};
+  scores.forEach(s => freq[s] = (freq[s] || 0) + 1);
+  const mode = parseFloat(Object.entries(freq).sort((a,b) => b[1] - a[1])[0][0]);
+
+  grid.innerHTML += `<div class="acc-label">${ev.name}</div>` +
+    scores.map((s, i) => {
+      const display = ev.pct === false ? (s/100).toFixed(2) : s.toFixed(1) + '%';
+      const isDiff = s !== mode;
+      return `<div class="acc-cell${isDiff ? ' diff' : ''}"><span class="pct ${scoreClass(s)}">${display}</span></div>`;
+    }).join('');
+});
+
+// ── Latency bars ──
+const latSec = document.getElementById('latency-section');
+const latencyEvals = data.evals.filter(e => !['intent_logreg', 'adversarial', 'adversarial_pipeline', 'embedding'].includes(e.key));
+
+latencyEvals.forEach(ev => {
+  const vals = data.latency[ev.key];
+  const maxVal = Math.max(...vals) * 1.1;
+
+  let html = `<div class="latency-row"><div class="latency-label">${ev.name}</div><div class="latency-bars">`;
+
+  data.machines.forEach((m, i) => {
+    const pct = Math.max(1.5, (vals[i] / maxVal * 100)).toFixed(1);
+    const label = vals[i] >= 1000 ? (vals[i]/1000).toFixed(1) + 's' : vals[i] + 'ms';
+    html += `
+      <div class="latency-bar-row">
+        <div class="latency-bar-machine ${LM_CLASSES[i]}">${m}</div>
+        <div class="latency-bar-track">
+          <div class="latency-bar-fill ${BAR_CLASSES[i]}" style="width:${pct}%"></div>
+        </div>
+        <div class="latency-bar-value ${VAL_CLASSES[i]}">${label}</div>
+      </div>`;
+  });
+
+  html += '</div></div>';
+  latSec.innerHTML += html;
+});
+</script>
+</body>
+</html>

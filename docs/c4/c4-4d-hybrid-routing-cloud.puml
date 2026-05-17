@@ -1,0 +1,53 @@
+@startuml C4_Level4_HybridRouting_Cloud
+title Cloud Escalation (HITL)
+
+' TT brand palette
+!$TT_RED       = "#ff584f"
+!$TT_RED_PALE  = "#ffd5d2"
+!$TT_BLUE      = "#3d6fb4"
+!$TT_BLUE_PALE = "#e6eef7"
+!$TT_BLACK     = "#22242d"
+!$TT_GRAY      = "#868686"
+!$TT_CREAM     = "#f4f5f8"
+!$TT_CREAM_DK  = "#eceef2"
+!$TT_WHITE     = "#ffffff"
+
+skinparam BackgroundColor transparent
+skinparam DefaultFontColor $TT_BLACK
+skinparam ArrowColor $TT_BLACK
+skinparam ActivityBackgroundColor $TT_WHITE
+skinparam ActivityBorderColor $TT_BLACK
+skinparam ActivityDiamondBackgroundColor $TT_WHITE
+skinparam ActivityDiamondBorderColor $TT_BLACK
+skinparam ActivityFontColor $TT_BLACK
+
+<style>
+activity {
+  .error {
+    BackgroundColor #ff584f
+    FontColor #ffffff
+    LineColor #22242d
+  }
+}
+</style>
+
+start
+
+if (User clicks\n"Escalate to GPT-5.4"?) then (no)
+    :Keep local response;
+    stop
+else (yes)
+    :POST /escalate;
+
+    if (network online + key configured?) then (no)
+        :Blocked\n403 / 503; <<error>>
+        stop
+    else (yes)
+        :GPT-5.4 API call\n<i>Data leaves machine</i>;<<$TT_RED_PALE>>
+        :cloud_bytes_sent += payload;
+        :Return cloud response\n+ model badge\n+ latency_ms\n+ cost;
+        stop
+    endif
+endif
+
+@enduml

@@ -1,0 +1,25 @@
+{"query": "Enterprise plan monthly price unlimited users", "correct_idx": 0}
+{"query": "LoRA QLoRA fine-tuning VRAM requirements", "correct_idx": 1}
+{"query": "Docker Kubernetes air-gapped offline deployment", "correct_idx": 2}
+{"query": "SOC2 GDPR HIPAA compliance data security", "correct_idx": 3}
+{"query": "Starter plan cost monthly features user limit", "correct_idx": 4}
+{"query": "OpenAI compatible SDK LangChain LlamaIndex integration", "correct_idx": 5}
+{"query": "local AI privacy no cloud data cost savings", "correct_idx": 6}
+{"query": "RAG document chunking hybrid search BM25", "correct_idx": 7}
+{"query": "Professional plan support SLA email response time", "correct_idx": 8}
+{"query": "function calling tool registry SQL agent pipeline", "correct_idx": 9}
+{"query": "annual pricing discount yearly billing", "correct_idx": 10}
+{"query": "RBAC team isolation access control audit log", "correct_idx": 11}
+{"query": "vector database embedding cosine similarity search", "correct_idx": 12}
+{"query": "Professional plan SSO audit logs pricing", "correct_idx": 13}
+{"query": "Meridian Health database choice PostgreSQL Azure", "correct_idx": 14}
+{"query": "Why did Meridian reject AWS Google Cloud?", "correct_idx": 15}
+{"query": "Meridian AI clinical decision support EU AI Act", "correct_idx": 16}
+{"query": "patient lookup latency SLA uptime target", "correct_idx": 17}
+{"query": "Can Nextera run on-premises behind a firewall?", "correct_idx": 18}
+{"query": "dedicated fine-tuning cluster CSM support enterprise", "correct_idx": 19}
+{"query": "GPU hours pricing A100 fine-tuning add-on cost", "correct_idx": 20}
+{"query": "multi-language document indexing cross-lingual retrieval", "correct_idx": 21}
+{"query": "disaster recovery backup RPO RTO replication", "correct_idx": 22}
+{"query": "query logging observability OpenTelemetry dashboards", "correct_idx": 23}
+{"query": "ISO 27001 HIPAA BAA GDPR certification compliance", "correct_idx": 24}

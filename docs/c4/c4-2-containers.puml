@@ -1,0 +1,65 @@
+@startuml C4_Level2_Containers
+!include <C4/C4_Container>
+
+LAYOUT_WITH_LEGEND()
+title Container Diagram — Five-Model Local AI Agent
+
+Person(user, "User")
+
+System_Boundary(system, "Local AI Agent System") {
+
+    Container(fastapi, "FastAPI Server", "Python / uvicorn", "REST API + static file server.\nRoutes: /query, /health, /tools,\n/compare, /escalate, /train, /eval,\n/voice/*, /gpu, /privacy, /models/swap.\nPort 8000.")
+
+    Container(engine, "Agent Engine", "Python", "Core agent runtime: orchestrator,\nintent classifier, query decomposer,\ntool framework, scaffolding,\ninference client, knowledge pipeline.")
+
+    ContainerDb(chromadb, "ChromaDB", "Persistent vector store", "Two collections:\nknowledge_base (13 curated docs)\n+ uploads (user documents).\nCosine similarity,\nexternal embeddings via embeddinggemma.")
+
+    ContainerDb(sqlite, "SQLite", "business.db", "3 tables: products (5),\ncustomers (10), sales (8 quarters).\nRead-only SELECT via sql_query tool.")
+
+    ContainerDb(jsonl_logs, "Interaction Logs", "JSONL / JSON", "Thread-safe interaction logging\nfor fine-tuning data collection\nand export.")
+}
+
+System_Boundary(model_servers, "Model Servers (llama.cpp)") {
+    Container(gemma3_1b, "gemma3-ft (1B)", "llama-server", "Intent classification (fallback path,\nLogReg primary),\nquery decomposition,\ndirect answers,\nsingle-step tool-result formatting.\nPort 9090 (base) / 9094 (FT).")
+
+    Container(qwen3.5-4b, "qwen3.5-4b-ft", "llama-server", "Tool selection + parameter\nextraction for calculator\nand sql_query.\nAlso: concretize_step + multi-step\nsynthesis (since commits 3db64e4 /\n118b6a1). Fine-tuned\n(v9, QLoRA r=16). 99.4% routing.\nPort 9091 (base) / 9095 (FT).")
+
+    Container(embeddinggemma, "embeddinggemma (308M)", "llama-server", "768-dim semantic embeddings\nfor RAG retrieval.\nPort 9092 / 9096.")
+
+    Container(gemma3_4b, "gemma3-4B (Vision)", "llama-server", "Multimodal image analysis +\nRAG synthesis (superior\nmulti-doc comprehension).\nPort 9093. Base only.")
+
+    Container(glm_ocr, "GLM-OCR (0.9B)", "llama-server", "PDF text + table extraction\nvia vision model.\nUpload-time only.\nPort 9098. Optional.")
+}
+
+System_Boundary(clients, "Client Applications") {
+    Container(observatory_react, "Observatory React", "React 19 + Vite + TypeScript", "Full-featured SPA at /app.\nThree-path comparison, voice,\nlive document drop, hybrid routing,\neval A/B dashboard, energy tracking.")
+
+    Container(webgpu_demo, "WebGPU Document Triage", "HTML/JS + Transformers.js", "Browser-based document triage\nwith LFM 2.5 1.2B via WebGPU.\nOn-device inference, no server needed.")
+
+    Container(cli_demo, "CLI Demo", "Python / Rich", "demo.py — Rich console showcase\nwith 10 text + 3 image queries,\ninteractive REPL mode.")
+
+    Container(ios_app, "LocalLife iOS", "SwiftUI / LEAP SDK", "On-device agent using\nLFM 2.5 1.2B via Neural Engine.\nHealthKit, Calendar, Reminders tools.")
+}
+
+Container_Ext(whisper, "whisper-server", "whisper.cpp", "Speech-to-text\n(Metal/CUDA).\nPort 9097. Optional.")
+Container_Ext(piper, "Piper TTS", "ONNX / CPU", "Text-to-speech\n(EN/DE voices).\nIn-process. Optional.")
+
+Rel(user, observatory_react, "Browser")
+Rel(user, webgpu_demo, "Browser")
+Rel(user, cli_demo, "Terminal")
+Rel(user, ios_app, "iPhone")
+Rel(observatory_react, fastapi, "HTTP / SSE / WebSocket")
+Rel(cli_demo, engine, "Direct Python import")
+Rel(fastapi, engine, "Python import")
+Rel(engine, gemma3_1b, "OpenAI API (async)")
+Rel(engine, qwen3.5-4b, "OpenAI API (async)")
+Rel(engine, embeddinggemma, "OpenAI API (async)")
+Rel(engine, gemma3_4b, "OpenAI API (async)")
+Rel(engine, glm_ocr, "OCR extraction\n(upload-time, optional)")
+Rel(engine, chromadb, "Embed + query")
+Rel(engine, sqlite, "Read-only SELECT")
+Rel(engine, jsonl_logs, "Write interactions")
+Rel(fastapi, whisper, "Transcription (optional)")
+Rel(fastapi, piper, "TTS synthesis (optional)")
+
+@enduml

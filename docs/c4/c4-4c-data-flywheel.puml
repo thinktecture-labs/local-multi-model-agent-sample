@@ -1,0 +1,83 @@
+@startuml C4_Level4_DataFlywheel
+title Fine-Tuning Data Flywheel — Use -> Log -> Train -> Deploy
+
+skinparam PackageBackgroundColor White
+skinparam ArrowColor #333333
+skinparam ActivityBackgroundColor #E8E8E8
+
+package "1. USE (Runtime)" as use #E8F4FD {
+    rectangle "User Query" as Q
+    rectangle "SmallLanguageModelAgentOrchestrator\n.process()" as O
+    rectangle "AgentResponse" as R
+    rectangle "InteractionLogger" as IL
+    database "Interaction Logs\n(in-memory + JSON export)" as JSONL
+}
+
+package "2. TRAIN (Offline Pipeline)" as train #FDF5E6 {
+    rectangle "data_prep_gemma3.py\ndata_prep_qwen35_toolcalling.py\ndata_prep_embeddinggemma.py" as DP
+    database "Training Datasets\n(JSONL)" as TD
+    rectangle "train_gemma3.py\nLoRA, EVA + rsLoRA r=8\n7 epochs, lr=5e-5" as TG
+    rectangle "train_qwen35_toolcalling.py\nLoRA (Unsloth), 3 epochs\nlr=2e-4, packing=True" as TF
+    rectangle "train_embeddinggemma.py\nContrastive (MNRL)\n10 epochs" as TE
+    rectangle "convert_gemma3_to_gguf.sh" as GGUF1
+    rectangle "convert_qwen35_to_gguf.sh" as GGUF2
+    rectangle "convert_embeddinggemma_to_gguf.sh" as GGUF3
+}
+
+package "3. MEASURE (Evaluation)" as measure #F0FFF0 {
+    rectangle "eval_gemma3.py\n180 queries -> 96.7%" as EG
+    rectangle "eval_tool_routing.py\n160 queries -> 99.4%\n(qwen3.5-ft v9)" as EF
+    rectangle "eval_embeddinggemma.py\nMRR@10 0.980, Recall@5 100%" as EE
+    rectangle "eval_adversarial.py\n60 queries -> 93.3%" as EA
+    rectangle "eval_multi_step.py\n80 queries -> 97.5%" as EM
+    rectangle "eval_vision.py\n10 queries -> 100%" as EV
+    rectangle "eval_expression_pipeline.py\n80 queries -> 95.0%" as EP
+}
+
+package "4. DEPLOY (Zero-Downtime)" as deploy #FFF0F0 {
+    rectangle "start_servers.sh\n--ft-extra" as SS
+    rectangle "POST /models/swap\nmode: finetuned" as SWAP
+}
+
+Q --> O
+O --> R
+O --> IL
+IL --> JSONL
+
+JSONL --> DP
+DP --> TD
+TD --> TG
+TD --> TF
+TD --> TE
+TG --> GGUF1
+TF --> GGUF2
+TE --> GGUF3
+
+GGUF1 ..> EG
+GGUF2 ..> EF
+GGUF3 ..> EE
+EG ..> EA
+EG ..> EM
+EG ..> EV
+EG ..> EP
+
+GGUF1 --> SS
+GGUF2 --> SS
+GGUF3 --> SS
+SS --> SWAP
+SWAP --> O : Models updated\n~100ms
+
+note right of JSONL
+  Also exportable via
+  POST /export-training-data
+  or via Observatory UI
+end note
+
+note right of TD
+  gen_embeddinggemma_dataset.py (507 pairs)
+  gen_gemma3_synthesis_dataset.py (201 examples)
+  Gemma3 intent: 1,847 base + 59 hard negatives
+  Qwen3.5 tool calling: 1,372 examples
+end note
+
+@enduml

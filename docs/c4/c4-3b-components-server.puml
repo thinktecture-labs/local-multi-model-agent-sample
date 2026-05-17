@@ -1,0 +1,44 @@
+@startuml C4_Level3_Server
+!include <C4/C4_Component>
+
+LAYOUT_WITH_LEGEND()
+title Component Diagram — FastAPI Server (src/server/)
+
+Container_Boundary(server, "FastAPI Server (src/server/)") {
+    Component(app_init, "App Init", "__init__.py", "Lifespan: creates SmallLanguageModelClient\n(FT auto-detect), VectorStore,\nToolRegistry, Orchestrator.\nCORS, static mounts for\nObservatory SPA + React.")
+
+    Component(app_state, "AppState", "state.py", "Singleton shared state.\nHolds client, agent, model_mode,\nnetwork_mode, routing_mode,\ntraining state, energy accumulators,\neval results.\nDual-port config (BASE_PORTS, FT_PORTS).")
+
+    Component(pydantic_models, "Pydantic Models", "models.py", "QueryRequest/Response,\nExecutionStepOut, HealthResponse,\nSwapRequest/Response, GpuStats,\nEnergyStats, PrivacyStats,\nCompareRequest/Response,\nEscalateRequest/Response,\nTrainRequest, EvalRequest.")
+
+    Component(agent_routes, "Agent Routes", "agent_routes.py", "POST /query\n  (+ confidence in hybrid mode)\nPOST /query/stream (SSE)\nGET /health\nGET /tools\nPOST /documents\nPOST /upload-document (SSE)\nPOST /export-training-data")
+
+    Component(training_routes, "Training Routes", "training_routes.py", "POST /train\n  (real or demo SSE streaming)\nGET /train/status\nPOST /eval (60-query test set)\nGET /eval/results\nPOST /eval/reset")
+
+    Component(voice_routes, "Voice Routes", "voice_routes.py", "POST /voice/chat\n  (full SSE: STT->agent->TTS)\nGET /voice/audio/{id}\nPOST /voice/synthesize\nAudio cache: TTL + LRU eviction.")
+
+    Component(cloud_routes, "Cloud Routes", "cloud_routes.py", "POST /compare\n  (local vs cloud side-by-side)\nPOST /escalate\nPOST /escalate/stream (SSE)\n  (HITL cloud escalation)\nOnly paths that send data externally.")
+
+    Component(system_routes, "System Routes", "system_routes.py", "GET /gpu (CUDA/Metal/CPU)\nGET /energy (Wh, CO2, cost)\nGET /privacy\nPOST /network-mode\nPOST /routing-mode\nPOST /models/swap\nGET /models/mode\nWS /ws/stats (3s push)")
+}
+
+Component_Ext(engine, "Agent Engine", "src/engine/", "Core agent runtime")
+Component_Ext(eval_module, "Eval Scripts", "finetune/eval_*.py", "Model evaluation suites")
+Component_Ext(cloud_api, "OpenAI Cloud API", "GPT-5.4", "Optional cloud LLM")
+
+Rel(app_init, app_state, "Initializes at startup")
+Rel(app_init, engine, "Creates orchestrator")
+Rel(agent_routes, app_state, "Reads / writes state")
+Rel(agent_routes, engine, "agent.process()")
+Rel(training_routes, app_state, "Training state")
+Rel(training_routes, eval_module, "run_eval() / score()")
+Rel(voice_routes, app_state, "agent.process() + TTS")
+Rel(cloud_routes, app_state, "cloud_bytes_sent tracking")
+Rel(cloud_routes, cloud_api, "Only with user consent")
+Rel(system_routes, app_state, "GPU / energy / privacy / swap")
+Rel(agent_routes, pydantic_models, "Uses")
+Rel(training_routes, pydantic_models, "Uses")
+Rel(cloud_routes, pydantic_models, "Uses")
+Rel(system_routes, pydantic_models, "Uses")
+
+@enduml

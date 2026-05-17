@@ -1,0 +1,160 @@
+{"query": "Revenue generated during the first quarter of 2024?", "expected_tool": "sql_query", "expected_arg_key": "query"}
+{"query": "Display all customers subscribed to the Enterprise tier.", "expected_tool": "sql_query", "expected_arg_key": "query"}
+{"query": "How many customers did we acquire throughout 2024?", "expected_tool": "sql_query", "expected_arg_key": "query"}
+{"query": "Mean monthly recurring revenue across our entire customer base?", "expected_tool": "sql_query", "expected_arg_key": "query"}
+{"query": "Display every product alongside its monthly pricing.", "expected_tool": "sql_query", "expected_arg_key": "query"}
+{"query": "Quarterly sales breakdown for the year 2023?", "expected_tool": "sql_query", "expected_arg_key": "query"}
+{"query": "Count of new customer acquisitions during Q3 2024?", "expected_tool": "sql_query", "expected_arg_key": "query"}
+{"query": "Show all customers operating in the healthcare sector.", "expected_tool": "sql_query", "expected_arg_key": "query"}
+{"query": "Combined MRR across all Professional plan subscribers?", "expected_tool": "sql_query", "expected_arg_key": "query"}
+{"query": "Sales records ordered by revenue from highest to lowest.", "expected_tool": "sql_query", "expected_arg_key": "query"}
+{"query": "Customers operating in the manufacturing sector?", "expected_tool": "sql_query", "expected_arg_key": "query"}
+{"query": "Aggregate revenue for H2 2024?", "expected_tool": "sql_query", "expected_arg_key": "query"}
+{"query": "Annual recurring revenue growth rate in Q2 2023?", "expected_tool": "sql_query", "expected_arg_key": "query"}
+{"query": "Difference in new customer acquisition between Q1 and Q3 2024?", "expected_tool": "sql_query", "expected_arg_key": "query"}
+{"query": "Customers with onboarding dates prior to January 2024?", "expected_tool": "sql_query", "expected_arg_key": "query"}
+{"query": "Which quarter in 2024 showed the largest revenue increase?", "expected_tool": "sql_query", "expected_arg_key": "query"}
+{"query": "New customer acquisitions during Q3 2023?", "expected_tool": "sql_query", "expected_arg_key": "query"}
+{"query": "List all customers currently on the Starter pricing tier.", "expected_tool": "sql_query", "expected_arg_key": "query"}
+{"query": "Which single customer generates the most monthly recurring revenue?", "expected_tool": "sql_query", "expected_arg_key": "query"}
+{"query": "Customer churn percentage during Q1 2024?", "expected_tool": "sql_query", "expected_arg_key": "query"}
+{"query": "Revenue recorded in the second quarter of 2024?", "expected_tool": "sql_query", "expected_arg_key": "query"}
+{"query": "Q4 2023 revenue figure?", "expected_tool": "sql_query", "expected_arg_key": "query"}
+{"query": "Revenue total recorded in Q3 2023?", "expected_tool": "sql_query", "expected_arg_key": "query"}
+{"query": "Aggregate revenue across the full year 2023?", "expected_tool": "sql_query", "expected_arg_key": "query"}
+{"query": "Revenue earned during Q1 2023?", "expected_tool": "sql_query", "expected_arg_key": "query"}
+{"query": "Sum of Q2 and Q3 2024 revenues combined?", "expected_tool": "sql_query", "expected_arg_key": "query"}
+{"query": "Quarterly revenue figures for H1 2024?", "expected_tool": "sql_query", "expected_arg_key": "query"}
+{"query": "Which quarter in 2023 produced the least revenue?", "expected_tool": "sql_query", "expected_arg_key": "query"}
+{"query": "Across all time periods, which quarter generated peak revenue?", "expected_tool": "sql_query", "expected_arg_key": "query"}
+{"query": "Revenue in the final quarter of 2024?", "expected_tool": "sql_query", "expected_arg_key": "query"}
+{"query": "Show customers whose primary industry is financial services.", "expected_tool": "sql_query", "expected_arg_key": "query"}
+{"query": "Customers currently subscribed to the Starter tier?", "expected_tool": "sql_query", "expected_arg_key": "query"}
+{"query": "Count of Professional plan subscribers?", "expected_tool": "sql_query", "expected_arg_key": "query"}
+{"query": "Full customer list with industry classification.", "expected_tool": "sql_query", "expected_arg_key": "query"}
+{"query": "Which industry verticals are represented in our customer base?", "expected_tool": "sql_query", "expected_arg_key": "query"}
+{"query": "Customers in the tech sector?", "expected_tool": "sql_query", "expected_arg_key": "query"}
+{"query": "Customer names alongside their subscription tier.", "expected_tool": "sql_query", "expected_arg_key": "query"}
+{"query": "Total count of all customers in the database?", "expected_tool": "sql_query", "expected_arg_key": "query"}
+{"query": "Customers classified under the retail vertical?", "expected_tool": "sql_query", "expected_arg_key": "query"}
+{"query": "Customers in the education and academic sector?", "expected_tool": "sql_query", "expected_arg_key": "query"}
+{"query": "What is the minimum MRR across all customers?", "expected_tool": "sql_query", "expected_arg_key": "query"}
+{"query": "What is the maximum MRR among our customers?", "expected_tool": "sql_query", "expected_arg_key": "query"}
+{"query": "What is the sum of MRR for all customers?", "expected_tool": "sql_query", "expected_arg_key": "query"}
+{"query": "Show the average MRR for Enterprise plan customers.", "expected_tool": "sql_query", "expected_arg_key": "query"}
+{"query": "What is the total MRR from Starter plan customers?", "expected_tool": "sql_query", "expected_arg_key": "query"}
+{"query": "What is the median MRR across all plans?", "expected_tool": "sql_query", "expected_arg_key": "query"}
+{"query": "How much total MRR comes from the technology industry?", "expected_tool": "sql_query", "expected_arg_key": "query"}
+{"query": "Average monthly recurring revenue broken down by industry vertical?", "expected_tool": "sql_query", "expected_arg_key": "query"}
+{"query": "Show the MRR distribution across plan types.", "expected_tool": "sql_query", "expected_arg_key": "query"}
+{"query": "What is the total monthly revenue from all customers?", "expected_tool": "sql_query", "expected_arg_key": "query"}
+{"query": "Three highest-revenue customers ranked by MRR?", "expected_tool": "sql_query", "expected_arg_key": "query"}
+{"query": "Show the bottom 5 customers by MRR.", "expected_tool": "sql_query", "expected_arg_key": "query"}
+{"query": "Rank all quarters by number of new customers.", "expected_tool": "sql_query", "expected_arg_key": "query"}
+{"query": "In which quarter did we experience minimum customer churn?", "expected_tool": "sql_query", "expected_arg_key": "query"}
+{"query": "List products sorted by annual price from cheapest to most expensive.", "expected_tool": "sql_query", "expected_arg_key": "query"}
+{"query": "Show the top revenue quarter in 2024.", "expected_tool": "sql_query", "expected_arg_key": "query"}
+{"query": "Which customer pays the least MRR?", "expected_tool": "sql_query", "expected_arg_key": "query"}
+{"query": "Order customers by join date, most recent first.", "expected_tool": "sql_query", "expected_arg_key": "query"}
+{"query": "What are the top 3 quarters by revenue across all years?", "expected_tool": "sql_query", "expected_arg_key": "query"}
+{"query": "Rank industries by total MRR contribution.", "expected_tool": "sql_query", "expected_arg_key": "query"}
+{"query": "Customer churn percentage during Q2 2023?", "expected_tool": "sql_query", "expected_arg_key": "query"}
+{"query": "Show churn rates for every quarter in 2024.", "expected_tool": "sql_query", "expected_arg_key": "query"}
+{"query": "Which quarter in 2023 had the highest churn rate?", "expected_tool": "sql_query", "expected_arg_key": "query"}
+{"query": "How many total new customers were acquired in 2023?", "expected_tool": "sql_query", "expected_arg_key": "query"}
+{"query": "Compare churn rates between Q1 2023 and Q1 2024.", "expected_tool": "sql_query", "expected_arg_key": "query"}
+{"query": "How many customers were newly acquired during Q4 2024?", "expected_tool": "sql_query", "expected_arg_key": "query"}
+{"query": "Show the trend of new customers across all quarters.", "expected_tool": "sql_query", "expected_arg_key": "query"}
+{"query": "Mean churn rate across all four quarters of 2024?", "expected_tool": "sql_query", "expected_arg_key": "query"}
+{"query": "Did churn increase or decrease from Q2 to Q4 2024?", "expected_tool": "sql_query", "expected_arg_key": "query"}
+{"query": "How many new customers joined in the first quarter of 2024?", "expected_tool": "sql_query", "expected_arg_key": "query"}
+{"query": "What products do we offer?", "expected_tool": "sql_query", "expected_arg_key": "query"}
+{"query": "Show the annual price for each product tier.", "expected_tool": "sql_query", "expected_arg_key": "query"}
+{"query": "Which product tier commands the highest monthly price?", "expected_tool": "sql_query", "expected_arg_key": "query"}
+{"query": "What is the cheapest monthly plan available?", "expected_tool": "sql_query", "expected_arg_key": "query"}
+{"query": "List all product tiers and their pricing.", "expected_tool": "sql_query", "expected_arg_key": "query"}
+{"query": "How many product tiers do we have?", "expected_tool": "sql_query", "expected_arg_key": "query"}
+{"query": "How much more does Enterprise cost compared to Starter monthly?", "expected_tool": "sql_query", "expected_arg_key": "query"}
+{"query": "Show products with a monthly price above 500.", "expected_tool": "sql_query", "expected_arg_key": "query"}
+{"query": "Customers who signed up from July 2024 onwards?", "expected_tool": "sql_query", "expected_arg_key": "query"}
+{"query": "Display customers acquired during H1 2024 (January through June).", "expected_tool": "sql_query", "expected_arg_key": "query"}
+{"query": "What is 15% of €120,000?", "expected_tool": "calculator", "expected_arg_key": "expression"}
+{"query": "Annual revenue if 20 teams each pay €3,500 monthly?", "expected_tool": "calculator", "expected_arg_key": "expression"}
+{"query": "What is the monthly saving switching from €5,000 to €299?", "expected_tool": "calculator", "expected_arg_key": "expression"}
+{"query": "What is 8.5% growth applied to €565,000?", "expected_tool": "calculator", "expected_arg_key": "expression"}
+{"query": "100 users times €299 per month times 12 months.", "expected_tool": "calculator", "expected_arg_key": "expression"}
+{"query": "What is the ROI if we invest €80,000 and save €200,000?", "expected_tool": "calculator", "expected_arg_key": "expression"}
+{"query": "What percentage is €425,000 of €2,100,000?", "expected_tool": "calculator", "expected_arg_key": "expression"}
+{"query": "Total savings over 36 months at €3,500 per month?", "expected_tool": "calculator", "expected_arg_key": "expression"}
+{"query": "€200,000 growing at 12% annually — value after 24 months?", "expected_tool": "calculator", "expected_arg_key": "expression"}
+{"query": "If ARR is €845,000 and grows by 21%, what is the new ARR?", "expected_tool": "calculator", "expected_arg_key": "expression"}
+{"query": "What is 17.5% of 250000?", "expected_tool": "calculator", "expected_arg_key": "expression"}
+{"query": "Calculate 8 percent of 53,359.", "expected_tool": "calculator", "expected_arg_key": "expression"}
+{"query": "Calculate 103200 times 1.15.", "expected_tool": "calculator", "expected_arg_key": "expression"}
+{"query": "What is 42800 minus 31200?", "expected_tool": "calculator", "expected_arg_key": "expression"}
+{"query": "What is 55100 divided by 7?", "expected_tool": "calculator", "expected_arg_key": "expression"}
+{"query": "Find the mean of these four values: 55100, 68300, 84900, 103200.", "expected_tool": "calculator", "expected_arg_key": "expression"}
+{"query": "Churn decreasing from 1.5% to 0.5% — how many fewer lost per 1,000?", "expected_tool": "calculator", "expected_arg_key": "expression"}
+{"query": "Divide 10,833 by 6,957.", "expected_tool": "calculator", "expected_arg_key": "expression"}
+{"query": "If I pay 999 per month for 3 years, what is the total?", "expected_tool": "calculator", "expected_arg_key": "expression"}
+{"query": "What is 299 plus 500?", "expected_tool": "calculator", "expected_arg_key": "expression"}
+{"query": "Sum 7,500 and 3,200.", "expected_tool": "calculator", "expected_arg_key": "expression"}
+{"query": "Calculate 98000 minus 45700.", "expected_tool": "calculator", "expected_arg_key": "expression"}
+{"query": "What is 340 multiplied by 28?", "expected_tool": "calculator", "expected_arg_key": "expression"}
+{"query": "Divide 144000 by 12.", "expected_tool": "calculator", "expected_arg_key": "expression"}
+{"query": "What is 12500 plus 8750 plus 6300?", "expected_tool": "calculator", "expected_arg_key": "expression"}
+{"query": "Calculate 1000000 minus 347500.", "expected_tool": "calculator", "expected_arg_key": "expression"}
+{"query": "What is 625 times 48?", "expected_tool": "calculator", "expected_arg_key": "expression"}
+{"query": "How much is 999999 divided by 3?", "expected_tool": "calculator", "expected_arg_key": "expression"}
+{"query": "What is 45 plus 67 plus 89 plus 123?", "expected_tool": "calculator", "expected_arg_key": "expression"}
+{"query": "Subtract 18900 from 52400.", "expected_tool": "calculator", "expected_arg_key": "expression"}
+{"query": "What is 25% of €400,000?", "expected_tool": "calculator", "expected_arg_key": "expression"}
+{"query": "Calculate 12% of 750000.", "expected_tool": "calculator", "expected_arg_key": "expression"}
+{"query": "What is 3.5% of 1200000?", "expected_tool": "calculator", "expected_arg_key": "expression"}
+{"query": "How much is 7% of €85,000?", "expected_tool": "calculator", "expected_arg_key": "expression"}
+{"query": "What is 45% of 220000?", "expected_tool": "calculator", "expected_arg_key": "expression"}
+{"query": "Calculate 0.5% of 2000000.", "expected_tool": "calculator", "expected_arg_key": "expression"}
+{"query": "What is 33% of €90,000?", "expected_tool": "calculator", "expected_arg_key": "expression"}
+{"query": "How much is 18.5% of 640000?", "expected_tool": "calculator", "expected_arg_key": "expression"}
+{"query": "What percentage is 75000 of 500000?", "expected_tool": "calculator", "expected_arg_key": "expression"}
+{"query": "What percentage is 12000 of 80000?", "expected_tool": "calculator", "expected_arg_key": "expression"}
+{"query": "If 50 users each pay €199/month, what is the monthly total?", "expected_tool": "calculator", "expected_arg_key": "expression"}
+{"query": "15 enterprise seats at €999/month for 12 months, what is the total?", "expected_tool": "calculator", "expected_arg_key": "expression"}
+{"query": "If we charge €499/month and have 200 subscribers, what is the annual revenue?", "expected_tool": "calculator", "expected_arg_key": "expression"}
+{"query": "30 customers paying €2,500/month gives how much per year?", "expected_tool": "calculator", "expected_arg_key": "expression"}
+{"query": "Quarterly revenue if 75 teams each pay €149 per month?", "expected_tool": "calculator", "expected_arg_key": "expression"}
+{"query": "What is the total cost of 10 licenses at €4,200 per year?", "expected_tool": "calculator", "expected_arg_key": "expression"}
+{"query": "If monthly cost is €8,500 and we run for 18 months, what is the total spend?", "expected_tool": "calculator", "expected_arg_key": "expression"}
+{"query": "250 units at €35 each, what is the total?", "expected_tool": "calculator", "expected_arg_key": "expression"}
+{"query": "If 40 employees each cost €6,000/month, what is the annual payroll?", "expected_tool": "calculator", "expected_arg_key": "expression"}
+{"query": "Total 2-year hosting cost for 5 servers at €1,200 per month?", "expected_tool": "calculator", "expected_arg_key": "expression"}
+{"query": "New revenue if €500,000 base increases by 8%?", "expected_tool": "calculator", "expected_arg_key": "expression"}
+{"query": "Apply 15% growth to €320,000.", "expected_tool": "calculator", "expected_arg_key": "expression"}
+{"query": "If MRR is €42,000 and increases by 5%, what is the new MRR?", "expected_tool": "calculator", "expected_arg_key": "expression"}
+{"query": "Amount remaining after a 10% reduction to €1,200,000?", "expected_tool": "calculator", "expected_arg_key": "expression"}
+{"query": "If ARR is €960,000 and grows 30%, what is the projected ARR?", "expected_tool": "calculator", "expected_arg_key": "expression"}
+{"query": "Increase €750,000 by 22 percent.", "expected_tool": "calculator", "expected_arg_key": "expression"}
+{"query": "If current revenue is €180,000 and grows by 40%, what is the result?", "expected_tool": "calculator", "expected_arg_key": "expression"}
+{"query": "What remains after reducing €2,500,000 by 6 percent?", "expected_tool": "calculator", "expected_arg_key": "expression"}
+{"query": "What is €88,000 after 3 years of 10% annual growth?", "expected_tool": "calculator", "expected_arg_key": "expression"}
+{"query": "Starting with 5,000 customers growing 12% annually, count after 24 months?", "expected_tool": "calculator", "expected_arg_key": "expression"}
+{"query": "Compound interest: €100,000 principal at 8% annual rate for 3 years?", "expected_tool": "calculator", "expected_arg_key": "expression"}
+{"query": "Calculate €50,000 compounded at 6% annually for 5 years.", "expected_tool": "calculator", "expected_arg_key": "expression"}
+{"query": "If I save €2,000/month for 2 years, what is the total?", "expected_tool": "calculator", "expected_arg_key": "expression"}
+{"query": "€350,000 invested at 9% for 4 years compounded annually.", "expected_tool": "calculator", "expected_arg_key": "expression"}
+{"query": "What is €75,000 at 5% annual return for 10 years?", "expected_tool": "calculator", "expected_arg_key": "expression"}
+{"query": "Subtract €8,500 from €12,000.", "expected_tool": "calculator", "expected_arg_key": "expression"}
+{"query": "Annual savings switching from €7,200 to €4,800 per month?", "expected_tool": "calculator", "expected_arg_key": "expression"}
+{"query": "Yearly savings: old cost €95,000 versus new cost €62,000?", "expected_tool": "calculator", "expected_arg_key": "expression"}
+{"query": "Cost per user drops from €45 to €29, savings for 500 users?", "expected_tool": "calculator", "expected_arg_key": "expression"}
+{"query": "We pay €3,400/month now vs €2,100/month new, what is the yearly saving?", "expected_tool": "calculator", "expected_arg_key": "expression"}
+{"query": "Return on investment: €150,000 spent, €400,000 gained?", "expected_tool": "calculator", "expected_arg_key": "expression"}
+{"query": "Profit margin if profit is €220,000 on €800,000 revenue?", "expected_tool": "calculator", "expected_arg_key": "expression"}
+{"query": "Express 45,000 as a fraction of 180,000.", "expected_tool": "calculator", "expected_arg_key": "expression"}
+{"query": "Cost-benefit ratio: €35,000 cost versus €112,000 benefit?", "expected_tool": "calculator", "expected_arg_key": "expression"}
+{"query": "Calculate the profit margin if revenue is €500,000 and costs are €375,000.", "expected_tool": "calculator", "expected_arg_key": "expression"}
+{"query": "What is the average of 12000, 15000, 18000, and 22000?", "expected_tool": "calculator", "expected_arg_key": "expression"}
+{"query": "Find the mean of 340, 520, 610, 480, and 390.", "expected_tool": "calculator", "expected_arg_key": "expression"}
+{"query": "Split €360,000 equally among 8 departments.", "expected_tool": "calculator", "expected_arg_key": "expression"}
+{"query": "Monthly allocation from a €1,500,000 annual budget?", "expected_tool": "calculator", "expected_arg_key": "expression"}
+{"query": "If total is €240,000 and there are 6 regions, how much per region?", "expected_tool": "calculator", "expected_arg_key": "expression"}

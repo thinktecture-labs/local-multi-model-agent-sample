@@ -1,0 +1,180 @@
+{"query": "Does Nextera encrypt data at rest and in transit?", "intent": "rag_query"}
+{"query": "What uptime guarantee comes with the Professional plan?", "intent": "rag_query"}
+{"query": "Can I use Nextera for multi-language document indexing?", "intent": "rag_query"}
+{"query": "What is the maximum model size supported on Enterprise?", "intent": "rag_query"}
+{"query": "How does Nextera handle document versioning in the knowledge base?", "intent": "rag_query"}
+{"query": "Is there a self-hosted option for Nextera?", "intent": "rag_query"}
+{"query": "What vector dimensionality does the Nextera embedding layer produce?", "intent": "rag_query"}
+{"query": "Does the Starter plan include API rate limiting?", "intent": "rag_query"}
+{"query": "What kind of support SLA does Enterprise offer?", "intent": "rag_query"}
+{"query": "Can Nextera run behind a corporate firewall?", "intent": "rag_query"}
+{"query": "What disaster recovery options does Nextera provide?", "intent": "rag_query"}
+{"query": "How does Nextera handle user authentication?", "intent": "rag_query"}
+{"query": "Is there a free tier or trial period for Nextera?", "intent": "rag_query"}
+{"query": "What logging and observability features does Nextera include?", "intent": "rag_query"}
+{"query": "Can Enterprise customers get a dedicated instance?", "intent": "rag_query"}
+{"query": "What file size limits apply to document uploads?", "intent": "rag_query"}
+{"query": "Does Nextera support role-based access control?", "intent": "rag_query"}
+{"query": "How does the Professional plan differ from Starter for teams?", "intent": "rag_query"}
+{"query": "What data residency options are available?", "intent": "rag_query"}
+{"query": "Can I connect Nextera to my existing identity provider?", "intent": "rag_query"}
+{"query": "What is the monthly price for the Starter plan?", "intent": "rag_query"}
+{"query": "Does Nextera offer SOC2 compliance certification?", "intent": "rag_query"}
+{"query": "What is the concurrent session ceiling for Professional-tier accounts?", "intent": "rag_query"}
+{"query": "What vector databases does Nextera integrate with?", "intent": "rag_query"}
+{"query": "Does Nextera meet European data protection regulation requirements?", "intent": "rag_query"}
+{"query": "What RAG pipeline configurations are available on Enterprise?", "intent": "rag_query"}
+{"query": "Does Nextera support webhook notifications?", "intent": "rag_query"}
+{"query": "What is the token limit per request on the Starter plan?", "intent": "rag_query"}
+{"query": "Can I deploy Nextera in a hybrid cloud environment?", "intent": "rag_query"}
+{"query": "What SSO providers does Nextera integrate with?", "intent": "rag_query"}
+{"query": "How did Meridian Health benefit from using Nextera?", "intent": "rag_query"}
+{"query": "What fine-tuning capabilities are included in the Enterprise plan?", "intent": "rag_query"}
+{"query": "Does Nextera provide an API for programmatic access?", "intent": "rag_query"}
+{"query": "What document formats can Nextera process?", "intent": "rag_query"}
+{"query": "Is there a limit on the number of documents in the knowledge base?", "intent": "rag_query"}
+{"query": "What additional capabilities justify upgrading from Professional to Enterprise?", "intent": "rag_query"}
+{"query": "Does Nextera offer HIPAA compliance for healthcare customers?", "intent": "rag_query"}
+{"query": "What AI agent capabilities are available in Nextera?", "intent": "rag_query"}
+{"query": "Can I use Nextera to build custom AI agents?", "intent": "rag_query"}
+{"query": "What kind of vision model support does Nextera offer?", "intent": "rag_query"}
+{"query": "How does Nextera handle API key management?", "intent": "rag_query"}
+{"query": "What onboarding support is provided for new Enterprise customers?", "intent": "rag_query"}
+{"query": "Does Nextera support multi-tenant deployments?", "intent": "rag_query"}
+{"query": "What audit trail capabilities does Nextera provide?", "intent": "rag_query"}
+{"query": "Can I export data from Nextera to another platform?", "intent": "rag_query"}
+{"query": "What chunking strategies does Nextera use for document processing?", "intent": "rag_query"}
+{"query": "How does Nextera ensure data isolation between tenants?", "intent": "rag_query"}
+{"query": "What backup and restore procedures does Nextera have?", "intent": "rag_query"}
+{"query": "Does Nextera support custom embedding models?", "intent": "rag_query"}
+{"query": "What are the bandwidth limits on the Starter plan?", "intent": "rag_query"}
+{"query": "Can Nextera integrate with Slack or Microsoft Teams?", "intent": "rag_query"}
+{"query": "What was the outcome of the Meridian Health case study?", "intent": "rag_query"}
+{"query": "Does the Professional plan include dedicated support engineers?", "intent": "rag_query"}
+{"query": "What is the maximum number of AI agents on the Enterprise plan?", "intent": "rag_query"}
+{"query": "How does Nextera handle model versioning and rollback?", "intent": "rag_query"}
+{"query": "What network security measures does Nextera implement?", "intent": "rag_query"}
+{"query": "Can I bring my own encryption keys with Nextera?", "intent": "rag_query"}
+{"query": "Which real-time observability panels ship with Nextera out of the box?", "intent": "rag_query"}
+{"query": "Does Nextera offer volume discounts for annual contracts?", "intent": "rag_query"}
+{"query": "What is the latency SLA for the Enterprise plan API?", "intent": "rag_query"}
+{"query": "By what fraction did annual recurring revenue increase during the first quarter of 2024?", "intent": "tool_use"}
+{"query": "List the names of all customers who joined before 2024.", "intent": "tool_use"}
+{"query": "How much revenue did we make in the second half of 2024?", "intent": "tool_use"}
+{"query": "Identify the account generating the smallest MRR figure.", "intent": "tool_use"}
+{"query": "Show me all products sorted by annual price.", "intent": "tool_use"}
+{"query": "If 25 users upgrade from Starter to Professional, what is the monthly cost increase?", "intent": "tool_use"}
+{"query": "What is 17.5% of 250000?", "intent": "tool_use"}
+{"query": "Calculate the difference between Q4 and Q1 revenue in 2024.", "intent": "tool_use"}
+{"query": "If I pay EUR 3500 monthly for 3 years, what is the total spend?", "intent": "tool_use"}
+{"query": "What is the average number of new customers per quarter in 2024?", "intent": "tool_use"}
+{"query": "Show me the customer who generates the most revenue.", "intent": "tool_use"}
+{"query": "What was the total number of new signups across 2023?", "intent": "tool_use"}
+{"query": "List all products that cost more than EUR 1000 per month.", "intent": "tool_use"}
+{"query": "Which quarter in 2024 had the biggest revenue jump?", "intent": "tool_use"}
+{"query": "How many distinct industries are represented in our customer base?", "intent": "tool_use"}
+{"query": "Multiply 12 by 3500 and then add 15 percent.", "intent": "tool_use"}
+{"query": "What is the combined MRR of all professional-tier customers?", "intent": "tool_use"}
+{"query": "If churn drops from 1.0% to 0.5%, how many fewer customers leave per 1000?", "intent": "tool_use"}
+{"query": "Plot each quarter's earnings side-by-side for fiscal year 2023.", "intent": "tool_use"}
+{"query": "How does Q2 2024 compare to Q2 2023 in new customers?", "intent": "tool_use"}
+{"query": "Pull the aggregate earnings figure for the July-September 2024 period.", "intent": "tool_use"}
+{"query": "Retrieve every account classified under the medical services vertical.", "intent": "tool_use"}
+{"query": "What is 8% of EUR 450,000?", "intent": "tool_use"}
+{"query": "How many customers are on the Enterprise plan?", "intent": "tool_use"}
+{"query": "What percentage of subscribers cancelled during October-December 2023?", "intent": "tool_use"}
+{"query": "Calculate the total revenue for all of 2023.", "intent": "tool_use"}
+{"query": "Which industry has the most customers in our database?", "intent": "tool_use"}
+{"query": "Compute the mean monthly income generated per active account.", "intent": "tool_use"}
+{"query": "If revenue grows by 12% next quarter, what would it be?", "intent": "tool_use"}
+{"query": "Show me all customers sorted by join date.", "intent": "tool_use"}
+{"query": "What is the sum of Q1 and Q2 revenue in 2024?", "intent": "tool_use"}
+{"query": "Count the accounts that were onboarded between July and September 2023.", "intent": "tool_use"}
+{"query": "Which three accounts contribute the largest share of recurring income each month?", "intent": "tool_use"}
+{"query": "What percentage of total revenue comes from Enterprise customers?", "intent": "tool_use"}
+{"query": "Divide EUR 999 by 30 to get the daily cost of Professional.", "intent": "tool_use"}
+{"query": "Compare the churn rates between Q1 2023 and Q1 2024.", "intent": "tool_use"}
+{"query": "What is the total number of customers we have right now?", "intent": "tool_use"}
+{"query": "If we add 50 Starter customers, what is the additional monthly revenue?", "intent": "tool_use"}
+{"query": "What is 22% of EUR 180,000?", "intent": "tool_use"}
+{"query": "Show me all customers from the finance industry.", "intent": "tool_use"}
+{"query": "What was the year-over-year revenue growth from 2023 to 2024?", "intent": "tool_use"}
+{"query": "Which product tier has the highest number of active customers?", "intent": "tool_use"}
+{"query": "Calculate EUR 4999 times 12 for annual Enterprise cost.", "intent": "tool_use"}
+{"query": "What is the median quarterly revenue across 2024?", "intent": "tool_use"}
+{"query": "Tally the net new accounts acquired in the final quarter of 2024.", "intent": "tool_use"}
+{"query": "What is the revenue difference between 2023 and 2024?", "intent": "tool_use"}
+{"query": "List all customers who are on the Starter plan.", "intent": "tool_use"}
+{"query": "If 10 customers upgrade from Professional to Enterprise, what is the MRR increase?", "intent": "tool_use"}
+{"query": "What is the lowest quarterly revenue recorded in 2023?", "intent": "tool_use"}
+{"query": "Show me the products table with all pricing tiers.", "intent": "tool_use"}
+{"query": "What was the new customer count in Q1 2024 versus Q4 2023?", "intent": "tool_use"}
+{"query": "How much would 100 Starter licenses cost per year?", "intent": "tool_use"}
+{"query": "Which quarter had the highest churn in 2024?", "intent": "tool_use"}
+{"query": "What is 5.5% of EUR 1,200,000?", "intent": "tool_use"}
+{"query": "Show the total new customers acquired across all of 2024.", "intent": "tool_use"}
+{"query": "What is the average churn rate per quarter in 2023?", "intent": "tool_use"}
+{"query": "Show every account whose industry field reads manufacturing.", "intent": "tool_use"}
+{"query": "Calculate the compound growth if revenue grows 8% each quarter for 4 quarters.", "intent": "tool_use"}
+{"query": "What was the highest single-quarter revenue in 2024?", "intent": "tool_use"}
+{"query": "How many products are priced below EUR 500 per month?", "intent": "tool_use"}
+{"query": "Good evening!", "intent": "direct_answer"}
+{"query": "Can you give me a brief overview of how large language models work?", "intent": "direct_answer"}
+{"query": "How do you classify my questions?", "intent": "direct_answer"}
+{"query": "Are you running on a GPU right now?", "intent": "direct_answer"}
+{"query": "What is the purpose of embeddings in AI?", "intent": "direct_answer"}
+{"query": "Thanks, that was really helpful!", "intent": "direct_answer"}
+{"query": "Do you store any of my conversations?", "intent": "direct_answer"}
+{"query": "What is the difference between LoRA and full fine-tuning?", "intent": "direct_answer"}
+{"query": "How many models are running right now?", "intent": "direct_answer"}
+{"query": "I appreciate your help, goodbye!", "intent": "direct_answer"}
+{"query": "What does GGUF stand for?", "intent": "direct_answer"}
+{"query": "Is there a way to make you faster?", "intent": "direct_answer"}
+{"query": "Can you explain what ChromaDB is?", "intent": "direct_answer"}
+{"query": "Greetings from Berlin!", "intent": "direct_answer"}
+{"query": "What programming language are you written in?", "intent": "direct_answer"}
+{"query": "How does cosine similarity work?", "intent": "direct_answer"}
+{"query": "Do you have any limitations I should know about?", "intent": "direct_answer"}
+{"query": "What happens if one of the models crashes?", "intent": "direct_answer"}
+{"query": "You did a great job answering that!", "intent": "direct_answer"}
+{"query": "What is the difference between a base model and an instruct model?", "intent": "direct_answer"}
+{"query": "Hello there!", "intent": "direct_answer"}
+{"query": "What is a transformer architecture?", "intent": "direct_answer"}
+{"query": "How does attention work in neural networks?", "intent": "direct_answer"}
+{"query": "What model sizes are you using under the hood?", "intent": "direct_answer"}
+{"query": "Good morning, how are you today?", "intent": "direct_answer"}
+{"query": "Can you explain what quantization means for LLMs?", "intent": "direct_answer"}
+{"query": "What is the difference between INT4 and INT8 quantization?", "intent": "direct_answer"}
+{"query": "How does retrieval-augmented generation work conceptually?", "intent": "direct_answer"}
+{"query": "Are you a single model or multiple models working together?", "intent": "direct_answer"}
+{"query": "Thank you so much, have a great day!", "intent": "direct_answer"}
+{"query": "What is a vector database in general terms?", "intent": "direct_answer"}
+{"query": "How fast can you respond to my questions?", "intent": "direct_answer"}
+{"query": "What is the difference between supervised and unsupervised learning?", "intent": "direct_answer"}
+{"query": "Hey, nice to meet you!", "intent": "direct_answer"}
+{"query": "Can you explain what tokenization is?", "intent": "direct_answer"}
+{"query": "What is the role of the function calling model in this system?", "intent": "direct_answer"}
+{"query": "How does beam search differ from greedy decoding?", "intent": "direct_answer"}
+{"query": "What is temperature in the context of language models?", "intent": "direct_answer"}
+{"query": "Bye, talk to you later!", "intent": "direct_answer"}
+{"query": "What is the difference between an embedding and a vector?", "intent": "direct_answer"}
+{"query": "How do you decide which tool to use for my question?", "intent": "direct_answer"}
+{"query": "What is a neural network layer?", "intent": "direct_answer"}
+{"query": "Can you process images as well as text?", "intent": "direct_answer"}
+{"query": "What does top-p sampling mean?", "intent": "direct_answer"}
+{"query": "Hi, I am new here!", "intent": "direct_answer"}
+{"query": "What is the difference between GPT and Gemma model families?", "intent": "direct_answer"}
+{"query": "How much memory do you use while running?", "intent": "direct_answer"}
+{"query": "Explain how neural networks update their weights during training.", "intent": "direct_answer"}
+{"query": "Are all four models loaded into memory at the same time?", "intent": "direct_answer"}
+{"query": "Cheers, that was exactly what I needed!", "intent": "direct_answer"}
+{"query": "How do categorical prediction tasks differ from continuous value estimation?", "intent": "direct_answer"}
+{"query": "How does the inference model differ from the embedding model?", "intent": "direct_answer"}
+{"query": "What is a context window in language models?", "intent": "direct_answer"}
+{"query": "Can you tell me what llama.cpp is?", "intent": "direct_answer"}
+{"query": "What is gradient descent?", "intent": "direct_answer"}
+{"query": "How do you handle questions you cannot answer?", "intent": "direct_answer"}
+{"query": "What is the difference between pre-training and fine-tuning?", "intent": "direct_answer"}
+{"query": "Good afternoon, ready for some questions?", "intent": "direct_answer"}
+{"query": "What is a softmax function used for?", "intent": "direct_answer"}
+{"query": "Which of your four models handles the vision tasks?", "intent": "direct_answer"}

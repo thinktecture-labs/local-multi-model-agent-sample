@@ -1,0 +1,58 @@
+@startuml C4_Level4_DualPortSwap
+title Dual-Port Zero-Downtime Model Swap Architecture
+
+skinparam PackageBackgroundColor White
+skinparam ComponentBackgroundColor #E8E8E8
+skinparam ArrowColor #333333
+
+package "Base Model Servers\n(ports 9090-9093)" as base #E8F4FD {
+    component "gemma3-1b-it\n:9090" as B1
+    component "qwen3.5-4b\n:9091" as B2
+    component "embeddinggemma-308m\n:9092" as B3
+    component "gemma3-4b-vision\n:9093" as B4
+}
+
+package "Fine-Tuned Servers\n(ports 9094-9096)" as ft #FDF5E6 {
+    component "gemma3-ft\n:9094" as F1
+    component "qwen3.5-4b-ft\n:9095" as F2
+    component "embeddinggemma-ft\n:9096" as F3
+}
+
+component "SmallLanguageModelClient" as GC #CCFFCC
+component "POST /models/swap" as SWAP
+
+GC --> SWAP : swap_urls()
+
+SWAP ..> B1 : mode: "base"
+SWAP ..> B2 : mode: "base"
+SWAP ..> B3 : mode: "base"
+
+SWAP ..> F1 : mode: "finetuned"
+SWAP ..> F2 : mode: "finetuned"
+SWAP ..> F3 : mode: "finetuned"
+
+B4 <.. GC : shared\n(no FT variant)
+
+note bottom of SWAP
+  ~100ms swap time
+  No restart needed
+  Health-check all target ports before swap
+  Circuit breakers reset on swap
+  Vision model (4B) shared across modes
+end note
+
+component "GLM-OCR\n:9098" as OCR #F0F0F0
+note right of OCR
+  Upload-time only (optional).
+  Not part of base/FT swap.
+  No fine-tuned variant.
+end note
+
+note top of ft
+  Produced by fine-tuning pipeline:
+  train_gemma3.py -> convert_gemma3_to_gguf.sh
+  train_qwen35_toolcalling.py -> convert_qwen35_to_gguf.sh
+  train_embeddinggemma.py -> convert_embeddinggemma_to_gguf.sh
+end note
+
+@enduml

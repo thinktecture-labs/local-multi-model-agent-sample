@@ -1,0 +1,23 @@
+@startuml C4_Level1_SystemContext_Keynote
+!include <C4/C4_Context>
+
+LAYOUT_WITH_LEGEND()
+
+Person(user, "User", "Asks the questions")
+Person(admin, "Admin / Trainer", "Fine-tunes, evals, curates knowledge")
+
+System(agent, "Five-Model Local AI Agent", "Privacy-preserving agentic AI.\nFive specialized SLMs.\nAll inference local.")
+
+System_Ext(llama_servers, "SLM Inference Servers", "llama-server processes.\nOpenAI-compatible APIs.\nBase and fine-tuned, side by side.")
+System_Ext(whisper_server, "Speech-to-Text", "whisper.cpp.\nMetal / CUDA.\nOptional — voice pipeline.")
+System_Ext(piper_tts, "Text-to-Speech", "Piper TTS, ONNX / CPU.\nEN + DE voices.\nOptional — voice pipeline.")
+System_Ext(cloud_llm, "Cloud LLM (GPT-5.4)", "User-approved escalation only.\nData leaves the machine on consent.")
+
+Rel(user, agent, "Queries via Observatory, CLI, iPhone, or REST")
+Rel(admin, agent, "Fine-tuning · evals · knowledge base")
+Rel(agent, llama_servers, "OpenAI-compatible API")
+Rel(agent, whisper_server, "Transcription (optional)")
+Rel(agent, piper_tts, "Synthesis (optional)")
+Rel(agent, cloud_llm, "HITL escalation, user-approved", "HTTPS")
+
+@enduml

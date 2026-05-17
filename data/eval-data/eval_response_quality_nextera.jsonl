@@ -1,0 +1,46 @@
+{"query": "Revenue generated during the first quarter of 2024?", "intent": "tool_use", "expect_numbers": true}
+{"query": "Count of Enterprise plan subscribers?", "intent": "tool_use", "expect_numbers": true}
+{"query": "Display the five highest-revenue customers by monthly recurring revenue.", "intent": "tool_use", "expect_numbers": true}
+{"query": "Mean churn rate computed across all quarters?", "intent": "tool_use", "expect_numbers": true}
+{"query": "Every product tier alongside its monthly pricing?", "intent": "tool_use", "expect_numbers": true}
+{"query": "What is 15% of 84900?", "intent": "tool_use", "expect_numbers": true}
+{"query": "If revenue grew 12% from 500000, what is the new revenue?", "intent": "tool_use", "expect_numbers": true}
+{"query": "Which capabilities are included in the Enterprise tier?", "intent": "rag_query", "expect_numbers": false}
+{"query": "What data protection measures does Nextera implement?", "intent": "rag_query", "expect_numbers": false}
+{"query": "What integrations does Nextera support?", "intent": "rag_query", "expect_numbers": false}
+{"query": "What does Nextera do?", "intent": "direct_answer", "expect_numbers": false}
+{"query": "Hello, how can you help me?", "intent": "direct_answer", "expect_numbers": false}
+{"query": "Show the total number of customers across all plans.", "intent": "tool_use", "expect_numbers": true}
+{"query": "Aggregate revenue across all four quarters of 2024?", "intent": "tool_use", "expect_numbers": true}
+{"query": "List all customers on the Starter plan.", "intent": "tool_use", "expect_numbers": true}
+{"query": "Which quarter had the lowest churn rate?", "intent": "tool_use", "expect_numbers": true}
+{"query": "How many customers upgraded from Starter to Professional?", "intent": "tool_use", "expect_numbers": true}
+{"query": "Average monthly revenue per customer?", "intent": "tool_use", "expect_numbers": true}
+{"query": "Show the revenue breakdown by product tier.", "intent": "tool_use", "expect_numbers": true}
+{"query": "What is 25% of 120000?", "intent": "tool_use", "expect_numbers": true}
+{"query": "If we have 340 customers each paying 299 per month, what is the annual revenue?", "intent": "tool_use", "expect_numbers": true}
+{"query": "Calculate the difference between 999 and 299.", "intent": "tool_use", "expect_numbers": true}
+{"query": "Which customer has the highest total spend?", "intent": "tool_use", "expect_numbers": true}
+{"query": "Number of new customer signups during the third quarter of 2024?", "intent": "tool_use", "expect_numbers": true}
+{"query": "What is the average MRR across all Enterprise customers?", "intent": "tool_use", "expect_numbers": true}
+{"query": "Show customers with MRR above 5000.", "intent": "tool_use", "expect_numbers": true}
+{"query": "What pricing plans does Nextera offer?", "intent": "rag_query", "expect_numbers": false}
+{"query": "How does Nextera handle document chunking in the RAG pipeline?", "intent": "rag_query", "expect_numbers": false}
+{"query": "What deployment options are available for Nextera?", "intent": "rag_query", "expect_numbers": false}
+{"query": "Does Nextera support air-gapped deployment?", "intent": "rag_query", "expect_numbers": false}
+{"query": "What fine-tuning methods does Nextera support?", "intent": "rag_query", "expect_numbers": false}
+{"query": "What is Nextera's approach to data privacy?", "intent": "rag_query", "expect_numbers": false}
+{"query": "What advantages does running Nextera locally offer over hosted AI providers?", "intent": "rag_query", "expect_numbers": false}
+{"query": "What built-in tools does the agentic pipeline include?", "intent": "rag_query", "expect_numbers": false}
+{"query": "Which compliance standards does Nextera meet?", "intent": "rag_query", "expect_numbers": false}
+{"query": "What hardware is recommended for production use?", "intent": "rag_query", "expect_numbers": false}
+{"query": "What support tiers are available?", "intent": "rag_query", "expect_numbers": false}
+{"query": "What SDKs and integrations does Nextera provide?", "intent": "rag_query", "expect_numbers": false}
+{"query": "Can you explain what RAG means?", "intent": "direct_answer", "expect_numbers": false}
+{"query": "Explain the concept of model fine-tuning in simple terms.", "intent": "direct_answer", "expect_numbers": false}
+{"query": "How can I improve model accuracy?", "intent": "direct_answer", "expect_numbers": false}
+{"query": "What is the difference between LoRA and full fine-tuning?", "intent": "direct_answer", "expect_numbers": false}
+{"query": "What are embeddings?", "intent": "direct_answer", "expect_numbers": false}
+{"query": "Can you run SQL queries?", "intent": "direct_answer", "expect_numbers": false}
+{"query": "Describe how vector databases differ from traditional relational databases.", "intent": "direct_answer", "expect_numbers": false}
+{"query": "Good morning, what can you do?", "intent": "direct_answer", "expect_numbers": false}

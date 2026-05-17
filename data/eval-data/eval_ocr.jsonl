@@ -1,0 +1,22 @@
+{"document": "Architecture_Decision_Record_Meridian_Health_Platform.pdf", "query": "Which database did Meridian choose?", "expected_keywords": ["PostgreSQL", "16"], "category": "factual"}
+{"document": "Architecture_Decision_Record_Meridian_Health_Platform.pdf", "query": "Where must patient data be stored?", "expected_keywords": ["Frankfurt", "Germany", "EU"], "category": "factual"}
+{"document": "Architecture_Decision_Record_Meridian_Health_Platform.pdf", "query": "What encryption standard is used at rest?", "expected_keywords": ["AES", "256"], "category": "factual"}
+{"document": "Architecture_Decision_Record_Meridian_Health_Platform.pdf", "query": "How many hospitals does Meridian operate?", "expected_keywords": ["340"], "category": "factual"}
+{"document": "Architecture_Decision_Record_Meridian_Health_Platform.pdf", "query": "What is the uptime SLA target?", "expected_keywords": ["99.95"], "category": "factual"}
+{"document": "Architecture_Decision_Record_Meridian_Health_Platform.pdf", "query": "What compliance certifications does Meridian have?", "expected_keywords": ["HIPAA", "GDPR", "ISO"], "category": "factual"}
+{"document": "Architecture_Decision_Record_Meridian_Health_Platform.pdf", "query": "What authentication method is used?", "expected_keywords": ["OAuth", "OpenID", "Azure"], "category": "factual"}
+{"document": "Architecture_Decision_Record_Meridian_Health_Platform.pdf", "query": "What AI use cases are planned?", "expected_keywords": ["clinical", "decision", "support"], "category": "factual"}
+{"document": "snowflake-fy2025-annual-report.pdf", "query": "What was Snowflake's total revenue in FY2025?", "expected_keywords": ["r/3[.,]?6\\d{2}", "3.63", "billion"], "category": "real_world"}
+{"document": "snowflake-fy2025-annual-report.pdf", "query": "How many Snowflake customers spend more than $1M ARR?", "expected_keywords": ["580", "r/\\b11[,.]?159\\b"], "category": "real_world"}
+{"document": "snowflake-fy2025-annual-report.pdf", "query": "What is Snowflake's net revenue retention rate?", "expected_keywords": ["126"], "category": "real_world"}
+{"document": "snowflake-fy2025-annual-report.pdf", "query": "What are Snowflake's Remaining Performance Obligations?", "expected_keywords": ["6.9", "billion"], "category": "real_world"}
+{"document": "snowflake-fy2025-annual-report.pdf", "query": "What percentage of revenue comes from product vs services?", "expected_keywords": ["95", "product"], "category": "real_world"}
+{"document": "snowflake-fy2025-annual-report.pdf", "query": "How many Forbes Global 2000 customers does Snowflake have?", "expected_keywords": ["745"], "category": "real_world"}
+{"document": "snowflake-fy2025-annual-report.pdf", "query": "How many total customers does Snowflake have?", "expected_keywords": ["11", "159"], "category": "real_world"}
+{"document": "nextera_quarterly_report.pdf", "query": "What was total revenue in Q4 2024?", "expected_keywords": ["103", "200"], "category": "table_extraction"}
+{"document": "nextera_quarterly_report.pdf", "query": "How many new customers joined in Q3?", "expected_keywords": ["9"], "category": "table_extraction"}
+{"document": "nextera_quarterly_report.pdf", "query": "What was the churn rate in Q2 2024?", "expected_keywords": ["0.9"], "category": "table_extraction"}
+{"document": "nextera_quarterly_report.pdf", "query": "Which customer has the highest MRR?", "expected_keywords": ["BrightHealth", "7000"], "category": "table_extraction"}
+{"document": "nextera_quarterly_report.pdf", "query": "What is the Enterprise plan monthly price?", "expected_keywords": ["3500", "3,500"], "category": "table_extraction"}
+{"document": "nextera_quarterly_report.pdf", "query": "How many product tiers does Nextera offer?", "expected_keywords": ["3", "three"], "category": "table_extraction"}
+{"document": "nextera_quarterly_report.pdf", "query": "What industries are represented in the customer base?", "expected_keywords": ["Manufacturing", "Healthcare", "Software"], "category": "table_extraction"}

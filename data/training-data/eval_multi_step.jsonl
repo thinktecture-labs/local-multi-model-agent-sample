@@ -1,0 +1,80 @@
+{"query": "What was our best-performing product last quarter, and what would revenue look like if we grew it by 15%?", "expected_tools": ["sql_query", "calculator"], "multi_step": true}
+{"query": "How many customers do we have, and what would total ARR be if each paid the Professional plan price?", "expected_tools": ["sql_query", "calculator"], "multi_step": true}
+{"query": "What is the average revenue per quarter in 2024, and what would that be with a 20% increase?", "expected_tools": ["sql_query", "calculator"], "multi_step": true}
+{"query": "Show our top customer by MRR, and calculate what 3 years of their spend would total.", "expected_tools": ["sql_query", "calculator"], "multi_step": true}
+{"query": "How many Enterprise customers do we have, and what is their combined annual MRR?", "expected_tools": ["sql_query", "calculator"], "multi_step": true}
+{"query": "What was total revenue in Q4 2024, and what would a 10% discount on that amount be?", "expected_tools": ["sql_query", "calculator"], "multi_step": true}
+{"query": "How many new customers joined in 2024, and what is the average MRR per new customer if total 2024 revenue was split evenly?", "expected_tools": ["sql_query", "calculator"], "multi_step": true}
+{"query": "What is the churn rate in Q4 2024, and how many customers would we lose per 1000 at that rate?", "expected_tools": ["sql_query", "calculator"], "multi_step": true}
+{"query": "Find the cheapest product price and calculate how much 100 customers would pay annually for it.", "expected_tools": ["sql_query", "calculator"], "multi_step": true}
+{"query": "Find Q1 2024 revenue and calculate its share of total 2024 revenue.", "expected_tools": ["sql_query", "calculator"], "multi_step": true}
+{"query": "How many Professional tier customers are there, and what is their combined monthly spend?", "expected_tools": ["sql_query", "calculator"], "multi_step": true}
+{"query": "What was our ARR growth in Q3 2024, and if we maintain that growth rate for 4 quarters, what multiplier would that give?", "expected_tools": ["sql_query", "calculator"], "multi_step": true}
+{"query": "Find the most expensive product monthly price, and calculate the annual cost for a team of 25.", "expected_tools": ["sql_query", "calculator"], "multi_step": true}
+{"query": "What is total revenue across all quarters, and what would a 5% commission on that be?", "expected_tools": ["sql_query", "calculator"], "multi_step": true}
+{"query": "How many customers joined before 2024, and what would their combined MRR be if they all upgraded to Enterprise at 3500 per month?", "expected_tools": ["sql_query", "calculator"], "multi_step": true}
+{"query": "What is the average churn rate across 2024, and how many customers out of 500 would churn annually at that rate?", "expected_tools": ["sql_query", "calculator"], "multi_step": true}
+{"query": "What was revenue in Q2 2024 versus Q2 2023, and what is the percentage increase?", "expected_tools": ["sql_query", "calculator"], "multi_step": true}
+{"query": "Find the total number of products we offer, and calculate total monthly revenue if 10 customers bought one of each.", "expected_tools": ["sql_query", "calculator"], "multi_step": true}
+{"query": "What was our worst quarter by revenue in 2023, and what would doubling that revenue look like?", "expected_tools": ["sql_query", "calculator"], "multi_step": true}
+{"query": "How many industries are represented in our customer base, and what is the average MRR per industry?", "expected_tools": ["sql_query", "calculator"], "multi_step": true}
+{"query": "What was Q3 2024 revenue, and what would 25% growth look like?", "expected_tools": ["sql_query", "calculator"], "multi_step": true}
+{"query": "Find total MRR across all customers, and calculate a 15% volume discount.", "expected_tools": ["sql_query", "calculator"], "multi_step": true}
+{"query": "What is total 2024 revenue, and what is 8% commission on that?", "expected_tools": ["sql_query", "calculator"], "multi_step": true}
+{"query": "What is the top customer's MRR, and their annual spend?", "expected_tools": ["sql_query", "calculator"], "multi_step": true}
+{"query": "Find the Enterprise plan price and calculate the 5-year total cost.", "expected_tools": ["sql_query", "calculator"], "multi_step": true}
+{"query": "How many Starter customers are there, and what is their combined annual spend?", "expected_tools": ["sql_query", "calculator"], "multi_step": true}
+{"query": "Show total 2024 revenue and the mean quarterly revenue.", "expected_tools": ["sql_query", "calculator"], "multi_step": true}
+{"query": "Compare Q1 and Q4 2024 revenue, and what is the percentage growth?", "expected_tools": ["sql_query", "calculator"], "multi_step": true}
+{"query": "What was Q2 2024 ARR growth, and what would 3 quarters of compounding give?", "expected_tools": ["sql_query", "calculator"], "multi_step": true}
+{"query": "What was Q1 2023 revenue, and what would tripling it give?", "expected_tools": ["sql_query", "calculator"], "multi_step": true}
+{"query": "What is Q3 2024 churn rate, and how many out of 2000 customers would leave?", "expected_tools": ["sql_query", "calculator"], "multi_step": true}
+{"query": "What was Q2 2024 revenue, and what share of total 2024 revenue is that?", "expected_tools": ["sql_query", "calculator"], "multi_step": true}
+{"query": "What is the Fine-Tuning add-on price, and the annual cost for 50 teams?", "expected_tools": ["sql_query", "calculator"], "multi_step": true}
+{"query": "How many new customers joined in Q4 2024, and what would their total ARR be at Enterprise pricing?", "expected_tools": ["sql_query", "calculator"], "multi_step": true}
+{"query": "What is the lowest customer MRR, and what would doubling it look like?", "expected_tools": ["sql_query", "calculator"], "multi_step": true}
+{"query": "Find total revenue in 2023, and calculate what 30% growth on that would give.", "expected_tools": ["sql_query", "calculator"], "multi_step": true}
+{"query": "What was revenue in Q3 2023 versus Q3 2024, and what is the percentage change?", "expected_tools": ["sql_query", "calculator"], "multi_step": true}
+{"query": "How many total customers do we have, and what would 2 years of average MRR per customer total?", "expected_tools": ["sql_query", "calculator"], "multi_step": true}
+{"query": "Show the highest quarterly revenue in 2024, and calculate a 12% tax on that.", "expected_tools": ["sql_query", "calculator"], "multi_step": true}
+{"query": "What is the Professional plan price, and how much would 30 customers pay annually?", "expected_tools": ["sql_query", "calculator"], "multi_step": true}
+{"query": "Aggregate sales revenue across the full year 2024?", "expected_tools": ["sql_query"], "multi_step": false}
+{"query": "Show the top 3 customers by MRR.", "expected_tools": ["sql_query"], "multi_step": false}
+{"query": "Total new customer acquisition for Q3 and Q4 2024 combined?", "expected_tools": ["sql_query"], "multi_step": false}
+{"query": "In 2024, which quarter generated peak revenue?", "expected_tools": ["sql_query"], "multi_step": false}
+{"query": "Show all customers whose industry classification is Healthcare.", "expected_tools": ["sql_query"], "multi_step": false}
+{"query": "Mean monthly recurring revenue across the entire customer base?", "expected_tools": ["sql_query"], "multi_step": false}
+{"query": "Show all products sorted by monthly price.", "expected_tools": ["sql_query"], "multi_step": false}
+{"query": "Customer churn percentage during Q1 2024?", "expected_tools": ["sql_query"], "multi_step": false}
+{"query": "Count of customers subscribed to the Professional plan?", "expected_tools": ["sql_query"], "multi_step": false}
+{"query": "What was total revenue in 2023?", "expected_tools": ["sql_query"], "multi_step": false}
+{"query": "List all customers who joined in 2023.", "expected_tools": ["sql_query"], "multi_step": false}
+{"query": "Display how quarterly revenue evolved throughout 2024.", "expected_tools": ["sql_query"], "multi_step": false}
+{"query": "Identify the customer with the minimum monthly recurring revenue.", "expected_tools": ["sql_query"], "multi_step": false}
+{"query": "How much more does the Enterprise plan cost compared to Starter?", "expected_tools": ["sql_query"], "multi_step": false}
+{"query": "How many distinct industries are represented in our customer base?", "expected_tools": ["sql_query"], "multi_step": false}
+{"query": "Annual recurring revenue growth rate in Q4 2024?", "expected_tools": ["sql_query"], "multi_step": false}
+{"query": "Show all customers with MRR above 2000.", "expected_tools": ["sql_query"], "multi_step": false}
+{"query": "What is the total number of new customers across all quarters?", "expected_tools": ["sql_query"], "multi_step": false}
+{"query": "List all addon products.", "expected_tools": ["sql_query"], "multi_step": false}
+{"query": "Revenue difference between Q3 2024 and Q3 2023?", "expected_tools": ["sql_query"], "multi_step": false}
+{"query": "If I have 50 customers paying 999 per month, what is my ARR?", "expected_tools": ["calculator"], "multi_step": false}
+{"query": "What is 23% of 84900?", "expected_tools": ["calculator"], "multi_step": false}
+{"query": "Calculate 3500 times 12.", "expected_tools": ["calculator"], "multi_step": false}
+{"query": "What is 15% of 45000?", "expected_tools": ["calculator"], "multi_step": false}
+{"query": "If I pay 999 per month for 3 years, what is the total?", "expected_tools": ["calculator"], "multi_step": false}
+{"query": "What is 299 plus 500?", "expected_tools": ["calculator"], "multi_step": false}
+{"query": "Multiply 12 by 3500 and then add 15 percent.", "expected_tools": ["calculator"], "multi_step": false}
+{"query": "Yearly cost for the Enterprise plan at 3,500 per month?", "expected_tools": ["calculator"], "multi_step": false}
+{"query": "Churn decreasing from 1.5% to 0.5% — how many fewer lost per 1,000?", "expected_tools": ["calculator"], "multi_step": false}
+{"query": "What is 55100 divided by 7?", "expected_tools": ["calculator"], "multi_step": false}
+{"query": "Calculate 103200 times 1.15.", "expected_tools": ["calculator"], "multi_step": false}
+{"query": "Additional monthly cost if 25 users switch from Starter to Professional?", "expected_tools": ["calculator"], "multi_step": false}
+{"query": "What is 42800 minus 31200?", "expected_tools": ["calculator"], "multi_step": false}
+{"query": "Calculate the square root of 144.", "expected_tools": ["calculator"], "multi_step": false}
+{"query": "Calculate 7! (seven factorial).", "expected_tools": ["calculator"], "multi_step": false}
+{"query": "If revenue grows 28.7% from a base of 42800, what is the new amount?", "expected_tools": ["calculator"], "multi_step": false}
+{"query": "What is 2990 plus 5000 plus 9990?", "expected_tools": ["calculator"], "multi_step": false}
+{"query": "Monthly cost difference between Enterprise and Professional tiers?", "expected_tools": ["calculator"], "multi_step": false}
+{"query": "Multiply 18,500 by 4.", "expected_tools": ["calculator"], "multi_step": false}
+{"query": "If I have 10 customers each paying 3500 per month, what is the total annual revenue?", "expected_tools": ["calculator"], "multi_step": false}

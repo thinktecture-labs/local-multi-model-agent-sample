@@ -1,0 +1,36 @@
+{"instruction": "Classify the user intent into: rag_query, tool_use, direct_answer", "input": "What was the churn rate in Q1 2024?", "output": "tool_use"}
+{"instruction": "Classify the user intent into: rag_query, tool_use, direct_answer", "input": "List all customers in the Healthcare industry.", "output": "tool_use"}
+{"instruction": "Classify the user intent into: rag_query, tool_use, direct_answer", "input": "Which customer has the lowest MRR?", "output": "tool_use"}
+{"instruction": "Classify the user intent into: rag_query, tool_use, direct_answer", "input": "What is 7 factorial?", "output": "tool_use"}
+{"instruction": "Classify the user intent into: rag_query, tool_use, direct_answer", "input": "What is the annual cost of the Enterprise plan at 3500 per month?", "output": "tool_use"}
+{"instruction": "Classify the user intent into: rag_query, tool_use, direct_answer", "input": "What is the price difference between Enterprise and Starter plans?", "output": "tool_use"}
+{"instruction": "Classify the user intent into: rag_query, tool_use, direct_answer", "input": "Calculate the monthly cost savings between Enterprise and Professional.", "output": "tool_use"}
+{"instruction": "Classify the user intent into: rag_query, tool_use, direct_answer", "input": "Find the Enterprise plan price and calculate the 5-year total cost.", "output": "tool_use"}
+{"instruction": "Classify the user intent into: rag_query, tool_use, direct_answer", "input": "What is the Professional plan price, and how much would 30 customers pay annually?", "output": "tool_use"}
+{"instruction": "Classify the user intent into: rag_query, tool_use, direct_answer", "input": "What is the Fine-Tuning add-on price, and the annual cost for 50 teams?", "output": "tool_use"}
+{"instruction": "Classify the user intent into: rag_query, tool_use, direct_answer", "input": "How many customers are on the Professional tier?", "output": "tool_use"}
+{"instruction": "Classify the user intent into: rag_query, tool_use, direct_answer", "input": "What is the top customer's MRR, and their annual spend?", "output": "tool_use"}
+{"instruction": "Classify the user intent into: rag_query, tool_use, direct_answer", "input": "What is the square root of 225?", "output": "tool_use"}
+{"instruction": "Classify the user intent into: rag_query, tool_use, direct_answer", "input": "How many customers joined after June 2024?", "output": "tool_use"}
+{"instruction": "Classify the user intent into: rag_query, tool_use, direct_answer", "input": "If monthly cost is 5000, what is the quarterly total?", "output": "tool_use"}
+{"instruction": "Classify the user intent into: rag_query, tool_use, direct_answer", "input": "How many Enterprise tier customers do we have?", "output": "tool_use"}
+{"instruction": "Classify the user intent into: rag_query, tool_use, direct_answer", "input": "What is 17 multiplied by 340?", "output": "tool_use"}
+{"instruction": "Classify the user intent into: rag_query, tool_use, direct_answer", "input": "Show all customers with MRR above 3000.", "output": "tool_use"}
+{"instruction": "Classify the user intent into: rag_query, tool_use, direct_answer", "input": "What security certifications does Nextera hold?", "output": "rag_query"}
+{"instruction": "Classify the user intent into: rag_query, tool_use, direct_answer", "input": "What are the main features of the Professional plan?", "output": "rag_query"}
+{"instruction": "Classify the user intent into: rag_query, tool_use, direct_answer", "input": "Does the Enterprise plan include API access?", "output": "rag_query"}
+{"instruction": "Classify the user intent into: rag_query, tool_use, direct_answer", "input": "What is Nextera's uptime SLA?", "output": "rag_query"}
+{"instruction": "Classify the user intent into: rag_query, tool_use, direct_answer", "input": "What are the onboarding steps for new Enterprise customers?", "output": "rag_query"}
+{"instruction": "Classify the user intent into: rag_query, tool_use, direct_answer", "input": "What data formats does Nextera's API support?", "output": "rag_query"}
+{"instruction": "Classify the user intent into: rag_query, tool_use, direct_answer", "input": "What storage limits apply to the Starter plan?", "output": "rag_query"}
+{"instruction": "Classify the user intent into: rag_query, tool_use, direct_answer", "input": "What integrations are available on the Professional plan?", "output": "rag_query"}
+{"instruction": "Classify the user intent into: rag_query, tool_use, direct_answer", "input": "Can I export my data from Nextera?", "output": "rag_query"}
+{"instruction": "Classify the user intent into: rag_query, tool_use, direct_answer", "input": "What support channels are available for Enterprise customers?", "output": "rag_query"}
+{"instruction": "Classify the user intent into: rag_query, tool_use, direct_answer", "input": "What does SaaS stand for?", "output": "direct_answer"}
+{"instruction": "Classify the user intent into: rag_query, tool_use, direct_answer", "input": "What is the difference between ARR and MRR?", "output": "direct_answer"}
+{"instruction": "Classify the user intent into: rag_query, tool_use, direct_answer", "input": "Explain what customer churn means.", "output": "direct_answer"}
+{"instruction": "Classify the user intent into: rag_query, tool_use, direct_answer", "input": "What is a net promoter score?", "output": "direct_answer"}
+{"instruction": "Classify the user intent into: rag_query, tool_use, direct_answer", "input": "What is LTV in a SaaS business?", "output": "direct_answer"}
+{"instruction": "Classify the user intent into: rag_query, tool_use, direct_answer", "input": "What does CAC stand for?", "output": "direct_answer"}
+{"instruction": "Classify the user intent into: rag_query, tool_use, direct_answer", "input": "What is the rule of 40 in SaaS?", "output": "direct_answer"}
+{"instruction": "Classify the user intent into: rag_query, tool_use, direct_answer", "input": "What is a good churn rate for a B2B SaaS company?", "output": "direct_answer"}

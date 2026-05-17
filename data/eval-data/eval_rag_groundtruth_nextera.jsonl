@@ -1,0 +1,80 @@
+{"query": "How much does the Nextera Starter plan cost per month?", "expected_keywords": ["299"], "source_doc": "pricing-starter.md"}
+{"query": "What is the concurrent user limit on the Professional tier?", "expected_keywords": ["25"], "source_doc": "pricing-professional.md"}
+{"query": "Yearly pricing option for the entry-level Nextera subscription?", "expected_keywords": ["2,990", "2990"], "source_doc": "pricing-starter.md"}
+{"query": "What encryption standard does Nextera use at rest?", "expected_keywords": ["AES-256"], "source_doc": "security-compliance.md"}
+{"query": "What encryption protocol is used in transit?", "expected_keywords": ["TLS 1.3"], "source_doc": "security-compliance.md"}
+{"query": "What vector storage limit does the Professional plan include?", "expected_keywords": ["100 GB", "100GB"], "source_doc": "pricing-professional.md"}
+{"query": "What is the SLA response time for Enterprise support?", "expected_keywords": ["1-hour", "1 hour"], "source_doc": "support-sla.md"}
+{"query": "Base monthly rate for the top-tier Nextera offering?", "expected_keywords": ["3,500", "3500"], "source_doc": "pricing-enterprise.md"}
+{"query": "Simultaneous user cap on the entry-level subscription?", "expected_keywords": ["5"], "source_doc": "pricing-starter.md"}
+{"query": "What fine-tuning methods does Nextera support?", "expected_keywords": ["LoRA", "QLoRA"], "source_doc": "features-finetuning.md"}
+{"query": "Typical duration to fine-tune with five hundred training samples?", "expected_keywords": ["30", "60"], "source_doc": "features-finetuning.md"}
+{"query": "What compliance certification is available for Enterprise customers?", "expected_keywords": ["SOC 2"], "source_doc": "security-compliance.md"}
+{"query": "What vector store options does Nextera support for RAG?", "expected_keywords": ["ChromaDB", "Weaviate"], "source_doc": "features-rag.md"}
+{"query": "Which file types can be ingested by the RAG pipeline?", "expected_keywords": ["PDF", "DOCX", "Markdown"], "source_doc": "features-rag.md"}
+{"query": "What official SDKs does Nextera provide?", "expected_keywords": ["Python", "TypeScript", "Go"], "source_doc": "integration-api.md"}
+{"query": "What model families does the agentic pipeline support?", "expected_keywords": ["Gemma", "Llama", "Qwen"], "source_doc": "features-agents.md"}
+{"query": "What is the minimum RAM requirement for small models?", "expected_keywords": ["8 GB", "8GB"], "source_doc": "integration-deployment.md"}
+{"query": "Recommended graphics card memory for running Nextera in production?", "expected_keywords": ["16 GB", "16GB"], "source_doc": "integration-deployment.md"}
+{"query": "Turnaround window for deploying urgent security fixes across tiers?", "expected_keywords": ["24 hours"], "source_doc": "support-sla.md"}
+{"query": "What is the SLA response time for Professional plan support?", "expected_keywords": ["8-hour", "8 hour"], "source_doc": "support-sla.md"}
+{"query": "What vector storage capacity comes with the Starter plan?", "expected_keywords": ["10 GB"], "source_doc": "pricing-starter.md"}
+{"query": "Parameter ceiling for models on the entry-level Nextera tier?", "expected_keywords": ["7B"], "source_doc": "pricing-starter.md"}
+{"query": "What community channel does Starter plan use for support?", "expected_keywords": ["Discord"], "source_doc": "pricing-starter.md"}
+{"query": "What annual pricing does the Professional plan offer?", "expected_keywords": ["9,990", "9990"], "source_doc": "pricing-professional.md"}
+{"query": "Upper bound on model parameters available to Professional subscribers?", "expected_keywords": ["70B"], "source_doc": "pricing-professional.md"}
+{"query": "Single sign-on standard offered with the Professional subscription?", "expected_keywords": ["SAML 2.0"], "source_doc": "pricing-professional.md"}
+{"query": "Are audit logging capabilities included at the Professional level?", "expected_keywords": ["audit logs"], "source_doc": "pricing-professional.md"}
+{"query": "What model parameter sizes does the Enterprise plan handle?", "expected_keywords": ["405B"], "source_doc": "pricing-enterprise.md"}
+{"query": "Is a named account manager assigned to Enterprise subscribers?", "expected_keywords": ["Customer Success Manager"], "source_doc": "pricing-enterprise.md"}
+{"query": "What communication channels are provided for Enterprise support?", "expected_keywords": ["phone", "Slack"], "source_doc": "pricing-enterprise.md"}
+{"query": "Can Enterprise installations operate fully offline without internet?", "expected_keywords": ["air-gapped"], "source_doc": "pricing-enterprise.md"}
+{"query": "What dedicated compute resource is included in the Enterprise plan for model training?", "expected_keywords": ["fine-tuning cluster"], "source_doc": "pricing-enterprise.md"}
+{"query": "What secrets management integration does Nextera offer?", "expected_keywords": ["Vault"], "source_doc": "security-compliance.md"}
+{"query": "What permission management system is built into the platform?", "expected_keywords": ["RBAC"], "source_doc": "security-compliance.md"}
+{"query": "Can healthcare organizations obtain a HIPAA agreement from Nextera?", "expected_keywords": ["HIPAA BAA", "Enterprise"], "source_doc": "security-compliance.md"}
+{"query": "Does Nextera perform any external telemetry or cloud calls?", "expected_keywords": ["no telemetry", "no cloud calls"], "source_doc": "security-compliance.md"}
+{"query": "What kind of external security assessment does Nextera undergo?", "expected_keywords": ["penetration testing"], "source_doc": "security-compliance.md"}
+{"query": "What support does the Starter plan have regarding SLA guarantees?", "expected_keywords": ["no guaranteed SLA"], "source_doc": "support-sla.md"}
+{"query": "Does the Professional support tier include scheduled calls with the Nextera team?", "expected_keywords": ["office hours"], "source_doc": "support-sla.md"}
+{"query": "What review cadence does Enterprise support provide?", "expected_keywords": ["quarterly business reviews"], "source_doc": "support-sla.md"}
+{"query": "Is proactive monitoring included in any Nextera support tier?", "expected_keywords": ["proactive monitoring", "Enterprise"], "source_doc": "support-sla.md"}
+{"query": "What retrieval strategies does the Nextera RAG pipeline combine?", "expected_keywords": ["dense", "BM25"], "source_doc": "features-rag.md"}
+{"query": "Does the retrieval pipeline attribute answers back to source documents?", "expected_keywords": ["citation tracking", "source attribution"], "source_doc": "features-rag.md"}
+{"query": "What relevance improvement technique runs after initial vector retrieval?", "expected_keywords": ["cross-encoders"], "source_doc": "features-rag.md"}
+{"query": "Does the Nextera RAG pipeline offer streaming output?", "expected_keywords": ["streaming"], "source_doc": "features-rag.md"}
+{"query": "Can CSV files be processed by the Nextera RAG document ingestion?", "expected_keywords": ["CSV"], "source_doc": "features-rag.md"}
+{"query": "What GPU hardware was used for the quoted fine-tuning time?", "expected_keywords": ["A100"], "source_doc": "features-finetuning.md"}
+{"query": "Which plans include on-device fine-tuning capabilities?", "expected_keywords": ["Professional", "Enterprise"], "source_doc": "features-finetuning.md"}
+{"query": "What model export format does Nextera support for edge devices?", "expected_keywords": ["GGUF"], "source_doc": "features-finetuning.md"}
+{"query": "How are user interactions captured for subsequent model training?", "expected_keywords": ["interaction logs"], "source_doc": "features-finetuning.md"}
+{"query": "Where are fine-tuned adapters automatically deployed in Nextera?", "expected_keywords": ["Ollama"], "source_doc": "features-finetuning.md"}
+{"query": "What reasoning pattern do Nextera agents use for multi-step tasks?", "expected_keywords": ["ReAct"], "source_doc": "features-agents.md"}
+{"query": "What built-in sandboxed tool does the agentic pipeline offer for running scripts?", "expected_keywords": ["code execution", "sandboxed"], "source_doc": "features-agents.md"}
+{"query": "Does the tool-calling interface follow the OpenAI function format?", "expected_keywords": ["OpenAI-compatible"], "source_doc": "features-agents.md"}
+{"query": "What debugging capability does the Nextera agent framework provide?", "expected_keywords": ["execution tracing"], "source_doc": "features-agents.md"}
+{"query": "How can developers register custom tools in the Nextera agent framework?", "expected_keywords": ["Python", "base class"], "source_doc": "features-agents.md"}
+{"query": "Does the Nextera agent framework support the Mistral model family?", "expected_keywords": ["Mistral"], "source_doc": "features-agents.md"}
+{"query": "What third-party framework integrations does Nextera offer natively?", "expected_keywords": ["LangChain", "LlamaIndex", "Semantic Kernel"], "source_doc": "integration-api.md"}
+{"query": "Is a .NET SDK available for the Nextera API?", "expected_keywords": [".NET", "C#"], "source_doc": "integration-api.md"}
+{"query": "How compatible is the Nextera REST API with existing OpenAI applications?", "expected_keywords": ["base_url", "no code modifications"], "source_doc": "integration-api.md"}
+{"query": "What API capabilities does Nextera expose besides chat completions?", "expected_keywords": ["embeddings", "function calling", "batch requests"], "source_doc": "integration-api.md"}
+{"query": "Which plans have access to webhooks in the Nextera API?", "expected_keywords": ["Professional"], "source_doc": "integration-api.md"}
+{"query": "What Helm-based orchestration does Nextera support for scaling?", "expected_keywords": ["Kubernetes", "Helm chart", "auto-scaling"], "source_doc": "integration-deployment.md"}
+{"query": "What OS platforms are supported for single-machine Docker installation?", "expected_keywords": ["Linux", "macOS", "Windows"], "source_doc": "integration-deployment.md"}
+{"query": "What RAM is recommended for a production Nextera deployment?", "expected_keywords": ["32 GB"], "source_doc": "integration-deployment.md"}
+{"query": "Can Nextera run inference on AMD Radeon GPUs via ROCm?", "expected_keywords": ["ROCm"], "source_doc": "integration-deployment.md"}
+{"query": "Is Metal-based inference on M-series Mac chips available?", "expected_keywords": ["Apple Silicon", "Metal"], "source_doc": "integration-deployment.md"}
+{"query": "What inference backends does the Nextera platform support?", "expected_keywords": ["Ollama", "llama.cpp", "vLLM"], "source_doc": "nextera-overview.md"}
+{"query": "How is Nextera shipped and packaged for deployment?", "expected_keywords": ["Docker container"], "source_doc": "nextera-overview.md"}
+{"query": "Is Nextera a cloud-hosted or local-first product?", "expected_keywords": ["local-first"], "source_doc": "nextera-overview.md"}
+{"query": "What embedding capability does the Nextera platform include?", "expected_keywords": ["embedding search"], "source_doc": "nextera-overview.md"}
+{"query": "Does any data leave the enterprise network when running Nextera?", "expected_keywords": ["no data ever leaves"], "source_doc": "nextera-overview.md"}
+{"query": "What built-in workflow does Nextera provide for model customization?", "expected_keywords": ["fine-tuning workflow"], "source_doc": "nextera-overview.md"}
+{"query": "How many parameters does a fine-tuned small model need to outperform GPT-4 on domain tasks?", "expected_keywords": ["1B"], "source_doc": "faq-model-quality.md"}
+{"query": "What architectural approach does Nextera recommend instead of using a single large model?", "expected_keywords": ["task decomposition"], "source_doc": "faq-model-quality.md"}
+{"query": "How many specialized models does the recommended task decomposition pattern use?", "expected_keywords": ["three"], "source_doc": "faq-model-quality.md"}
+{"query": "What role does the embedding model play in the multi-model architecture?", "expected_keywords": ["search"], "source_doc": "faq-model-quality.md"}
+{"query": "What level of results can the multi-model approach achieve on domain-specific tasks?", "expected_keywords": ["GPT-4-level"], "source_doc": "faq-model-quality.md"}
+{"query": "What is the approximate monthly cloud API cost for a team of 50 running 100 queries per day?", "expected_keywords": ["5,000", "5000"], "source_doc": "faq-vs-cloud.md"}
+{"query": "What first-token latency does local GPU inference achieve?", "expected_keywords": ["200ms"], "source_doc": "faq-vs-cloud.md"}

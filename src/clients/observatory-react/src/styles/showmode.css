@@ -1,0 +1,612 @@
+/* ============================================================
+   ShowMode — Full-screen cinematic demo view
+   ============================================================ */
+
+/* Theme variables */
+.show-screen {
+  --show-bg: #0a0a12;
+  --show-text: #ddddf0;
+  --show-text-muted: #888;
+  --show-text-dim: #555;
+  --show-text-faint: #444;
+  --show-border: #222;
+  --show-surface: #111118;
+  --show-surface-hi: #13131a;
+  --show-card-border: #252530;
+  --show-divider: #1a1a22;
+  --show-orb-fill: 30;
+  --show-orb-fill-edge: 08;
+}
+.show-screen.light {
+  --show-bg: #f5f5f7;
+  --show-text: #1a1a2e;
+  --show-text-muted: #555;
+  --show-text-dim: #888;
+  --show-text-faint: #aaa;
+  --show-border: #d0d0d8;
+  --show-surface: #ffffff;
+  --show-surface-hi: #f0f0f5;
+  --show-card-border: #d8d8e0;
+  --show-divider: #e5e5ea;
+  --show-orb-fill: 12;
+  --show-orb-fill-edge: 04;
+}
+
+.show-screen {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  background: var(--show-bg);
+  color: var(--show-text);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  font-family: inherit;
+  overflow: hidden;
+}
+
+/* Header */
+.show-header {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 20px 32px;
+  flex-shrink: 0;
+}
+.show-badge {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 1.5px;
+  padding: 4px 12px;
+  border: 1px solid #34A853;
+  border-radius: 4px;
+  color: #34A853;
+}
+.show-title {
+  font-size: 20px;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+  color: var(--show-text-muted);
+}
+.show-header-actions {
+  display: flex;
+  gap: 8px;
+}
+.show-exit {
+  width: 36px; height: 36px;
+  background: transparent;
+  border: 1px solid var(--show-border);
+  border-radius: 50%;
+  color: var(--show-text-dim);
+  font-size: 16px;
+  cursor: pointer;
+  display: flex; align-items: center; justify-content: center;
+  transition: all 0.15s;
+}
+.show-exit:hover { border-color: #888; color: #ccc; }
+
+/* Center area — orb */
+.show-center {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 0;
+  transition: flex 0.4s ease;
+}
+.show-center.compact {
+  flex: 0 0 auto;
+}
+.show-orb-wrap {
+  cursor: pointer;
+  transition: transform 0.4s ease;
+}
+.show-orb-wrap:hover { transform: scale(1.03); }
+.show-orb-wrap:active { transform: scale(0.97); }
+.show-orb-wrap.compact {
+  transform: scale(0.6);
+  margin: -40px 0;
+}
+.show-orb {
+  display: block;
+}
+.show-phase-label {
+  margin-top: 16px;
+  font-size: 15px;
+  color: var(--show-text-dim);
+  letter-spacing: 0.3px;
+  min-height: 24px;
+  transition: all 0.3s;
+}
+.show-phase-label.hidden {
+  opacity: 0;
+  height: 0;
+  margin: 0;
+  min-height: 0;
+  overflow: hidden;
+}
+
+/* Model strip */
+.show-model-strip {
+  display: flex;
+  gap: 16px;
+  padding: 16px 32px 20px;
+  justify-content: center;
+  flex-shrink: 0;
+  width: 100%;
+  max-width: 860px;
+  margin: 0 auto;
+}
+.show-model-strip .show-model-node {
+  flex: 1;
+}
+.show-model-node {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  padding: 10px 16px;
+  border-radius: 10px;
+  border: 1px solid var(--show-border);
+  background: var(--show-surface);
+  transition: all 0.3s ease;
+  min-width: 80px;
+  opacity: 0.45;
+}
+.show-model-node.active {
+  opacity: 1;
+  border-color: var(--node-color, #555);
+  background: color-mix(in srgb, var(--node-color, #555) 8%, #111118);
+  box-shadow: 0 0 16px color-mix(in srgb, var(--node-color, #555) 25%, transparent);
+  transform: scale(1.08);
+}
+.show-model-node.done {
+  opacity: 0.8;
+  border-color: var(--show-border);
+}
+
+/* Greeting mode — all five nodes light up in their colors and pulse softly,
+ * visually echoing "All five models online, sir." while Piper speaks it. */
+.show-model-strip.greeting .show-model-node {
+  opacity: 1;
+  background: color-mix(in srgb, var(--node-color, #555) 10%, #111118);
+  box-shadow: 0 0 20px color-mix(in srgb, var(--node-color, #555) 30%, transparent);
+  animation: greeting-glow 2.4s ease-in-out infinite;
+  animation-delay: calc(var(--node-index, 0) * 80ms);
+}
+.show-model-strip.greeting .show-model-dot {
+  box-shadow: 0 0 12px var(--node-color, #555);
+}
+@keyframes greeting-glow {
+  0%, 100% {
+    box-shadow: 0 0 16px color-mix(in srgb, var(--node-color, #555) 25%, transparent);
+  }
+  50% {
+    box-shadow: 0 0 28px color-mix(in srgb, var(--node-color, #555) 45%, transparent);
+  }
+}
+.show-model-dot {
+  width: 10px; height: 10px;
+  border-radius: 50%;
+  background: var(--show-border);
+  transition: all 0.3s;
+}
+.show-model-node.active .show-model-dot {
+  box-shadow: 0 0 8px var(--node-color, #555);
+  animation: node-pulse 1s ease-in-out infinite;
+}
+@keyframes node-pulse {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.4); }
+}
+.show-model-label {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--show-text);
+}
+.show-model-role {
+  font-size: 10px;
+  color: #666;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+.show-model-ms {
+  font-size: 11px;
+  font-variant-numeric: tabular-nums;
+  color: var(--show-text-muted);
+  margin-top: 2px;
+}
+
+/* Response panel */
+.show-response {
+  width: 100%;
+  max-width: 860px;
+  padding: 20px 32px 12px;
+  flex: 1 1 auto;
+  min-height: 0;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  animation: fade-up 0.4s ease-out;
+}
+@keyframes fade-up {
+  from { opacity: 0; transform: translateY(12px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+.show-query {
+  display: flex;
+  align-items: baseline;
+  gap: 10px;
+  margin-bottom: 10px;
+}
+.show-q-label {
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--show-text-dim);
+  padding: 2px 6px;
+  border: 1px solid #333;
+  border-radius: 3px;
+  flex-shrink: 0;
+}
+.show-q-text {
+  font-size: 18px;
+  color: var(--show-text);
+  font-style: italic;
+}
+
+/* Greeting hero layout — Q + answer centred, larger type, no SmartCard or
+ * pipeline strip. Fills the response panel's vertical real-estate so the
+ * post-greeting view doesn't read as half-empty. */
+.show-response.greeting {
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  gap: 24px;
+  padding: 40px 32px;
+  animation: greeting-fade-in 0.5s ease-out;
+}
+.show-greeting-q {
+  font-size: 22px;
+  font-style: italic;
+  color: var(--show-text-muted);
+  letter-spacing: 0.02em;
+}
+.show-greeting-a {
+  font-size: 44px;
+  font-weight: 300;
+  line-height: 1.25;
+  color: var(--show-text);
+  max-width: 22ch;
+  letter-spacing: -0.01em;
+  background: linear-gradient(
+    135deg,
+    var(--show-text) 0%,
+    color-mix(in srgb, var(--show-text) 75%, #3D6FB4) 100%
+  );
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  text-shadow: 0 0 28px color-mix(in srgb, #3D6FB4 35%, transparent);
+}
+@keyframes greeting-fade-in {
+  from { opacity: 0; transform: translateY(8px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* Smart card container */
+.sc-container {
+  margin-bottom: 10px;
+}
+.sc-card {
+  background: var(--show-surface-hi);
+  border: 1px solid var(--show-card-border);
+  border-radius: 12px;
+  padding: 24px;
+  margin-bottom: 12px;
+  max-height: 260px;
+  overflow-y: auto;
+  animation: card-in 0.5s ease-out;
+}
+@keyframes card-in {
+  from { opacity: 0; transform: scale(0.95); }
+  to   { opacity: 1; transform: scale(1); }
+}
+.sc-text {
+  font-size: 22px;
+  line-height: 1.5;
+  color: var(--show-text);
+}
+.sc-text p { margin: 0 0 8px; }
+.sc-text p:last-child { margin-bottom: 0; }
+.sc-text ul { margin: 4px 0 8px 20px; padding: 0; }
+.sc-text li { margin-bottom: 4px; }
+.sc-text strong { color: var(--show-text); }
+
+/* KPI card */
+.sc-kpi {
+  text-align: center;
+  padding: 16px 0;
+}
+.sc-kpi-value {
+  font-size: 3.5rem;
+  font-weight: 700;
+  color: #0170B9;
+  font-variant-numeric: tabular-nums;
+  display: block;
+}
+.sc-kpi-label {
+  font-size: 14px;
+  color: #777;
+  text-transform: capitalize;
+  margin-top: 4px;
+  display: block;
+}
+
+/* Bar chart */
+.sc-bars {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.sc-bar-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  animation: bar-slide-in 0.5s ease-out both;
+}
+@keyframes bar-slide-in {
+  from { opacity: 0; transform: translateX(-20px); }
+  to   { opacity: 1; transform: translateX(0); }
+}
+.sc-bar-label {
+  width: 80px;
+  font-size: 13px;
+  color: var(--show-text-muted);
+  text-align: right;
+  flex-shrink: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.sc-bar-track {
+  flex: 1;
+  height: 24px;
+  background: var(--show-surface);
+  border-radius: 4px;
+  overflow: hidden;
+}
+.sc-bar-fill {
+  height: 100%;
+  background: linear-gradient(90deg, #0170B9 0%, #34A853 100%);
+  border-radius: 4px;
+  width: 0;
+  animation: bar-grow 0.8s ease-out 0.3s forwards;
+}
+@keyframes bar-grow {
+  to { width: var(--target-width, 0%); }
+}
+.sc-bar-value {
+  width: 80px;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--show-text);
+  font-variant-numeric: tabular-nums;
+  flex-shrink: 0;
+}
+
+/* Styled table */
+.sc-table-wrap {
+  overflow-x: auto;
+  overflow-y: auto;
+  max-height: 220px;
+}
+.sc-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 13px;
+}
+.sc-table th {
+  text-align: left;
+  padding: 6px 12px;
+  color: #666;
+  font-weight: 600;
+  text-transform: capitalize;
+  border-bottom: 1px solid #252530;
+}
+.sc-table td {
+  padding: 6px 12px;
+  color: var(--show-text);
+  border-bottom: 1px solid var(--show-divider);
+}
+.sc-table tr {
+  animation: bar-slide-in 0.4s ease-out both;
+}
+
+/* Pipeline chain */
+.show-pipeline {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px 0;
+  font-size: 15px;
+  color: var(--show-text-muted);
+  border-top: 1px solid var(--show-divider);
+  margin-top: 16px;
+}
+.show-pipeline-chain {
+  font-variant-numeric: tabular-nums;
+  letter-spacing: 0.3px;
+}
+.show-pipeline-total {
+  font-size: 20px;
+  font-weight: 700;
+  color: #34A853;
+}
+
+/* Input area — chips + text input (collapsed by default, hover bottom edge to reveal) */
+.show-input-area {
+  width: 100%;
+  max-width: 860px;
+  padding: 0 32px 8px;
+  flex-shrink: 0;
+  max-height: 0;
+  overflow: hidden;
+  opacity: 0;
+  transition: max-height 0.3s ease, opacity 0.3s ease, padding 0.3s ease;
+}
+.show-input-area.visible {
+  max-height: 200px;
+  opacity: 1;
+  padding: 8px 32px 8px;
+}
+.show-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  justify-content: center;
+  margin-bottom: 10px;
+}
+.show-chip {
+  padding: 5px 14px;
+  font-size: 12px;
+  font-family: inherit;
+  border: 1px solid var(--show-card-border);
+  border-radius: 16px;
+  background: var(--show-surface-hi);
+  color: var(--show-text-muted);
+  cursor: pointer;
+  transition: all 0.15s;
+}
+.show-chip:hover:not(:disabled) {
+  border-color: #0170B9;
+  color: var(--show-text);
+  background: #161622;
+}
+.show-chip:disabled { opacity: 0.3; cursor: default; }
+.show-text-row {
+  display: flex;
+  gap: 8px;
+}
+.show-text-input {
+  flex: 1;
+  padding: 8px 14px;
+  font-size: 14px;
+  font-family: inherit;
+  border: 1px solid var(--show-card-border);
+  border-radius: 8px;
+  background: var(--show-surface);
+  color: var(--show-text);
+  outline: none;
+  transition: border-color 0.15s;
+}
+.show-text-input:focus { border-color: #0170B9; }
+.show-text-input::placeholder { color: #444; }
+.show-text-input:disabled { opacity: 0.3; }
+.show-text-send {
+  width: 38px; height: 38px;
+  border: 1px solid var(--show-card-border);
+  border-radius: 8px;
+  background: var(--show-surface-hi);
+  color: var(--show-text-muted);
+  font-size: 16px;
+  cursor: pointer;
+  display: flex; align-items: center; justify-content: center;
+  transition: all 0.15s;
+  flex-shrink: 0;
+}
+.show-text-send:hover:not(:disabled) { border-color: #0170B9; color: #ccc; }
+.show-text-send:disabled { opacity: 0.3; cursor: default; }
+.show-kb-toggle {
+  background: transparent;
+  border: none;
+  color: #888;
+  font-size: 22px;
+  cursor: pointer;
+  padding: 0 8px;
+  transition: color 0.15s;
+}
+.show-kb-toggle:hover { color: #ccc; }
+
+/* Footer — stage-readable from the back row */
+.show-footer {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 40px;
+  padding: 18px 32px;
+  font-size: 18px;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  color: var(--show-text-muted);
+  border-top: 1px solid var(--show-divider);
+  flex-shrink: 0;
+}
+
+
+/* ============================================================
+   OrbV2 — Jarvis-style canvas orb (port of talk-to-tt-vnext
+   feature/spa-orb-visualization branch). Sits behind the
+   ?orb-v2 URL flag. The actual visualization is on a canvas
+   inside this host; the host itself only carries layout and
+   the centred TT-logo SVG overlay.
+   ============================================================ */
+
+.orb-v2-host {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  /* Phase-aware tinting for the centred TT-logo wireframe — set by
+     [data-state] selectors below. */
+  --orb-v2-logo-color: #3D6FB4;
+  --orb-v2-logo-glow: rgba(61, 111, 180, 0.45);
+}
+
+.orb-v2-host[data-state='listening'] {
+  --orb-v2-logo-color: #FF584F;
+  --orb-v2-logo-glow: rgba(255, 88, 79, 0.55);
+}
+
+.orb-v2-host[data-state='thinking'] {
+  --orb-v2-logo-color: #3D6FB4;
+  --orb-v2-logo-glow: rgba(61, 111, 180, 0.65);
+}
+
+.orb-v2-host[data-state='playing'] {
+  --orb-v2-logo-color: #16A34A;
+  --orb-v2-logo-glow: rgba(22, 163, 74, 0.85);
+}
+
+.orb-v2-canvas {
+  display: block;
+  /* Canvas paint area is CANVAS_PADDING (1.8) × the orb's visible size,
+     giving audio peaks room to fade outward. Absolute-positioned + centred
+     so the orb host's bounding box stays at the visible diameter while
+     the canvas overflows. pointer-events: none so any future click handler
+     on .orb-v2-host hits the visible silhouette, not the canvas rect. */
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  pointer-events: none;
+}
+
+.orb-v2-logo {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  /* Bound by height so the SVG's tall-narrow aspect ratio sits comfortably
+     inside the innermost shell. ~24% of host height keeps the wireframe
+     within the 30% inner-shell radius. */
+  height: 24%;
+  width: auto;
+  transform: translate(-50%, -50%);
+  pointer-events: none;
+  user-select: none;
+  color: var(--orb-v2-logo-color);
+  filter: drop-shadow(0 0 8px var(--orb-v2-logo-glow));
+  transition: color 0.4s ease, filter 0.4s ease;
+}

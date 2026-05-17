@@ -1,0 +1,46 @@
+# Core runtime
+openai>=1.58.0
+httpx>=0.27.0
+chromadb>=0.5.0
+pydantic>=2.0.0
+aiosqlite>=0.20.0
+python-dotenv>=1.0.0
+simpleeval>=1.0.0
+
+# API server
+fastapi>=0.115.0
+uvicorn[standard]>=0.32.0
+python-multipart>=0.0.9
+
+# Document upload (PDF parsing + semantic chunking)
+pypdf>=4.0.0
+chonkie[openai]>=1.6.0
+
+# OCR (PDF page-to-image for GLM-OCR — optional, install via setup_ocr.sh)
+# pymupdf>=1.24.0    # pip install pymupdf
+
+# Voice (local STT + TTS — optional, install separately when needed)
+# piper-tts>=1.2.0     # Piper TTS (ONNX, CPU) — install: pip install piper-tts
+regex>=2024.0.0         # Unicode-aware regex (emoji stripping for TTS)
+
+# Intent LogReg classifier (deterministic, <25ms)
+scikit-learn>=1.3.0
+
+# Rich console output for demo
+rich>=13.9.0
+
+# Async utilities
+anyio>=4.6.0
+
+# Testing
+pytest>=8.0.0
+pytest-asyncio>=0.23.0
+
+# Fine-tuning dependencies (optional - install separately when needed)
+# transformers>=4.45.0
+# peft>=0.13.0
+# datasets>=3.0.0
+# sentence-transformers>=3.3.0
+# torch>=2.4.0
+# bitsandbytes>=0.44.0
+# trl>=0.12.0

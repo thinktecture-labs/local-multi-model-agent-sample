@@ -1,0 +1,72 @@
+@startuml C4_Level4_VoicePipeline
+title Voice Pipeline — Local STT + Agent + TTS (All Local)
+
+skinparam ActivityBackgroundColor White
+skinparam ArrowColor #333333
+
+start
+
+partition "Stage 0: Wake Word Detection (optional)" #F5F0FF {
+    :OpenWakeWord ONNX listens\nfor "Hey Jarvis" keyword;
+    :Detection (~200-500ms latency)\nOrb flashes green;
+    note right
+        openwakeword-wasm-browser
+        Browser-native ONNX Runtime WASM
+        Zero audio leaves device until detected
+        MIT licensed, no API key required
+        Optional: push-to-talk still available
+    end note
+}
+
+:Start recording\n(wake word trigger or mic button click);
+:Record audio\n(browser MediaRecorder, WebM/Opus);
+:POST /voice/chat\n(multipart file upload);
+
+partition "Stage 1: Speech-to-Text" #E8F4FD {
+    :ffmpeg: convert WebM/Opus\nto WAV 16kHz 16-bit mono;
+    :whisper-server (:9097)\ntranscribe audio;
+    :SSE event: transcription\n(text, language, duration_ms);
+    note right
+        Whisper medium model (Metal/CUDA)
+        Auto-detects language (EN/DE)
+        ~250ms on CUDA
+    end note
+}
+
+partition "Stage 2: Agent Query" #F0FFF0 {
+    :agent.process(transcript);
+    :SSE events: agent_step\n(one per pipeline step);
+    :SSE event: response\n(text, intent, duration_ms);
+    note right
+        Reuses full agent pipeline
+        ~230-1326ms depending on intent
+    end note
+}
+
+partition "Stage 3: Text-to-Speech" #FDF5E6 {
+    :Strip markdown + emojis\nfrom response text;
+    :Piper TTS: synthesize\n(CPU, ONNX runtime);
+    :Build WAV header\n(RIFF, 22050 Hz);
+    :Cache audio with UUID key\n(TTL: 120s, max: 50 entries);
+    :SSE event: audio\n(url: /voice/audio/id,\n duration_ms);
+    note right
+        EN: en_US-lessac-medium
+        DE: de_DE-thorsten-high
+        ~600-1600ms
+    end note
+}
+
+:Browser auto-plays\n/voice/audio/id\n(WAV, auto-expires);
+
+:Stop button replaces mic\nduring playback;
+
+floating note right
+    Total latency:
+    CUDA: ~1-2.5s with progressive SSE feedback
+    Metal (M5 Max): ~2-4s
+    All local -- zero cloud dependencies
+end note
+
+stop
+
+@enduml

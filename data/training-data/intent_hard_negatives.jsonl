@@ -1,0 +1,59 @@
+{"instruction": "Classify the user intent into: rag_query, tool_use, direct_answer", "input": "How many models are running in this system?", "output": "direct_answer"}
+{"instruction": "Classify the user intent into: rag_query, tool_use, direct_answer", "input": "What models are you using under the hood?", "output": "direct_answer"}
+{"instruction": "Classify the user intent into: rag_query, tool_use, direct_answer", "input": "How many AI models does this agent use?", "output": "direct_answer"}
+{"instruction": "Classify the user intent into: rag_query, tool_use, direct_answer", "input": "Which models power this system?", "output": "direct_answer"}
+{"instruction": "Classify the user intent into: rag_query, tool_use, direct_answer", "input": "What is the role of the function calling model?", "output": "direct_answer"}
+{"instruction": "Classify the user intent into: rag_query, tool_use, direct_answer", "input": "What does the embedding model do in this pipeline?", "output": "direct_answer"}
+{"instruction": "Classify the user intent into: rag_query, tool_use, direct_answer", "input": "How does the inference model differ from the embedding model?", "output": "direct_answer"}
+{"instruction": "Classify the user intent into: rag_query, tool_use, direct_answer", "input": "Which of your models handles vision tasks?", "output": "direct_answer"}
+{"instruction": "Classify the user intent into: rag_query, tool_use, direct_answer", "input": "Are you a single model or multiple models?", "output": "direct_answer"}
+{"instruction": "Classify the user intent into: rag_query, tool_use, direct_answer", "input": "Are you running on one model or several?", "output": "direct_answer"}
+{"instruction": "Classify the user intent into: rag_query, tool_use, direct_answer", "input": "How do you decide which tool to use?", "output": "direct_answer"}
+{"instruction": "Classify the user intent into: rag_query, tool_use, direct_answer", "input": "How do you route my questions internally?", "output": "direct_answer"}
+{"instruction": "Classify the user intent into: rag_query, tool_use, direct_answer", "input": "What happens when one of the models crashes?", "output": "direct_answer"}
+{"instruction": "Classify the user intent into: rag_query, tool_use, direct_answer", "input": "What happens if the inference server goes down?", "output": "direct_answer"}
+{"instruction": "Classify the user intent into: rag_query, tool_use, direct_answer", "input": "What is the difference between a base model and an instruct model?", "output": "direct_answer"}
+{"instruction": "Classify the user intent into: rag_query, tool_use, direct_answer", "input": "What is the difference between base and fine-tuned models?", "output": "direct_answer"}
+{"instruction": "Classify the user intent into: rag_query, tool_use, direct_answer", "input": "What model sizes are you using?", "output": "direct_answer"}
+{"instruction": "Classify the user intent into: rag_query, tool_use, direct_answer", "input": "How big are the models you run?", "output": "direct_answer"}
+{"instruction": "Classify the user intent into: rag_query, tool_use, direct_answer", "input": "How much memory do you use while running?", "output": "direct_answer"}
+{"instruction": "Classify the user intent into: rag_query, tool_use, direct_answer", "input": "How much GPU memory does this agent consume?", "output": "direct_answer"}
+{"instruction": "Classify the user intent into: rag_query, tool_use, direct_answer", "input": "How much VRAM do the models need?", "output": "direct_answer"}
+{"instruction": "Classify the user intent into: rag_query, tool_use, direct_answer", "input": "Are all four models loaded into memory at once?", "output": "direct_answer"}
+{"instruction": "Classify the user intent into: rag_query, tool_use, direct_answer", "input": "Are the models all in memory simultaneously?", "output": "direct_answer"}
+{"instruction": "Classify the user intent into: rag_query, tool_use, direct_answer", "input": "Is there a way to make you faster?", "output": "direct_answer"}
+{"instruction": "Classify the user intent into: rag_query, tool_use, direct_answer", "input": "Can you respond more quickly?", "output": "direct_answer"}
+{"instruction": "Classify the user intent into: rag_query, tool_use, direct_answer", "input": "How fast can you respond to my questions?", "output": "direct_answer"}
+{"instruction": "Classify the user intent into: rag_query, tool_use, direct_answer", "input": "What is your typical response latency?", "output": "direct_answer"}
+{"instruction": "Classify the user intent into: rag_query, tool_use, direct_answer", "input": "How does beam search differ from greedy decoding?", "output": "direct_answer"}
+{"instruction": "Classify the user intent into: rag_query, tool_use, direct_answer", "input": "What is top-k sampling in language models?", "output": "direct_answer"}
+{"instruction": "Classify the user intent into: rag_query, tool_use, direct_answer", "input": "Can you explain what temperature means in text generation?", "output": "direct_answer"}
+{"instruction": "Classify the user intent into: rag_query, tool_use, direct_answer", "input": "What is the difference between INT4 and INT8 quantization?", "output": "direct_answer"}
+{"instruction": "Classify the user intent into: rag_query, tool_use, direct_answer", "input": "What does quantization do to model quality?", "output": "direct_answer"}
+{"instruction": "Classify the user intent into: rag_query, tool_use, direct_answer", "input": "How do you handle questions you cannot answer?", "output": "direct_answer"}
+{"instruction": "Classify the user intent into: rag_query, tool_use, direct_answer", "input": "What do you do when you don't know the answer?", "output": "direct_answer"}
+{"instruction": "Classify the user intent into: rag_query, tool_use, direct_answer", "input": "What is the difference between GPT and Gemma?", "output": "direct_answer"}
+{"instruction": "Classify the user intent into: rag_query, tool_use, direct_answer", "input": "How does Gemma compare to Llama models?", "output": "direct_answer"}
+{"instruction": "Classify the user intent into: rag_query, tool_use, direct_answer", "input": "What is LoRA and how does it work?", "output": "direct_answer"}
+{"instruction": "Classify the user intent into: rag_query, tool_use, direct_answer", "input": "What is retrieval-augmented generation?", "output": "direct_answer"}
+{"instruction": "Classify the user intent into: rag_query, tool_use, direct_answer", "input": "What is a vector embedding?", "output": "direct_answer"}
+{"instruction": "Classify the user intent into: rag_query, tool_use, direct_answer", "input": "How does intent classification work?", "output": "direct_answer"}
+{"instruction": "Classify the user intent into: rag_query, tool_use, direct_answer", "input": "How many customers are on the Enterprise plan?", "output": "tool_use"}
+{"instruction": "Classify the user intent into: rag_query, tool_use, direct_answer", "input": "How many customers are on Enterprise tier?", "output": "tool_use"}
+{"instruction": "Classify the user intent into: rag_query, tool_use, direct_answer", "input": "Count the Enterprise plan customers.", "output": "tool_use"}
+{"instruction": "Classify the user intent into: rag_query, tool_use, direct_answer", "input": "How many Enterprise customers do we have?", "output": "tool_use"}
+{"instruction": "Classify the user intent into: rag_query, tool_use, direct_answer", "input": "List all customers who are on the Starter plan.", "output": "tool_use"}
+{"instruction": "Classify the user intent into: rag_query, tool_use, direct_answer", "input": "Show me all Starter plan customers.", "output": "tool_use"}
+{"instruction": "Classify the user intent into: rag_query, tool_use, direct_answer", "input": "Which customers are using Starter?", "output": "tool_use"}
+{"instruction": "Classify the user intent into: rag_query, tool_use, direct_answer", "input": "List customers on the Professional tier.", "output": "tool_use"}
+{"instruction": "Classify the user intent into: rag_query, tool_use, direct_answer", "input": "How much would 100 Starter licenses cost per year?", "output": "tool_use"}
+{"instruction": "Classify the user intent into: rag_query, tool_use, direct_answer", "input": "What is the annual cost for 50 Professional licenses?", "output": "tool_use"}
+{"instruction": "Classify the user intent into: rag_query, tool_use, direct_answer", "input": "Calculate the yearly price for 200 Enterprise seats.", "output": "tool_use"}
+{"instruction": "Classify the user intent into: rag_query, tool_use, direct_answer", "input": "If 25 users upgrade from Starter to Professional, what is the monthly revenue difference?", "output": "tool_use"}
+{"instruction": "Classify the user intent into: rag_query, tool_use, direct_answer", "input": "What revenue change if 10 customers move from Starter to Enterprise?", "output": "tool_use"}
+{"instruction": "Classify the user intent into: rag_query, tool_use, direct_answer", "input": "How many customers joined in Q4 2024?", "output": "tool_use"}
+{"instruction": "Classify the user intent into: rag_query, tool_use, direct_answer", "input": "What were the new customer numbers last quarter?", "output": "tool_use"}
+{"instruction": "Classify the user intent into: rag_query, tool_use, direct_answer", "input": "How many new customers did we get each quarter?", "output": "tool_use"}
+{"instruction": "Classify the user intent into: rag_query, tool_use, direct_answer", "input": "What was the outcome of the Meridian Health case study?", "output": "rag_query"}
+{"instruction": "Classify the user intent into: rag_query, tool_use, direct_answer", "input": "Tell me about the Meridian Health customer story.", "output": "rag_query"}
+{"instruction": "Classify the user intent into: rag_query, tool_use, direct_answer", "input": "What results did Meridian Health achieve with Nextera?", "output": "rag_query"}

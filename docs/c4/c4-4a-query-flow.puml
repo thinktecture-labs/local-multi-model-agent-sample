@@ -1,0 +1,100 @@
+@startuml C4_Level4_QueryFlow
+title Query Processing Flow — Orchestrator Decision Tree
+
+skinparam ActivityBackgroundColor White
+skinparam ActivityBorderColor #333333
+skinparam ActivityDiamondBackgroundColor White
+skinparam ArrowColor #333333
+
+' Color coding
+skinparam activity {
+    BackgroundColor White
+    BorderColor #333333
+}
+
+start
+
+:User Query\n+ optional images;
+
+if (Images present?) then (yes)
+    :gemma3-4B: analyse_image\n<i>(vision model)</i>;<<#CCFFCC>>
+    -> AgentResponse;
+else (no)
+    :IntentClassifier;
+
+    if (Adversarial filter\ntriggered?) then (yes)
+        :Route to DIRECT_ANSWER\n<i>(30 regex + gibberish +\nnon-ASCII + canned refusal)</i>;<<#FF9999>>
+    else (no)
+        :LogReg classify intent\n<i>(primary: deterministic, <5ms)\n(fallback: gemma3-ft, temp=0)</i>;<<#CCFFCC>>
+
+        if (LogReg confidence\n< 0.60?) then (yes)
+            :Route to DIRECT_ANSWER\n<i>(low confidence = OOD)</i>;<<#FF9999>>
+        else (no)
+        endif
+
+        switch (Intent?)
+        case (rag_query)
+            partition "RAG Pipeline" {
+                :gemma3-ft: rewrite query\n<i>(keyword phrase for retrieval)</i>;<<#CCFFCC>>
+                :embeddinggemma: vector search\n<i>(top 15 from ChromaDB)</i>;<<#CCFFCC>>
+                :gemma3-4B: synthesize response\n<i>(top 10 docs, multi-doc comprehension)</i>;<<#CCFFCC>>
+            }
+
+        case (tool_use)
+            partition "Tool Pipeline" {
+                :QueryDecomposer:\ndetect multi-step\n<i>(11 regex patterns)</i>;
+
+                if (Multi-step?) then (yes)
+                    partition "Multi-Step Tool Use" {
+                        :gemma3-ft: decompose\ninto 2 steps (JSON)\n<i>(+ fallback split at ", and ")</i>;<<#CCFFCC>>
+
+                        partition "Step 1: Data Lookup" #F5F5DC {
+                            :rephrase_for_sql()\n<i>("Find X" -> "Show X")</i>;<<#FFFFCC>>
+                            :qwen3.5-4b-ft v9: select tool + args\n<i>(schema restricted to sql_query,\nnative function calling)</i>;<<#CCFFCC>>
+                            :SQLQueryTool: execute;
+                        }
+
+                        partition "Step 2: Computation" #F5F5DC {
+                            :qwen3.5-4b-ft v9: concretize step\n<i>(substitute SQL result into arithmetic)</i>;<<#CCFFCC>>
+                            :qwen3.5-4b-ft v9: select calculator + args\n<i>(prior SQL result in context)</i>;<<#CCFFCC>>
+                            :CalculatorTool: execute;
+                        }
+
+                        :qwen3.5-4b-ft v9: synthesize\nall results\n<i>(multi-step synth routed through\nFUNCTION role since 118b6a1)</i>;<<#CCFFCC>>
+                    }
+                else (no)
+                    partition "Single-Step Tool Use" {
+                        :normalize_tool_query()\n<i>(currency, contractions, unicode)</i>;<<#FFFFCC>>
+                        :qwen3.5-4b-ft v9: select tool + args\n<i>(native OpenAI function calling)</i>;<<#CCFFCC>>
+
+                        if (Tool = calculator?) then (yes)
+                            :CalculatorTool: execute;
+                            :Deterministic formatting\n<i>(expr = result)</i>;
+                        else (sql_query)
+                            :SQLQueryTool: execute;
+                            :gemma3-ft: format result;<<#CCFFCC>>
+                        endif
+                    }
+                endif
+            }
+
+        case (direct_answer)
+            :gemma3-ft: direct response\n<i>(no tools needed)</i>;<<#CCFFCC>>
+
+        endswitch
+    endif
+endif
+
+:InteractionLogger:\nlog for fine-tuning;
+:Return AgentResponse\nwith execution trace\n+ request_id (12-char hex);
+
+stop
+
+legend right
+    |= Color |= Meaning |
+    | <#CCFFCC> | AI inference (LLM / embedding) |
+    | <#FFFFCC> | Deterministic scaffolding |
+    | <#FF9999> | Security filter |
+endlegend
+
+@enduml
